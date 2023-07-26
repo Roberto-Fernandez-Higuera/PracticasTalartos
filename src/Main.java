@@ -1,6 +1,7 @@
 /**
  * @author Roberto Fernández Higuera
  */
+package src;
 
 public class Main {
 
