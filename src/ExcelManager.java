@@ -217,88 +217,223 @@ public class ExcelManager(){
         String pendienteTractor = "";
         String trabajoRematado = "";
         String observaciones = "";
+        int contadorLongMant = 0;
+        int contadorLongLimp = 0;
+        int contadorLongApertura = 0;
+        int contadorAnomalia = 0;
+        int contadorLongitudCopa = 0;
+        int contadorLongitudLimpiezaBase = 0;
+        int contadorPodaCalle = 0;
+        int contadorFijoSalida = 0;
+        int contadorNumeroDiasTrabajados = 0;
 
-        for (int i = 0; i < listaApoyos.size(); i++){
+        /**
+         * Dar estilo de color y alineado para el título
+         */
+        CellStyle estiloCeldaTitulo = wb.createCellStyle();
+        //COLOR
+        estiloCeldaTitulo.setFillForegroundColor(Indexed.Colors.GREEN.getIndex());
+        estiloCeldaTitulo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        //ALINEADO HORIZONTAL Y VERTICAL
+        estiloCeldaTitulo.setAlignment(HorizontalAlignment.CENTER);
+        estiloCeldaTitulo.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        for (int i = 0; i < listaApoyos.size() + 4; i++){
             Row fila = hoja.createRow(i);
 
-            numApoyo = listaApoyos.get(i).getNumApoyo();
-            Cell celdaNumApoyo = fila.createCell(0);
-            celdaNumApoyo.setCellValue(numApoyo);
+            if (i == 0) {
+                Cell celdaTitulo = fila.createCell(0);
+                celdaTitulo.setCellValue("Código y nombre de la línea que deseas.");
+            } else if (i == 1){
 
-            longitudMantenimineto = listaApoyos.get(i).getLongitudMantenimineto();
-            Cell celdaLongitudMantenimiento = fila.createCell(1);
-            celdaLongitudMantenimiento.setCellValue(longitudMantenimineto);
+               Cell celdaColumnaApoyo = fila.createCell(0);
+               celdaColumnaApoyo.setCellValue("APOYO");
+               celdaColumnaApoyo.setCellStyle(estiloCeldaTitulo);
 
-            longitudLimpieza = listaApoyos.get(i).getLongitudLimpieza();
-            Cell celdaLongitudLimpeza = fila.createCell(2);
-            celdaLongitudLimpeza.setCellValue(longitudLimpieza);
+               Cell celdaColumnaLongitudMantenimineto = fila.createCell(1);
+               celdaColumnaLongitudMantenimineto.setCellValue("LONG\nMANT");
+               celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
 
-            longitudApertura = listaApoyos.get(i).getLongitudApertura();
-            Cell celdaLongitudApertura = fila.createCell(3);
-            celdaLongitudApertura.setCellValue(longitudApertura);
+               Cell celdaColumnaLongitudLimpieza = fila.createCell(2);
+               celdaColumnaLongitudLimpieza.setCellValue("LONG\nLIMPIEZA");
+               celdaColumnaLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
 
-            anomaliaVegetacion = listaApoyos.get(i).getnumAnomalia();
-            Cell celdaAnomaliaVegetacion = fila.createCell(4);
-            celdaAnomaliaVegetacion.setCellValue(anomaliaVegetacion);
+               Cell celdaColumnaLongitudApertura = fila.createCell(3);
+               celdaColumnaLongitudApertura.setCellValue("LONG\nAPERTURA");
+               celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
 
-            /**
-             * TODO Hablar con Inés sobre los campos que no están (CASOS ESPECIALES)
-             * Valores inicializados a 0 para ser cambiados posteriormente a mano
-             */
-            Cell celdaLongitudCopa = fila.createCell(5);
-            celdaLongitudCopa.setCellValue(longitudCopa);
+               Cell celdaColumnaAnomalia = fila.createCell(4);
+               celdaColumnaAnomalia.setCellValue("ANOMALIA");
+               celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
 
-            limpiezaBase = listaApoyos.get(i).getLimpiezaBase();
-            Cell celdaLimpiezaBase = fila.createCell(6);
-            celdaLimpiezaBase.setCellValue(limpiezaBase);
+               Cell celdaColumnaLongitudCopa = fila.createCell(5);
+               celdaColumnaLongitudCopa.setCellValue("LONGITUD\nCOPA");
+               celdaColumnaLongitudCopa.setCellStyle(estiloCeldaTitulo);
 
-            /**
-             * CASO ESPECIAL
-             * Valores inicializados a 0 para ser cambiados posteriormente a mano
-             */
-            Cell celdaPodaCalle = fila.createCell(7);
-            celdaPodaCalle.setCellValue(podaCalle);
+               Cell celdaColumnaLimpiezaBase = fila.createCell(6);
+               celdaColumnaLimpiezaBase.setCellValue("LIMPIEZA\nBASE\nAPOYOS");
+               celdaColumnaLimpiezaBase.setCellStyle(estiloCeldaTitulo);
 
-            /**
-             * CASO ESPECIAL
-             * Valores inicializados a 0 para ser cambiados posteriormente a mano
-             */
-            Cell celdaFijoSalida = fila.createCell(8);
-            celdaFijoSalida.setCellValue(fijoSalida);
+               Cell celdaColumnaPodaCalle = fila.createCell(7);
+               celdaColumnaPodaCalle.setCellValue("PODA\nCALLE");
+               celdaColumnaPodaCalle.setCellStyle(estiloCeldaTitulo);
 
-            dia = listaApoyos.get(i).getDia();
-            Cell celdaDia = fila.createCell(9);
-            celdaDia.setCellValue(dia);
+               Cell celdaColumnaFijoSalida = fila.createCell(8);
+               celdaColumnaFijoSalida.setCellValue("FIJO\nSALIDA");
+               celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
 
-            capataz = listaApoyos.get(i).getCapataz();
-            Cell celdaCapataz = fila.createCell(10);
-            celdaCapataz.setCellValue(capataz);
+               Cell celdaColumnaDia = fila.createCell(9);
+               celdaColumnaDia.setCellValue("FECHA");
+               celdaColumnaDia.setCellStyle(estiloCeldaTitulo);
 
-            /**
-             * CASO ESPECIAL
-             * Valores inicializados a 0 para ser cambiados posteriormente a mano
-             */
-            Cell celdaNumDiasTrabajados = fila.createCell(11);
-            celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
+               Cell celdaColumnaCapataz = fila.createCell(10);
+               celdaColumnaCapataz.setCellValue("CAPATAZ");
+               celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
 
-            /**
-             * CASO ESPECIAL
-             * Valores inicializados a 0 para ser cambiados posteriormente a mano
-             */
-            Cell celdaPendienteTractor = fila.createCell(12);
-            celdaPendienteTractor.setCellValue(pendienteTractor);
+               Cell celdaColumnaCapataz = fila.createCell(11);
+               celdaColumnaCapataz.setCellValue("Nº DIAS\nTRABAJADOS");
+               celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
 
-            /**
-             * CASO ESPECIAL
-             * Valores inicializados a 0 para ser cambiados posteriormente a mano
-             */
-            Cell celdaTrabajoRematado = fila.createCell(13);
-            celdaTrabajoRematado.setCellValue(trabajoRematado);
+               Cell celdaColumnaTractor = fila.createCell(12);
+               celdaColumnaTractor.setCellValue("PENDIENTE\nTRACTOR");
+               celdaColumnaTractor.setCellStyle(estiloCeldaTitulo);
 
-            observaciones = listaApoyos.get(i).getObservaciones();
-            Cell celdaObservaciones = fila.createCell(14);
-            celdaObservaciones.setCellValue(observaciones);
+               Cell celdaColumnaTrabajoRematado = fila.createCell(13);
+               celdaColumnaTrabajoRematado.setCellValue("TRABAJO\nREMATADO");
+               celdaColumnaTrabajoRematado.setCellStyle(estiloCeldaTitulo);
+
+               Cell celdaColumnaObservaciones = fila.createCell(13);
+               celdaColumnaObservaciones.setCellValue("OBSERVACIONES");
+               celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
+
+            } else {
+                numApoyo = listaApoyos.get(i).getNumApoyo();
+                Cell celdaNumApoyo = fila.createCell(0);
+                celdaNumApoyo.setCellValue(numApoyo);
+
+                longitudMantenimineto = listaApoyos.get(i).getLongitudMantenimineto();
+                contadorLongMant += longitudMantenimineto;
+                Cell celdaLongitudMantenimiento = fila.createCell(1);
+                celdaLongitudMantenimiento.setCellValue(longitudMantenimineto);
+
+                longitudLimpieza = listaApoyos.get(i).getLongitudLimpieza();
+                contadorLongLimp += longitudLimpieza;
+                Cell celdaLongitudLimpeza = fila.createCell(2);
+                celdaLongitudLimpeza.setCellValue(longitudLimpieza);
+
+                longitudApertura = listaApoyos.get(i).getLongitudApertura();
+                contadorLongApertura += longitudApertura;
+                Cell celdaLongitudApertura = fila.createCell(3);
+                celdaLongitudApertura.setCellValue(longitudApertura);
+
+                anomaliaVegetacion = listaApoyos.get(i).getnumAnomalia();
+                contadorAnomalia += anomaliaVegetacion;
+                Cell celdaAnomaliaVegetacion = fila.createCell(4);
+                celdaAnomaliaVegetacion.setCellValue(anomaliaVegetacion);
+
+                /**
+                 * TODO Hablar con Inés sobre los campos que no están (CASOS ESPECIALES)
+                 * Valores inicializados a 0 para ser cambiados posteriormente a mano
+                 */
+                Cell celdaLongitudCopa = fila.createCell(5);
+                contadorLongitudCopa += longitudCopa;
+                celdaLongitudCopa.setCellValue(longitudCopa);
+
+                limpiezaBase = listaApoyos.get(i).getLimpiezaBase();
+                contadorLongitudLimpiezaBase += limpiezaBase;
+                Cell celdaLimpiezaBase = fila.createCell(6);
+                celdaLimpiezaBase.setCellValue(limpiezaBase);
+
+                /**
+                 * CASO ESPECIAL
+                 * Valores inicializados a 0 para ser cambiados posteriormente a mano
+                 */
+                Cell celdaPodaCalle = fila.createCell(7);
+                contadorPodaCalle += podaCalle;
+                celdaPodaCalle.setCellValue(podaCalle);
+
+                /**
+                 * CASO ESPECIAL
+                 * Valores inicializados a 0 para ser cambiados posteriormente a mano
+                 */
+                Cell celdaFijoSalida = fila.createCell(8);
+                contadorFijoSalida += fijoSalida;
+                celdaFijoSalida.setCellValue(fijoSalida);
+
+                dia = listaApoyos.get(i).getDia();
+                Cell celdaDia = fila.createCell(9);
+                celdaDia.setCellValue(dia);
+
+                capataz = listaApoyos.get(i).getCapataz();
+                Cell celdaCapataz = fila.createCell(10);
+                celdaCapataz.setCellValue(capataz);
+
+                /**
+                 * CASO ESPECIAL
+                 * Valores inicializados a 0 para ser cambiados posteriormente a mano
+                 */
+                Cell celdaNumDiasTrabajados = fila.createCell(11);
+                contadorNumeroDiasTrabajados += numDiasTrabajados
+                celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
+
+                /**
+                 * CASO ESPECIAL
+                 * Valores inicializados a 0 para ser cambiados posteriormente a mano
+                 */
+                Cell celdaPendienteTractor = fila.createCell(12);
+                celdaPendienteTractor.setCellValue(pendienteTractor);
+
+                /**
+                 * CASO ESPECIAL
+                 * Valores inicializados a 0 para ser cambiados posteriormente a mano
+                 */
+                Cell celdaTrabajoRematado = fila.createCell(13);
+                celdaTrabajoRematado.setCellValue(trabajoRematado);
+
+                observaciones = listaApoyos.get(i).getObservaciones();
+                Cell celdaObservaciones = fila.createCell(14);
+                celdaObservaciones.setCellValue(observaciones);
+
+            }
         }
+        /**
+         * CELDAS DE OPERACIONES FINALES
+         */
+        Row filaSumas = hoja.createRow(listaApoyos.size()+3);
+
+        Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
+        int totalApoyos = listaApoyos.size();
+        celdaColumnaSumaTotalApoyos.setCellValue(totalApoyos);
+        celdaColumnaSumaTotalApoyos.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudMantenimiento = filaSumas.createCell(1);
+        celdaColumnaSumaTotalLongitudMantenimiento.setCellValue(contadorLongMant);
+        celdaColumnaSumaTotalLongitudMantenimiento.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudLimpieza = filaSumas.createCell(2);
+        celdaColumnaSumaTotalLongitudLimpieza.setCellValue(contadorLongLimp);
+        celdaColumnaSumaTotalLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudApertura = filaSumas.createCell(3);
+        celdaColumnaSumaTotalLongitudApertura.setCellValue(contadorLongApertura);
+        celdaColumnaSumaTotalLongitudApertura.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalAnomalia = filaSumas.createCell(4);
+        celdaColumnaSumaTotalAnomalia.setCellValue(contadorAnomalia);
+        celdaColumnaSumaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudCopa = filaSumas.createCell(5);
+        celdaColumnaSumaTotalLongitudCopa.setCellValue(contadorLongitudCopa);
+        celdaColumnaSumaTotalLongitudCopa.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLimpiezaBase = filaSumas.createCell(6);
+        celdaColumnaSumaTotalLimpiezaBase.setCellValue(contadorLongitudLimpiezaBase);
+        celdaColumnaSumaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalPodaCalle = filaSumas.createCell(7);
+        celdaColumnaSumaTotalPodaCalle.setCellValue(contadorPodaCalle);
+        celdaColumnaSumaTotalPodaCalle.setCellStyle(estiloCeldaTitulo);
+
     }
 
     /**
