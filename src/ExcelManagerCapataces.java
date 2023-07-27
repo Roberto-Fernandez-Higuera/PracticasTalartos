@@ -196,6 +196,20 @@ public class ExcelManagerCapataces() {
         String zona = "";
         String observaciones = "";
         String codLinea = "";
+        int contadorApoyos = 0;
+        int contadorLongMantenimiento = 0;
+        int contadorAnomalia = 0;
+        int contadorLongApertura = 0;
+        int contadorTalasFuera = 0;
+        int contadorLongCopa = 0;
+        int contadorLimpiezaBase = 0;
+        int contadorKm = 0;
+        int contadorImporteMedio = 0;
+        int contadorImporteCoeficiente = 0;
+        // ***importeCoeficiente/7***
+        int importeCoeficienteSemanal = 0;
+
+
 
         /**
          * Dar estilo de color y alineado para el título
@@ -307,6 +321,7 @@ public class ExcelManagerCapataces() {
                 celdaFecha.setCellStyle(estiloCeldaInfo);
 
                 numApoyos = listaCapataces.get(i).getNumApoyos();
+                contadorApoyos += numApoyos;
                 Cell celdaNumApoyos = fila.createCell(1);
                 celdaNumApoyos.setCellValue(numApoyos);
                 celdaNumApoyos.setCellStyle(estiloCeldaInfo);
@@ -317,46 +332,55 @@ public class ExcelManagerCapataces() {
                 celdaFijoSalida.setCellStyle(estiloCeldaInfo);
 
                 longMantenimiento = listaCapataces.get(i).getLongMantenimiento();
+                contadorLongMantenimiento += longMantenimiento;
                 Cell celdaLongMantenimiento = fila.createCell(3);
                 celdaLongMantenimiento.setCellValue(longMantenimiento);
                 celdaLongMantenimiento.setCellStyle(estiloCeldaInfo);
 
                 anomalia = listaCapataces.get(i).getAnomalia();
+                contadorAnomalia += anomalia;
                 Cell celdaAnomalia = fila.createCell(4);
                 celdaAnomalia.setCellValue(anomalia);
                 celdaAnomalia.setCellStyle(estiloCeldaInfo);
 
                 longApertura = listaCapataces.get(i).getLongApertura();
+                contadorLongApertura += longApertura;
                 Cell celdaLongApertura = fila.createCell(5);
                 celdaLongApertura.setCellValue(longApertura);
                 celdaLongApertura.setCellStyle(estiloCeldaInfo);
 
                 talasFuera = listaCapataces.get(i).getTalasFuera();
+                contadorTalasFuera += talasFuera;
                 Cell celdaTalasFuera = fila.createCell(6);
                 celdaTalasFuera.setCellValue(talasFuera);
                 celdaTalasFuera.setCellStyle(estiloCeldaInfo);
 
                 longCopa = listaCapataces.get(i).getLongitudCopa();
+                contadorLongCopa += longCopa;
                 Cell celdaLongCopa = fila.createCell(7);
                 celdaLongCopa.setCellValue(longCopa);
                 celdaLongCopa.setCellStyle(estiloCeldaInfo);
 
                 limpiezaBase = listaCapataces.get(i).getLimpiezaBase();
+                contadorLimpiezaBase += limpiezaBase;
                 Cell celdaLimpiezaBase = fila.createCell(8);
                 celdaLimpiezaBase.setCellValue(limpiezaBase);
                 celdaLimpiezaBase.setCellStyle(estiloCeldaInfo);
 
                 km = listaCapataces.get(i).getKm();
+                contadorKm += km;
                 Cell celdaKm = fila.createCell(9);
                 celdaKm.setCellValue(km);
                 celdaKm.setCellStyle(estiloCeldaInfo);
 
                 importeMedios = listaCapataces.get(i).getImporteMedios();
+                contadorImporteMedio += importeMedios;
                 Cell celdaImporteMedios = fila.createCell(10);
                 celdaImporteMedios.setCellValue(importeMedios);
                 celdaImporteMedios.setCellStyle(estiloCeldaInfo);
 
                 importeCoeficiente = listaCapataces.get(i).getImporteCoeficiente();
+                contadorImporteCoeficiente += importeCoeficiente;
                 Cell celdaImporteCoeficiente = fila.createCell(11);
                 celdaImporteCoeficiente.setCellValue(importeCoeficiente);
                 celdaImporteCoeficiente.setCellStyle(estiloCeldaInfo);
@@ -383,7 +407,58 @@ public class ExcelManagerCapataces() {
          */
         Row filaSumas = hojaApoyos.createRow(listaCapataces.size()+1);
 
+        Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
+        celdaColumnaTotalApoyos.setCellValue(contadorApoyos);
+        celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);
 
+        Cell celdaColumnaTotalLongMantenimiento = filaSumas.createCell(3);
+        celdaColumnaTotalLongMantenimiento.setCellValue(contadorLongMantenimiento);
+        celdaColumnaTotalLongMantenimiento.setCellStyle(estiloCeldaTitulo);
 
+        Cell celdaColumnaTotalAnomalia = filaSumas.createCell(4);
+        celdaColumnaTotalAnomalia.setCellValue(contadorAnomalia);
+        celdaColumnaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalLongApertura = filaSumas.createCell(5);
+        celdaColumnaTotalLongApertura.setCellValue(contadorLongApertura);
+        celdaColumnaTotalLongApertura.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalTalasFuera = filaSumas.createCell(6);
+        celdaColumnaTotalTalasFuera.setCellValue(contadorTalasFuera);
+        celdaColumnaTotalTalasFuera.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalLongCopa = filaSumas.createCell(7);
+        celdaColumnaTotalLongCopa.setCellValue(contadorLongCopa);
+        celdaColumnaTotalLongCopa.setCellStlye(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalLimpiezaBase = filaSumas.createCell(8);
+        celdaColumnaTotalLimpiezaBase.setCellValue(contadorLimpiezaBase);
+        celdaColumnaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalKm = filaSumas.createCell(9);
+        celdaColumnaTotalKm.setCellValue(contadorKm);
+        celdaColumnaTotalKm.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalImporteMedio = filaSumas.createCell(10);
+        celdaColumnaTotalImporteMedio.setCellValue(contadorImporteMedio);
+        celdaColumnaTotalImporteMedio.setCellStlye(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalImporteCoeficiente = filaSumas.createCell(11);
+        celdaColumnaTotalImporteCoeficiente.setCellValue(contadorImporteCoeficiente);
+        celdaColumnaTotalImporteCoeficiente.setCellStyle(estiloCeldaTitulo);
+
+        /**
+         * PREGUNTAR A INÉS SOBRE ESTO
+         */
+        Row filaImporteCoeficienteSemanal = hojaApoyos.createRow(listaCapataces.size()+3);
+
+        Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(12);
+        celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE SEMANAL:");
+        celdaColumnaTextoParaCoeficienteSemanala.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalImporteCoeficienteSemanal = filaImporteCoeficienteSemanal.createCell(13);
+        importeCoeficienteSemanal = contadorImporteCoeficiente/7;
+        celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal);
+        celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
     }
 }
