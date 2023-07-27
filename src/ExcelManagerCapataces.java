@@ -1,8 +1,7 @@
 package src;
 
 import POJOS.Capataz;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -205,9 +204,35 @@ public class ExcelManagerCapataces() {
         //COLOR
         estiloCeldaTitulo.setFillForegroundColor(Indexed.Colors.GREEN.getIndex());
         estiloCeldaTitulo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        //NEGRITA
+        Font font = wbCapataces.createFont();
+        font.setBold(true);
+        estiloCeldaTitulo.setFont(font);
         //ALINEADO HORIZONTAL Y VERTICAL
         estiloCeldaTitulo.setAlignment(HorizontalAlignment.CENTER);
         estiloCeldaTitulo.setVerticalAlignment(VerticalAlignment.CENTER);
+        //BORDE DE LA CELDA EN NEGRITA
+        estiloCeldaTitulo.setBorderTop(BorderStyle.THIN);
+        estiloCeldaTitulo.setBorderBottom(BorderStyle.THIN);
+        estiloCeldaTitulo.setBorderLeft(BorderStyle.THIN);
+        estiloCeldaTitulo.setBorderRight(BorderStyle.THIN);
+
+        /**
+         * Dar estilo de negrita y alineado para celdas con información
+         */
+        CellStyle estiloCeldaInfo = wbCapataces.createCellStyle();
+        //NEGRITA
+        Font font = wbCapataces.createFont();
+        font.setBold(true);
+        estiloCeldaInfo.setFont(font);
+        //ALINEADO HORIZONTAL Y VERTICAL
+        estiloCeldaInfo.setAlignment(HorizontalAlignment.CENTER);
+        estiloCeldaInfo.setVerticalAlignment(VerticalAlignment.CENTER);
+        //BORDE DE LA CELDA EN NEGRITA
+        estiloCeldaInfo.setBorderTop(BorderStyle.THIN);
+        estiloCeldaInfo.setBorderBottom(BorderStyle.THIN);
+        estiloCeldaInfo.setBorderLeft(BorderStyle.THIN);
+        estiloCeldaInfo.setBorderRight(BorderStyle.THIN);
 
         for (int i = 0; i < listaCapataces.size() + 1; i++){
             Row fila = hojaApoyos.createRow(i);
@@ -282,6 +307,8 @@ public class ExcelManagerCapataces() {
          * CELDAS DE OPERACIONES FINALES, PREGUNTAR A INÉS SI SE NECESITAN MÁS
          */
         Row filaSumas = hojaApoyos.createRow(listaCapataces.size()+1);
+
+
 
     }
 }

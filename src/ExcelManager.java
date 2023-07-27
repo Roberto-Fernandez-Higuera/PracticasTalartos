@@ -227,9 +227,35 @@ public class ExcelManager(){
         //COLOR
         estiloCeldaTitulo.setFillForegroundColor(Indexed.Colors.GREEN.getIndex());
         estiloCeldaTitulo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        //NEGRITA
+        Font font = wb.createFont();
+        font.setBold(true);
+        estiloCeldaTitulo.setFont(font);
         //ALINEADO HORIZONTAL Y VERTICAL
         estiloCeldaTitulo.setAlignment(HorizontalAlignment.CENTER);
         estiloCeldaTitulo.setVerticalAlignment(VerticalAlignment.CENTER);
+        //BORDE DE LA CELDA EN NEGRITA
+        estiloCeldaTitulo.setBorderTop(BorderStyle.THIN);
+        estiloCeldaTitulo.setBorderBottom(BorderStyle.THIN);
+        estiloCeldaTitulo.setBorderLeft(BorderStyle.THIN);
+        estiloCeldaTitulo.setBorderRight(BorderStyle.THIN);
+
+        /**
+         * Dar estilo de negrita y alineado para celdas con información
+         */
+        CellStyle estiloCeldaInfo = wbCapataces.createCellStyle();
+        //NEGRITA
+        Font font = wbCapataces.createFont();
+        font.setBold(true);
+        estiloCeldaInfo.setFont(font);
+        //ALINEADO HORIZONTAL Y VERTICAL
+        estiloCeldaInfo.setAlignment(HorizontalAlignment.CENTER);
+        estiloCeldaInfo.setVerticalAlignment(VerticalAlignment.CENTER);
+        //BORDE DE LA CELDA EN NEGRITA
+        estiloCeldaInfo.setBorderTop(BorderStyle.THIN);
+        estiloCeldaInfo.setBorderBottom(BorderStyle.THIN);
+        estiloCeldaInfo.setBorderLeft(BorderStyle.THIN);
+        estiloCeldaInfo.setBorderRight(BorderStyle.THIN);
 
         for (int i = 0; i < listaApoyos.size() + 2; i++){
             Row fila = hoja.createRow(i);
@@ -303,26 +329,31 @@ public class ExcelManager(){
                 numApoyo = listaApoyos.get(i).getNumApoyo();
                 Cell celdaNumApoyo = fila.createCell(0);
                 celdaNumApoyo.setCellValue(numApoyo);
+                celdaNumApoyo.setCellStyle(estiloCeldaInfo);
 
                 longitudMantenimineto = listaApoyos.get(i).getLongitudMantenimineto();
                 contadorLongMant += longitudMantenimineto;
                 Cell celdaLongitudMantenimiento = fila.createCell(1);
                 celdaLongitudMantenimiento.setCellValue(longitudMantenimineto);
+                celdaLongitudMantenimiento.setCellStyle(estiloCeldaInfo);
 
                 longitudLimpieza = listaApoyos.get(i).getLongitudLimpieza();
                 contadorLongLimp += longitudLimpieza;
                 Cell celdaLongitudLimpeza = fila.createCell(2);
                 celdaLongitudLimpeza.setCellValue(longitudLimpieza);
+                celdaLongitudLimpeza.setCellStyle(estiloCeldaInfo);
 
                 longitudApertura = listaApoyos.get(i).getLongitudApertura();
                 contadorLongApertura += longitudApertura;
                 Cell celdaLongitudApertura = fila.createCell(3);
                 celdaLongitudApertura.setCellValue(longitudApertura);
+                celdaLongitudApertura.setCellStyle(estiloCeldaInfo);
 
                 anomaliaVegetacion = listaApoyos.get(i).getnumAnomalia();
                 contadorAnomalia += anomaliaVegetacion;
                 Cell celdaAnomaliaVegetacion = fila.createCell(4);
                 celdaAnomaliaVegetacion.setCellValue(anomaliaVegetacion);
+                celdaAnomaliaVegetacion.setCellStyle(estiloCeldaInfo);
 
                 /**
                  * TODO Hablar con Inés sobre los campos que no están (CASOS ESPECIALES)
@@ -331,11 +362,13 @@ public class ExcelManager(){
                 Cell celdaLongitudCopa = fila.createCell(5);
                 contadorLongitudCopa += longitudCopa;
                 celdaLongitudCopa.setCellValue(longitudCopa);
+                celdaLongitudCopa.setCellStyle(estiloCeldaInfo);
 
                 limpiezaBase = listaApoyos.get(i).getLimpiezaBase();
                 contadorLongitudLimpiezaBase += limpiezaBase;
                 Cell celdaLimpiezaBase = fila.createCell(6);
                 celdaLimpiezaBase.setCellValue(limpiezaBase);
+                celdaLimpiezaBase.setCellStyle(estiloCeldaInfo);
 
                 /**
                  * CASO ESPECIAL
@@ -344,6 +377,7 @@ public class ExcelManager(){
                 Cell celdaPodaCalle = fila.createCell(7);
                 contadorPodaCalle += podaCalle;
                 celdaPodaCalle.setCellValue(podaCalle);
+                celdaPodaCalle.setCellStyle(estiloCeldaInfo);
 
                 /**
                  * CASO ESPECIAL
@@ -352,14 +386,17 @@ public class ExcelManager(){
                 Cell celdaFijoSalida = fila.createCell(8);
                 contadorFijoSalida += fijoSalida;
                 celdaFijoSalida.setCellValue(fijoSalida);
+                celdaFijoSalida.setCellStyle(estiloCeldaInfo);
 
                 dia = listaApoyos.get(i).getDia();
                 Cell celdaDia = fila.createCell(9);
                 celdaDia.setCellValue(dia);
+                celdaDia.setCellStyle(estiloCeldaInfo);
 
                 capataz = listaApoyos.get(i).getCapataz();
                 Cell celdaCapataz = fila.createCell(10);
                 celdaCapataz.setCellValue(capataz);
+                celdaCapataz.setCellStyle(estiloCeldaInfo);
 
                 /**
                  * CASO ESPECIAL
@@ -368,6 +405,7 @@ public class ExcelManager(){
                 Cell celdaNumDiasTrabajados = fila.createCell(11);
                 contadorNumeroDiasTrabajados += numDiasTrabajados
                 celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
+                celdaNumDiasTrabajados.setCellStyle(estiloCeldaInfo);
 
                 /**
                  * CASO ESPECIAL
@@ -375,6 +413,7 @@ public class ExcelManager(){
                  */
                 Cell celdaPendienteTractor = fila.createCell(12);
                 celdaPendienteTractor.setCellValue(pendienteTractor);
+                celdaPendienteTractor.setCellStyle(estiloCeldaInfo);
 
                 /**
                  * CASO ESPECIAL
@@ -382,10 +421,12 @@ public class ExcelManager(){
                  */
                 Cell celdaTrabajoRematado = fila.createCell(13);
                 celdaTrabajoRematado.setCellValue(trabajoRematado);
+                celdaTrabajoRematado.setCellStyle(estiloCeldaInfo);
 
                 observaciones = listaApoyos.get(i).getObservaciones();
                 Cell celdaObservaciones = fila.createCell(14);
                 celdaObservaciones.setCellValue(observaciones);
+                celdaObservaciones.setCellStyle(estiloCeldaInfo);
 
             }
         }
