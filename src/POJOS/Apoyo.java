@@ -2,7 +2,7 @@
  * @author Roberto Fernández Higuera
  */
 
-package src.POJOS;
+package POJOS;
 import java.util.Date;
 
 
