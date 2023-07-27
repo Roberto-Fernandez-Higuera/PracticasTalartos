@@ -11,7 +11,7 @@ public class Capataz(){
     private Date dia;
     private Integer numApoyos;
     private Integer fijoSalida;
-    private Integer longMantenimineto;
+    private Integer longMantenimiento;
     private Integer anomalia;
     private Integer longApertura;
     private Integer talasFuera;
@@ -27,11 +27,11 @@ public class Capataz(){
 
     }
 
-    public Capataz(Date dia, Integer numApoyos, Integer fijoSalida, Integer longMantenimineto, Integer anomalia, Integer longApertura, Integer talasFuera, Integer longitudCopa, Integer limpiezaBase, Integer km, Integer importeMedios, Integer importeCoeficiente, String zona, String observaciones, String codLinea){
+    public Capataz(Date dia, Integer numApoyos, Integer fijoSalida, Integer longMantenimiento, Integer anomalia, Integer longApertura, Integer talasFuera, Integer longitudCopa, Integer limpiezaBase, Integer km, Integer importeMedios, Integer importeCoeficiente, String zona, String observaciones, String codLinea){
         this.dia = dia;
         this.numApoyos = numApoyos;
         this.fijoSalida = fijoSalida;
-        this.longMantenimineto = longMantenimineto;
+        this.longMantenimiento = longMantenimiento;
         this.anomalia = anomalia;
         this.longApertura = longApertura;
         this.talasFuera = talasFuera;
@@ -77,12 +77,12 @@ public class Capataz(){
         this.fijoSalida = fijoSalida;
     }
 
-    public Integer getLongMantenimineto() {
-        return this.longMantenimineto;
+    public Integer getLongMantenimiento() {
+        return this.LongMantenimiento;
     }
 
-    public void setLongMantenimineto(Integer longMantenimineto) {
-        this.longMantenimineto = longMantenimineto;
+    public void setLongMantenimiento(Integer longMantenimiento) {
+        this.longMantenimiento = longMantenimiento;
     }
 
     public Integer getAnomalia() {

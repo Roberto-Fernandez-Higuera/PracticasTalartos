@@ -298,8 +298,83 @@ public class ExcelManagerCapataces() {
                 Cell celdaColumnaCODLINEA = fila.createCell(14);
                 celdaColumnaCODLINEA.setCellValue("COD LINEA");
                 celdaColumnaCODLINEA.setCellStyle(estiloCeldaTitulo);
+
             } else {
 
+                fecha = listaCapataces.get(i).getDia();
+                Cell celdaFecha = fila.createCell(0);
+                celdaFecha.setCellValue(fecha);
+                celdaFecha.setCellStyle(estiloCeldaInfo);
+
+                numApoyos = listaCapataces.get(i).getNumApoyos();
+                Cell celdaNumApoyos = fila.createCell(1);
+                celdaNumApoyos.setCellValue(numApoyos);
+                celdaNumApoyos.setCellStyle(estiloCeldaInfo);
+
+                fijoSalida = listaCapataces.get(i).getFijoSalida();
+                Cell celdaFijoSalida = fila.createCell(2);
+                celdaFijoSalida.setCellValue(fijoSalida);
+                celdaFijoSalida.setCellStyle(estiloCeldaInfo);
+
+                longMantenimiento = listaCapataces.get(i).getLongMantenimiento();
+                Cell celdaLongMantenimiento = fila.createCell(3);
+                celdaLongMantenimiento.setCellValue(longMantenimiento);
+                celdaLongMantenimiento.setCellStyle(estiloCeldaInfo);
+
+                anomalia = listaCapataces.get(i).getAnomalia();
+                Cell celdaAnomalia = fila.createCell(4);
+                celdaAnomalia.setCellValue(anomalia);
+                celdaAnomalia.setCellStyle(estiloCeldaInfo);
+
+                longApertura = listaCapataces.get(i).getLongApertura();
+                Cell celdaLongApertura = fila.createCell(5);
+                celdaLongApertura.setCellValue(longApertura);
+                celdaLongApertura.setCellStyle(estiloCeldaInfo);
+
+                talasFuera = listaCapataces.get(i).getTalasFuera();
+                Cell celdaTalasFuera = fila.createCell(6);
+                celdaTalasFuera.setCellValue(talasFuera);
+                celdaTalasFuera.setCellStyle(estiloCeldaInfo);
+
+                longCopa = listaCapataces.get(i).getLongitudCopa();
+                Cell celdaLongCopa = fila.createCell(7);
+                celdaLongCopa.setCellValue(longCopa);
+                celdaLongCopa.setCellStyle(estiloCeldaInfo);
+
+                limpiezaBase = listaCapataces.get(i).getLimpiezaBase();
+                Cell celdaLimpiezaBase = fila.createCell(8);
+                celdaLimpiezaBase.setCellValue(limpiezaBase);
+                celdaLimpiezaBase.setCellStyle(estiloCeldaInfo);
+
+                km = listaCapataces.get(i).getKm();
+                Cell celdaKm = fila.createCell(9);
+                celdaKm.setCellValue(km);
+                celdaKm.setCellStyle(estiloCeldaInfo);
+
+                importeMedios = listaCapataces.get(i).getImporteMedios();
+                Cell celdaImporteMedios = fila.createCell(10);
+                celdaImporteMedios.setCellValue(importeMedios);
+                celdaImporteMedios.setCellStyle(estiloCeldaInfo);
+
+                importeCoeficiente = listaCapataces.get(i).getImporteCoeficiente();
+                Cell celdaImporteCoeficiente = fila.createCell(11);
+                celdaImporteCoeficiente.setCellValue(importeCoeficiente);
+                celdaImporteCoeficiente.setCellStyle(estiloCeldaInfo);
+
+                zona = listaCapataces.get(i).getZona();
+                Cell celdaZona = fila.createCell(12);
+                celdaZona.setCellValue(zona);
+                celdaZona.setCellStyle(estiloCeldaInfo);
+
+                observaciones = listaCapataces.get(i).getObservaciones();
+                Cell celdaObservaciones = fila.createCell(13);
+                celdaObservaciones.setCellValue(observaciones);
+                celdaObservaciones.setCellStlye(estiloCeldaInfo);
+
+                codLinea = listaCapataces.get(i).getCodLinea();
+                Cell celdaCodLinea = fila.createCell(14);
+                celdaCodLinea.setCellValue(codLinea);
+                celdaCodLinea.setCellStyle(estiloCeldaInfo);
             }
         }
 

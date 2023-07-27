@@ -326,6 +326,7 @@ public class ExcelManager(){
                celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
 
             } else {
+
                 numApoyo = listaApoyos.get(i).getNumApoyo();
                 Cell celdaNumApoyo = fila.createCell(0);
                 celdaNumApoyo.setCellValue(numApoyo);
