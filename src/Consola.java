@@ -4,7 +4,7 @@
 //package src;
 public class Consola {
 
-    public Consola(){
+    public Consola() {
 
     }
 
@@ -14,7 +14,7 @@ public class Consola {
     /**
      * Método encargado de la creación del Excel de apoyos realizados
      */
-    public void ejecucionPrograma(){
+    public void ejecucionPrograma() {
         excelManager.creacionExcelApoyosRealizados();
         excelManagerCapataces.creacionExcelControlCapataces();
     }

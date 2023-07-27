@@ -3,10 +3,11 @@
  */
 
 package POJOS;
+
 import java.util.Date;
 
 
-public class Apoyo{
+public class Apoyo {
     private Integer idApoyo;
     private Integer numApoyo;
     private Integer longitudMantenimineto;
@@ -20,10 +21,10 @@ public class Apoyo{
     private String capataz;
     private String observaciones;
 
-    public Apoyo(){
+    public Apoyo() {
     }
 
-    public Apoyo(Integer numApoyo, Integer longitudMantenimineto, Integer longitudLimpieza, Integer longitudApertura, Integer numAnomalia, Integer limpiezaBase, Integer podaCalle, Integer fijoSalida, Date dia, String capataz, String observaciones){
+    public Apoyo(Integer numApoyo, Integer longitudMantenimineto, Integer longitudLimpieza, Integer longitudApertura, Integer numAnomalia, Integer limpiezaBase, Integer podaCalle, Integer fijoSalida, Date dia, String capataz, String observaciones) {
         this.numApoyo = numApoyo;
         this.longitudMantenimineto = longitudMantenimineto;
         this.longitudLimpieza = longitudLimpieza;
@@ -40,6 +41,7 @@ public class Apoyo{
     public Integer getIdApoyo() {
         return this.idApoyo;
     }
+
     public void setIdApoyo(Integer idApoyo) {
         this.idApoyo = idApoyo;
     }

@@ -28,7 +28,7 @@ public class ExcelManagerCapataces() {
     private HashMap<Integer, Capataz> mapaCapataces = new HashMap<>();
 
     /**
-     * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEES LAS PARTES DEL EXCEL
+     * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
     public ExcelManagerCapataces() {
         try {
@@ -44,15 +44,16 @@ public class ExcelManagerCapataces() {
 
     /**
      * TODO NECESITO SABER DE DONDE SALE CADA VALOR Y SABER SOBRE QUÉ HOJA EXCEL LOS TOMO
+     *
      * @return MAPA CAPATACES
      */
-    public HashMap leerDatosCapataces(){
+    public HashMap leerDatosCapataces() {
         int numFilas = hojaApoyos.getLastRowNum() - 1;
 
-        for(int i = 2; i < numFilas; i++){
+        for (int i = 2; i < numFilas; i++) {
             Row fila = hojaApoyos.getRow(i);
-            if (fila != null && fila.getCell(0) != null){
-                Capataz capatazAnyadir = new Apoyo();
+            if (fila != null && fila.getCell(0) != null) {
+                Capataz capatazAnyadir = new Capataz();
 
                 /**
                  * ID DÍA CAPATAZ
@@ -142,11 +143,11 @@ public class ExcelManagerCapataces() {
         return mapaCapataces;
     }
 
-    public void creacionExcelControlCapataces(){
+    public void creacionExcelControlCapataces() {
         FileOutputStream fileModCapataces = null;
-        try{
+        try {
             fileModCapataces = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
-        } FileNotFoundException e) {
+        } FileNotFoundException e){
             System.out.println("Error al crear EXCEL DE CAPATACES\n");
             System.exit(-1);
         }
@@ -176,7 +177,7 @@ public class ExcelManagerCapataces() {
         }
     }
 
-    public void introducirValoresCapataz(){
+    public void introducirValoresCapataz() {
         /**
          * TODO Rellenado del excel capataces
          * INTRODUCIR TODOS LOS VALORES
@@ -208,7 +209,6 @@ public class ExcelManagerCapataces() {
         int contadorImporteCoeficiente = 0;
         // ***importeCoeficiente/7***
         int importeCoeficienteSemanal = 0;
-
 
 
         /**
@@ -248,10 +248,10 @@ public class ExcelManagerCapataces() {
         estiloCeldaInfo.setBorderLeft(BorderStyle.THIN);
         estiloCeldaInfo.setBorderRight(BorderStyle.THIN);
 
-        for (int i = 0; i < listaCapataces.size() + 1; i++){
+        for (int i = 0; i < listaCapataces.size() + 1; i++) {
             Row fila = hojaApoyos.createRow(i);
 
-            if (i == 0){
+            if (i == 0) {
 
                 Cell celdaColumnaDia = fila.createCell(0);
                 celdaColumnaDia.setCellValue("DÍA");
@@ -405,7 +405,7 @@ public class ExcelManagerCapataces() {
         /**
          * CELDAS DE OPERACIONES FINALES, PREGUNTAR A INÉS SI SE NECESITAN MÁS
          */
-        Row filaSumas = hojaApoyos.createRow(listaCapataces.size()+1);
+        Row filaSumas = hojaApoyos.createRow(listaCapataces.size() + 1);
 
         Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
         celdaColumnaTotalApoyos.setCellValue(contadorApoyos);
@@ -450,14 +450,15 @@ public class ExcelManagerCapataces() {
         /**
          * PREGUNTAR A INÉS SOBRE ESTO
          */
-        Row filaImporteCoeficienteSemanal = hojaApoyos.createRow(listaCapataces.size()+3);
+
+        Row filaImporteCoeficienteSemanal = hojaApoyos.createRow(listaCapataces.size() + 3);
 
         Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(12);
         celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE SEMANAL:");
         celdaColumnaTextoParaCoeficienteSemanala.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaTotalImporteCoeficienteSemanal = filaImporteCoeficienteSemanal.createCell(13);
-        importeCoeficienteSemanal = contadorImporteCoeficiente/7;
+        importeCoeficienteSemanal = contadorImporteCoeficiente / 7;
         celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal);
         celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
     }

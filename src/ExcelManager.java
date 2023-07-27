@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ExcelManager(){
+public class ExcelManager() {
 
     private static FileInputStream file;
     private static XSSFWorkbook wb;
@@ -31,9 +31,9 @@ public class ExcelManager(){
     private HashMap<Integer, Apoyo> mapaApoyos = new HashMap<>();
 
     /**
-     * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEES LAS PARTES DEL EXCEL
+     * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
-    public ExcelManager(){
+    public ExcelManager() {
         try {
             this.file = new FileInputStream("src/main/resources/NOMBRE_DEL_EXCEL.xlsx");
             this.wb = new XSSFWorkbook(file);
@@ -47,110 +47,111 @@ public class ExcelManager(){
 
     /**
      * Setteo de los valores que introducimos a cada campo de las mediciones
+     *
      * @return MAPA MEDICIONES
      */
-    public HashMap leerDatosMedicionesPartes(){
+    public HashMap leerDatosMedicionesPartes() {
         int numFilas = hojaIberdrola.getLastRowNum() - 21;
 
-        for(int i = 4; i < numFilas; i++){
+        for (int i = 4; i < numFilas; i++) {
             Row fila = hojaIberdrola.getRow(i);
-            if (fila != null && fila.getCell(0) != null){
-               Apoyo apoyoAnyadir = new Apoyo();
+            if (fila != null && fila.getCell(0) != null) {
+                Apoyo apoyoAnyadir = new Apoyo();
 
-               /**
-                * ID FILA APOYO
-                */
-               Integer id = fila.getRowNum() - 1;
-               apoyoAnyadir.setIdApoyo(id);
+                /**
+                 * ID FILA APOYO
+                 */
+                Integer id = fila.getRowNum() - 1;
+                apoyoAnyadir.setIdApoyo(id);
 
-               /**
-                * NUM APOYO
-                */
+                /**
+                 * NUM APOYO
+                 */
                 apoyoAnyadir.setNumApoyo(fila.getCell(1).getNumericCellValue());
 
-               /**
-                * LONGITUD MANTENIMINETO
-                */
-               if (fila.getCell(2) == null){
-                   apoyoAnyadir.setLongitudMantenimineto(0);
-               } else {
-                   apoyoAnyadir.setLongitudMantenimineto(fila.getCell(2).getNumericCellValue());
-               }
+                /**
+                 * LONGITUD MANTENIMINETO
+                 */
+                if (fila.getCell(2) == null) {
+                    apoyoAnyadir.setLongitudMantenimineto(0);
+                } else {
+                    apoyoAnyadir.setLongitudMantenimineto(fila.getCell(2).getNumericCellValue());
+                }
 
-               /**
-                * LONGITU LIMPIEZA
-                */
-               if (fila.getCell(3) == null){
-                   apoyoAnyadir.setLongitudLimpieza(0);
-               } else {
-                   apoyoAnyadir.setLongitudLimpieza(fila.getCell(3).getNumericCellValue());
-               }
+                /**
+                 * LONGITU LIMPIEZA
+                 */
+                if (fila.getCell(3) == null) {
+                    apoyoAnyadir.setLongitudLimpieza(0);
+                } else {
+                    apoyoAnyadir.setLongitudLimpieza(fila.getCell(3).getNumericCellValue());
+                }
 
-               /**
-                * LONGITUD APERTURA
-                */
-               if(fila.getCell(4) == null){
-                   apoyoAnyadir.setLongitudApertura(0);
-               } else {
-                   apoyoAnyadir.setLongitudApertura(fila.getCell(4).getNumericCellValue());
-               }
+                /**
+                 * LONGITUD APERTURA
+                 */
+                if (fila.getCell(4) == null) {
+                    apoyoAnyadir.setLongitudApertura(0);
+                } else {
+                    apoyoAnyadir.setLongitudApertura(fila.getCell(4).getNumericCellValue());
+                }
 
-               /**
-                * ANOMALÍA VEGETACIÓN
-                */
-               if (fila.getCell(5) == null){
-                   apoyoAnyadir.setNumAnomalia(0);
-               } else {
-                   apoyoAnyadir.setNumAnomalia(fila.getCell(5).getNumericCellValue());
-               }
+                /**
+                 * ANOMALÍA VEGETACIÓN
+                 */
+                if (fila.getCell(5) == null) {
+                    apoyoAnyadir.setNumAnomalia(0);
+                } else {
+                    apoyoAnyadir.setNumAnomalia(fila.getCell(5).getNumericCellValue());
+                }
 
                 /**
                  * LIMPIEZA BASE
                  */
-               if (fila.getCell(6) == null){
-                   apoyoAnyadir.setLimpiezaBase(0);
-               } else {
-                   apoyoAnyadir.setLimpiezaBase(fila.getCell(6).getNumericCellValue());
-               }
+                if (fila.getCell(6) == null) {
+                    apoyoAnyadir.setLimpiezaBase(0);
+                } else {
+                    apoyoAnyadir.setLimpiezaBase(fila.getCell(6).getNumericCellValue());
+                }
 
-               /**
-                * PODA CALLE
-                */
-               if (fila.getCell(7) == null){
-                   apoyoAnyadir.setPodaCalle(0);
-               } else {
-                   apoyoAnyadir.setPodaCalle(fila.getCell(7).getNumericCellValue());
-               }
+                /**
+                 * PODA CALLE
+                 */
+                if (fila.getCell(7) == null) {
+                    apoyoAnyadir.setPodaCalle(0);
+                } else {
+                    apoyoAnyadir.setPodaCalle(fila.getCell(7).getNumericCellValue());
+                }
 
-               /**
-                * FIJO SALIDA
-                */
-               if (fila.getCell(8) == null){
-                   apoyoAnyadir.setFijoSalida(0);
-               } else {
-                   apoyoAnyadir.setFijoSalida(fila.getCell(8).getNumericCellValue());
-               }
+                /**
+                 * FIJO SALIDA
+                 */
+                if (fila.getCell(8) == null) {
+                    apoyoAnyadir.setFijoSalida(0);
+                } else {
+                    apoyoAnyadir.setFijoSalida(fila.getCell(8).getNumericCellValue());
+                }
 
                 /**
                  * DÍA
                  */
-               apoyoAnyadir.setDia(fila.getCell(9).getDateCellValue());
+                apoyoAnyadir.setDia(fila.getCell(9).getDateCellValue());
 
-               /**
-                * CAPATAZ
-                */
-               apoyoAnyadir.setCapataz(fila.getCell(10).getStringCellValue());
+                /**
+                 * CAPATAZ
+                 */
+                apoyoAnyadir.setCapataz(fila.getCell(10).getStringCellValue());
 
-               /**
-                * OBSERVACIONES
-                */
-               if (fila.getCell(11) == null){
-                   apoyoAnyadir.setObservaciones("");
-               } else {
-                   apoyoAnyadir.setObservaciones(fila.getCell(11).getStringCellValue());
-               }
-               listaApoyos.add(apoyoAnyadir);
-               mapaApoyos.put(id, apoyoAnyadir);
+                /**
+                 * OBSERVACIONES
+                 */
+                if (fila.getCell(11) == null) {
+                    apoyoAnyadir.setObservaciones("");
+                } else {
+                    apoyoAnyadir.setObservaciones(fila.getCell(11).getStringCellValue());
+                }
+                listaApoyos.add(apoyoAnyadir);
+                mapaApoyos.put(id, apoyoAnyadir);
             }
         }
         return mapaApoyos;
@@ -159,11 +160,11 @@ public class ExcelManager(){
     /**
      * PARTE EXCEL APOYOS REALIZADOS
      */
-    public void creacionExcelApoyosRealizados(){
+    public void creacionExcelApoyosRealizados() {
         FileOutputStream fileMod = null;
-        try{
+        try {
             fileMod = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
-        } FileNotFoundException e) {
+        } FileNotFoundException e){
             System.out.println("Error al crear EXCEL DE APOYOS\n");
             System.exit(-1);
         }
@@ -193,7 +194,7 @@ public class ExcelManager(){
         }
     }
 
-    private void introducirValoresApoyos(){
+    private void introducirValoresApoyos() {
         int numApoyo = 0;
         int longitudMantenimineto = 0;
         int longitudLimpieza = 0;
@@ -256,73 +257,75 @@ public class ExcelManager(){
         estiloCeldaInfo.setBorderLeft(BorderStyle.THIN);
         estiloCeldaInfo.setBorderRight(BorderStyle.THIN);
 
-        for (int i = 0; i < listaApoyos.size() + 2; i++){
+        for (int i = 0; i < listaApoyos.size() + 2; i++) {
             Row fila = hoja.createRow(i);
 
             if (i == 0) {
+
                 Cell celdaTitulo = fila.createCell(0);
                 celdaTitulo.setCellValue("Código y nombre de la línea que deseas.");
-            } else if (i == 1){
 
-               Cell celdaColumnaApoyo = fila.createCell(0);
-               celdaColumnaApoyo.setCellValue("APOYO");
-               celdaColumnaApoyo.setCellStyle(estiloCeldaTitulo);
+            } else if (i == 1) {
 
-               Cell celdaColumnaLongitudMantenimineto = fila.createCell(1);
-               celdaColumnaLongitudMantenimineto.setCellValue("LONG\nMANT");
-               celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaApoyo = fila.createCell(0);
+                celdaColumnaApoyo.setCellValue("APOYO");
+                celdaColumnaApoyo.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaLongitudLimpieza = fila.createCell(2);
-               celdaColumnaLongitudLimpieza.setCellValue("LONG\nLIMPIEZA");
-               celdaColumnaLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaLongitudMantenimineto = fila.createCell(1);
+                celdaColumnaLongitudMantenimineto.setCellValue("LONG\nMANT");
+                celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaLongitudApertura = fila.createCell(3);
-               celdaColumnaLongitudApertura.setCellValue("LONG\nAPERTURA");
-               celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaLongitudLimpieza = fila.createCell(2);
+                celdaColumnaLongitudLimpieza.setCellValue("LONG\nLIMPIEZA");
+                celdaColumnaLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaAnomalia = fila.createCell(4);
-               celdaColumnaAnomalia.setCellValue("ANOMALIA");
-               celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaLongitudApertura = fila.createCell(3);
+                celdaColumnaLongitudApertura.setCellValue("LONG\nAPERTURA");
+                celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaLongitudCopa = fila.createCell(5);
-               celdaColumnaLongitudCopa.setCellValue("LONGITUD\nCOPA");
-               celdaColumnaLongitudCopa.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaAnomalia = fila.createCell(4);
+                celdaColumnaAnomalia.setCellValue("ANOMALIA");
+                celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaLimpiezaBase = fila.createCell(6);
-               celdaColumnaLimpiezaBase.setCellValue("LIMPIEZA\nBASE\nAPOYOS");
-               celdaColumnaLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaLongitudCopa = fila.createCell(5);
+                celdaColumnaLongitudCopa.setCellValue("LONGITUD\nCOPA");
+                celdaColumnaLongitudCopa.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaPodaCalle = fila.createCell(7);
-               celdaColumnaPodaCalle.setCellValue("PODA\nCALLE");
-               celdaColumnaPodaCalle.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaLimpiezaBase = fila.createCell(6);
+                celdaColumnaLimpiezaBase.setCellValue("LIMPIEZA\nBASE\nAPOYOS");
+                celdaColumnaLimpiezaBase.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaFijoSalida = fila.createCell(8);
-               celdaColumnaFijoSalida.setCellValue("FIJO\nSALIDA");
-               celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaPodaCalle = fila.createCell(7);
+                celdaColumnaPodaCalle.setCellValue("PODA\nCALLE");
+                celdaColumnaPodaCalle.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaDia = fila.createCell(9);
-               celdaColumnaDia.setCellValue("FECHA");
-               celdaColumnaDia.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaFijoSalida = fila.createCell(8);
+                celdaColumnaFijoSalida.setCellValue("FIJO\nSALIDA");
+                celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaCapataz = fila.createCell(10);
-               celdaColumnaCapataz.setCellValue("CAPATAZ");
-               celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaDia = fila.createCell(9);
+                celdaColumnaDia.setCellValue("FECHA");
+                celdaColumnaDia.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaCapataz = fila.createCell(11);
-               celdaColumnaCapataz.setCellValue("Nº DIAS\nTRABAJADOS");
-               celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaCapataz = fila.createCell(10);
+                celdaColumnaCapataz.setCellValue("CAPATAZ");
+                celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaTractor = fila.createCell(12);
-               celdaColumnaTractor.setCellValue("PENDIENTE\nTRACTOR");
-               celdaColumnaTractor.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaCapataz = fila.createCell(11);
+                celdaColumnaCapataz.setCellValue("Nº DIAS\nTRABAJADOS");
+                celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaTrabajoRematado = fila.createCell(13);
-               celdaColumnaTrabajoRematado.setCellValue("TRABAJO\nREMATADO");
-               celdaColumnaTrabajoRematado.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaTractor = fila.createCell(12);
+                celdaColumnaTractor.setCellValue("PENDIENTE\nTRACTOR");
+                celdaColumnaTractor.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaObservaciones = fila.createCell(14);
-               celdaColumnaObservaciones.setCellValue("OBSERVACIONES");
-               celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaTrabajoRematado = fila.createCell(13);
+                celdaColumnaTrabajoRematado.setCellValue("TRABAJO\nREMATADO");
+                celdaColumnaTrabajoRematado.setCellStyle(estiloCeldaTitulo);
+
+                Cell celdaColumnaObservaciones = fila.createCell(14);
+                celdaColumnaObservaciones.setCellValue("OBSERVACIONES");
+                celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
 
             } else {
 
@@ -430,10 +433,11 @@ public class ExcelManager(){
 
             }
         }
+
         /**
          * CELDAS DE OPERACIONES FINALES
          */
-        Row filaSumas = hoja.createRow(listaApoyos.size()+2);
+        Row filaSumas = hoja.createRow(listaApoyos.size() + 2);
 
         Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
         int totalApoyos = listaApoyos.size();
@@ -476,14 +480,14 @@ public class ExcelManager(){
          * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
          */
 
-        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size()+3);
+        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size() + 3);
 
         Cell celdaColumnaSumaTotalApoyosDivision = filaSumasDivisiones.createCell(0);
         celdaColumnaSumaTotalApoyosDivision.setCellValue(totalApoyos);
         celdaColumnaSumaTotalApoyosDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalLongitudMantenimientoDivision = filaSumasDivisiones.createCell(1);
-        celdaColumnaSumaTotalLongitudMantenimientoDivision.setCellValue(contadorLongMant/1000);
+        celdaColumnaSumaTotalLongitudMantenimientoDivision.setCellValue(contadorLongMant / 1000);
         celdaColumnaSumaTotalLongitudMantenimientoDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalLongitudLimpiezaDivision = filaSumasDivisiones.createCell(2);
@@ -491,7 +495,7 @@ public class ExcelManager(){
         celdaColumnaSumaTotalLongitudLimpiezaDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalLongitudAperturaDivision = filaSumasDivisiones.createCell(3);
-        celdaColumnaSumaTotalLongitudAperturaDivision.setCellValue(contadorLongApertura/1000);
+        celdaColumnaSumaTotalLongitudAperturaDivision.setCellValue(contadorLongApertura / 1000);
         celdaColumnaSumaTotalLongitudAperturaDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalAnomaliaDivision = filaSumasDivisiones.createCell(4);
@@ -499,7 +503,7 @@ public class ExcelManager(){
         celdaColumnaSumaTotalAnomaliaDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalLongitudCopaDivision = filaSumasDivisiones.createCell(5);
-        celdaColumnaSumaTotalLongitudCopaDivision.setCellValue(contadorLongitudCopa/1000);
+        celdaColumnaSumaTotalLongitudCopaDivision.setCellValue(contadorLongitudCopa / 1000);
         celdaColumnaSumaTotalLongitudCopaDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalLimpiezaBaseDivision = filaSumasDivisiones.createCell(6);
@@ -513,6 +517,5 @@ public class ExcelManager(){
         Cell celdaColumnaSumaTotalNumDiasTrabajDivision = filaSumasDivisiones.createCell(10);
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellValue(contadorNumeroDiasTrabajados);
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
-
     }
 }

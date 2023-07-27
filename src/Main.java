@@ -7,9 +7,10 @@ public class Main {
 
     /**
      * Lanzador de la aplicación
+     *
      * @param args
      */
-    public static void main (String[] args){
+    public static void main(String[] args) {
 
         Consola consola = new Consola();
         consola.ejecucionPrograma();

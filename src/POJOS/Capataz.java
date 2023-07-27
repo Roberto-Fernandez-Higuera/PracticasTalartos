@@ -3,9 +3,10 @@
  */
 
 package POJOS;
+
 import java.util.Date;
 
-public class Capataz(){
+public class Capataz() {
 
     private Integer idCapataz;
     private Date dia;
@@ -23,11 +24,12 @@ public class Capataz(){
     private String zona;
     private String observaciones;
     private String codLinea;
-    public Capataz(){
+
+    public Capataz() {
 
     }
 
-    public Capataz(Date dia, Integer numApoyos, Integer fijoSalida, Integer longMantenimiento, Integer anomalia, Integer longApertura, Integer talasFuera, Integer longitudCopa, Integer limpiezaBase, Integer km, Integer importeMedios, Integer importeCoeficiente, String zona, String observaciones, String codLinea){
+    public Capataz(Date dia, Integer numApoyos, Integer fijoSalida, Integer longMantenimiento, Integer anomalia, Integer longApertura, Integer talasFuera, Integer longitudCopa, Integer limpiezaBase, Integer km, Integer importeMedios, Integer importeCoeficiente, String zona, String observaciones, String codLinea) {
         this.dia = dia;
         this.numApoyos = numApoyos;
         this.fijoSalida = fijoSalida;
