@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Date;
 
-public class ExcelManager() {
+public class ExcelManager {
 
     private static FileInputStream file;
     private static XSSFWorkbook wb;
@@ -50,7 +51,7 @@ public class ExcelManager() {
      *
      * @return MAPA MEDICIONES
      */
-    public HashMap leerDatosMedicionesPartes() {
+    private HashMap leerDatosMedicionesPartes() {
         int numFilas = hojaIberdrola.getLastRowNum() - 21;
 
         for (int i = 4; i < numFilas; i++) {
@@ -164,7 +165,7 @@ public class ExcelManager() {
         FileOutputStream fileMod = null;
         try {
             fileMod = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
-        } FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Error al crear EXCEL DE APOYOS\n");
             System.exit(-1);
         }
@@ -204,7 +205,7 @@ public class ExcelManager() {
         int limpiezaBase = 0;
         int podaCalle = 0;
         int fijoSalida = 0;
-        Date dia = null;
+        LocalDate dia = null;
         String capataz = "";
         int numDiasTrabajados = 0;
         String pendienteTractor = "";
@@ -243,10 +244,8 @@ public class ExcelManager() {
         /**
          * Dar estilo de negrita y alineado para celdas con información
          */
-        CellStyle estiloCeldaInfo = wbCapataces.createCellStyle();
+        CellStyle estiloCeldaInfo = wb.createCellStyle();
         //NEGRITA
-        Font font = wbCapataces.createFont();
-        font.setBold(true);
         estiloCeldaInfo.setFont(font);
         //ALINEADO HORIZONTAL Y VERTICAL
         estiloCeldaInfo.setAlignment(HorizontalAlignment.CENTER);
@@ -311,9 +310,9 @@ public class ExcelManager() {
                 celdaColumnaCapataz.setCellValue("CAPATAZ");
                 celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaCapataz = fila.createCell(11);
-                celdaColumnaCapataz.setCellValue("Nº DIAS\nTRABAJADOS");
-                celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
+                Cell celdaColumnaCapatazNumDiasTrabajados = fila.createCell(11);
+                celdaColumnaCapatazNumDiasTrabajados.setCellValue("Nº DIAS\nTRABAJADOS");
+                celdaColumnaCapatazNumDiasTrabajados.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaTractor = fila.createCell(12);
                 celdaColumnaTractor.setCellValue("PENDIENTE\nTRACTOR");
@@ -406,7 +405,7 @@ public class ExcelManager() {
                  * Valores inicializados a 0 para ser cambiados posteriormente a mano
                  */
                 Cell celdaNumDiasTrabajados = fila.createCell(11);
-                contadorNumeroDiasTrabajados += numDiasTrabajados
+                contadorNumeroDiasTrabajados += numDiasTrabajados;
                 celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
                 celdaNumDiasTrabajados.setCellStyle(estiloCeldaInfo);
 

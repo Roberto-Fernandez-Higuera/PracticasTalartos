@@ -13,16 +13,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Date;
 
 
-public class ExcelManagerCapataces() {
+public class ExcelManagerCapataces {
 
     private static FileInputStream fileCapataces;
     private static XSSFWorkbook wbCapataces;
     private XSSFSheet hojaApoyos;
 
     //Arraylist con los valores de todos los campos del Excel capataces
-    private ArrayList<Apoyo> listaCapataces = new ArrayList<>();
+    private ArrayList<Capataz> listaCapataces = new ArrayList<>();
 
     //MAPAS A UTILIZAR
     private HashMap<Integer, Capataz> mapaCapataces = new HashMap<>();
@@ -47,7 +48,7 @@ public class ExcelManagerCapataces() {
      *
      * @return MAPA CAPATACES
      */
-    public HashMap leerDatosCapataces() {
+    private HashMap leerDatosCapataces() {
         int numFilas = hojaApoyos.getLastRowNum() - 1;
 
         for (int i = 2; i < numFilas; i++) {
@@ -147,7 +148,7 @@ public class ExcelManagerCapataces() {
         FileOutputStream fileModCapataces = null;
         try {
             fileModCapataces = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
-        } FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Error al crear EXCEL DE CAPATACES\n");
             System.exit(-1);
         }
@@ -182,7 +183,7 @@ public class ExcelManagerCapataces() {
          * TODO Rellenado del excel capataces
          * INTRODUCIR TODOS LOS VALORES
          */
-        Date fecha;
+        Date fecha = null;
         int numApoyos = 0;
         int fijoSalida = 0;
         int longMantenimiento = 0;
@@ -236,8 +237,6 @@ public class ExcelManagerCapataces() {
          */
         CellStyle estiloCeldaInfo = wbCapataces.createCellStyle();
         //NEGRITA
-        Font font = wbCapataces.createFont();
-        font.setBold(true);
         estiloCeldaInfo.setFont(font);
         //ALINEADO HORIZONTAL Y VERTICAL
         estiloCeldaInfo.setAlignment(HorizontalAlignment.CENTER);
@@ -393,7 +392,7 @@ public class ExcelManagerCapataces() {
                 observaciones = listaCapataces.get(i).getObservaciones();
                 Cell celdaObservaciones = fila.createCell(13);
                 celdaObservaciones.setCellValue(observaciones);
-                celdaObservaciones.setCellStlye(estiloCeldaInfo);
+                celdaObservaciones.setCellStyle(estiloCeldaInfo);
 
                 codLinea = listaCapataces.get(i).getCodLinea();
                 Cell celdaCodLinea = fila.createCell(14);
