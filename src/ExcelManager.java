@@ -434,6 +434,52 @@ public class ExcelManager(){
         celdaColumnaSumaTotalPodaCalle.setCellValue(contadorPodaCalle);
         celdaColumnaSumaTotalPodaCalle.setCellStyle(estiloCeldaTitulo);
 
+        Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
+        celdaColumnaSumaTotalNumDiasTrabaj.setCellValue(contadorNumeroDiasTrabajados);
+        celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
+
+        /**
+         * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
+         */
+
+        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size()+4);
+
+        Cell celdaColumnaSumaTotalApoyosDivision = filaSumasDivisiones.createCell(0);
+        celdaColumnaSumaTotalApoyosDivision.setCellValue(totalApoyos);
+        celdaColumnaSumaTotalApoyosDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudMantenimientoDivision = filaSumasDivisiones.createCell(1);
+        celdaColumnaSumaTotalLongitudMantenimientoDivision.setCellValue(contadorLongMant/1000);
+        celdaColumnaSumaTotalLongitudMantenimientoDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudLimpiezaDivision = filaSumasDivisiones.createCell(2);
+        celdaColumnaSumaTotalLongitudLimpiezaDivision.setCellValue(contadorLongLimp);
+        celdaColumnaSumaTotalLongitudLimpiezaDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudAperturaDivision = filaSumasDivisiones.createCell(3);
+        celdaColumnaSumaTotalLongitudAperturaDivision.setCellValue(contadorLongApertura/1000);
+        celdaColumnaSumaTotalLongitudAperturaDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalAnomaliaDivision = filaSumasDivisiones.createCell(4);
+        celdaColumnaSumaTotalAnomaliaDivision.setCellValue(contadorAnomalia);
+        celdaColumnaSumaTotalAnomaliaDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLongitudCopaDivision = filaSumasDivisiones.createCell(5);
+        celdaColumnaSumaTotalLongitudCopaDivision.setCellValue(contadorLongitudCopa/1000);
+        celdaColumnaSumaTotalLongitudCopaDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalLimpiezaBaseDivision = filaSumasDivisiones.createCell(6);
+        celdaColumnaSumaTotalLimpiezaBaseDivision.setCellValue(contadorLongitudLimpiezaBase);
+        celdaColumnaSumaTotalLimpiezaBaseDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalPodaCalleDivision = filaSumasDivisiones.createCell(7);
+        celdaColumnaSumaTotalPodaCalleDivision.setCellValue(contadorPodaCalle);
+        celdaColumnaSumaTotalPodaCalleDivision.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaSumaTotalNumDiasTrabajDivision = filaSumasDivisiones.createCell(10);
+        celdaColumnaSumaTotalNumDiasTrabajDivision.setCellValue(contadorNumeroDiasTrabajados);
+        celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
+
     }
 
     /**
