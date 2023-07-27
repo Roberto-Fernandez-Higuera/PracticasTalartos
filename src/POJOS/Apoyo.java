@@ -7,7 +7,7 @@ package POJOS;
 import java.util.Date;
 
 
-public class Apoyo {
+public class Apoyo implements java.io.Serializable {
     private Integer idApoyo;
     private Integer numApoyo;
     private Integer longitudMantenimineto;

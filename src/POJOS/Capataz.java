@@ -6,7 +6,7 @@ package POJOS;
 
 import java.util.Date;
 
-public class Capataz {
+public class Capataz implements java.io.Serializable {
 
     private Integer idCapataz;
     private Date dia;
