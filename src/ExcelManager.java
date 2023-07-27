@@ -24,35 +24,36 @@ public class ExcelManager(){
     private static XSSFWorkbook wb;
     private XSSFSheet hojaIberdrola;
 
-    //Arraylist con los valores de todos los campos
+    //Arraylist con los valores de todos los campos del Excel apoyos
     private ArrayList<Apoyo> listaApoyos = new ArrayList<>();
 
+
     //MAPAS A UTILIZAR
-    private HashMap<Integer, Mediciones> mapaMediciones = new HashMap<>();
+    private HashMap<Integer, Apoyo> mapaApoyos = new HashMap<>();
 
     /**
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEES LAS PARTES DEL EXCEL
      */
     public ExcelManager(){
         try {
-            this.file = new FileInputStream("src/main/resources/RIVALAMORA-ESTADIO 5 MAYO.xlsx");
+            this.file = new FileInputStream("src/main/resources/NOMBRE_DEL_EXCEL.xlsx");
             this.wb = new XSSFWorkbook(file);
         } catch (IOException e) {
             System.out.println("Error al encontrar el fichero excel 1");
             System.exit(-1);
         }
         hojaIberdrola = wb.getSheetAt(0);
-        this.mapaMediciones = leerDatosMedicionesPartes();
+        this.mapaApoyos = leerDatosMedicionesPartes();
     }
 
     /**
      * Setteo de los valores que introducimos a cada campo de las mediciones
-     * @return
+     * @return MAPA MEDICIONES
      */
     public HashMap leerDatosMedicionesPartes(){
-        int numFilas = hojaIberdrola.getLastRowNum() - 22;
+        int numFilas = hojaIberdrola.getLastRowNum() - 21;
 
-        for(int i = 5; i < numFilas; i++){
+        for(int i = 4; i < numFilas; i++){
             Row fila = hojaIberdrola.getRow(i);
             if (fila != null && fila.getCell(0) != null){
                Apoyo apoyoAnyadir = new Apoyo();
@@ -60,7 +61,7 @@ public class ExcelManager(){
                /**
                 * ID FILA APOYO
                 */
-               Integer id = fila.getRowNum() + 1;
+               Integer id = fila.getRowNum() - 1;
                apoyoAnyadir.setIdApoyo(id);
 
                /**
@@ -150,15 +151,10 @@ public class ExcelManager(){
                    apoyoAnyadir.setObservaciones(fila.getCell(11).getStringCellValue());
                }
                listaApoyos.add(apoyoAnyadir);
-               mapaMediciones.put(id, apoyoAnyadir);
+               mapaApoyos.put(id, apoyoAnyadir);
             }
         }
-        return mapaMediciones;
-    }
-
-    public void ejecucionPrograma(){
-        creacionExcelApoyosRealizados();
-        //creacionExcelControlCapataces();
+        return mapaApoyos;
     }
 
     /**
@@ -167,7 +163,7 @@ public class ExcelManager(){
     public void creacionExcelApoyosRealizados(){
         FileOutputStream fileMod = null;
         try{
-            fileMod = new FileOutputStream("EXCELS FINALES/APOYOS REALIZADOS NOMBRE.xlsx");
+            fileMod = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
         } FileNotFoundException e) {
             System.out.println("Error al crear EXCEL DE APOYOS\n");
             System.exit(-1);
@@ -183,9 +179,6 @@ public class ExcelManager(){
             System.exit(-1);
         }
 
-        /**
-         * DUDA, PREGUNTAR SI SE UTILIZA EL SIGUIENTE TRY AQUÍ CUANDO CREEMOS LOS DOS EXCELS
-         */
         try {
             file.close();
         } catch (IOException e) {
@@ -238,7 +231,7 @@ public class ExcelManager(){
         estiloCeldaTitulo.setAlignment(HorizontalAlignment.CENTER);
         estiloCeldaTitulo.setVerticalAlignment(VerticalAlignment.CENTER);
 
-        for (int i = 0; i < listaApoyos.size() + 4; i++){
+        for (int i = 0; i < listaApoyos.size() + 2; i++){
             Row fila = hoja.createRow(i);
 
             if (i == 0) {
@@ -302,7 +295,7 @@ public class ExcelManager(){
                celdaColumnaTrabajoRematado.setCellValue("TRABAJO\nREMATADO");
                celdaColumnaTrabajoRematado.setCellStyle(estiloCeldaTitulo);
 
-               Cell celdaColumnaObservaciones = fila.createCell(13);
+               Cell celdaColumnaObservaciones = fila.createCell(14);
                celdaColumnaObservaciones.setCellValue("OBSERVACIONES");
                celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
 
@@ -399,7 +392,7 @@ public class ExcelManager(){
         /**
          * CELDAS DE OPERACIONES FINALES
          */
-        Row filaSumas = hoja.createRow(listaApoyos.size()+3);
+        Row filaSumas = hoja.createRow(listaApoyos.size()+2);
 
         Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
         int totalApoyos = listaApoyos.size();
@@ -442,7 +435,7 @@ public class ExcelManager(){
          * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
          */
 
-        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size()+4);
+        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size()+3);
 
         Cell celdaColumnaSumaTotalApoyosDivision = filaSumasDivisiones.createCell(0);
         celdaColumnaSumaTotalApoyosDivision.setCellValue(totalApoyos);
@@ -481,49 +474,4 @@ public class ExcelManager(){
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
 
     }
-
-    /**
-     * PARTE EXCEL CONTROL CAPATACES
-     */
-    public void creacionExcelControlCapataces(){
-        FileOutputStream fileMod2 = null;
-        try{
-            fileMod2 = new FileOutputStream("EXCELS FINALES/CONTROL CAPATACES NOMBRE.xlsx");
-        } FileNotFoundException e) {
-            System.out.println("Error al crear EXCEL DE CONTROL CAPATACES\n");
-            System.exit(-1);
-        }
-
-        //Método que va a crear y rellenar mi excel de capataces
-        introducirValoresCapataces();
-
-        try {
-            wb.write(fileMod2);
-        } catch (IOException e) {
-            System.out.println("Error al escribir EXCELL CAPATACES\n");
-            System.exit(-1);
-        }
-
-        try {
-            file.close();
-        } catch (IOException e) {
-            System.out.println("Error al cerrar fichero");
-            System.exit(-1);
-        }
-
-        try {
-            fileMod2.close();
-        } catch (IOException e) {
-            System.out.println("Error al cerrar EXCEL");
-            System.exit(-1);
-        }
-    }
-
-    public void introducirValoresCapataces(){
-        /**
-         * TODO Rellenado del excel capataces
-         * INTRODUCIR TODOS LOS VALORES
-         */
-    }
-
 }

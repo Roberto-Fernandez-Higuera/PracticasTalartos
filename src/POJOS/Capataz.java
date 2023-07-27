@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class Capataz(){
 
+    private Integer idCapataz;
     private Date dia;
     private Integer numApoyos;
     private Integer fijoSalida;
@@ -42,6 +43,14 @@ public class Capataz(){
         this.zona = zona;
         this.observaciones = observaciones;
         this.codLinea = codLinea;
+    }
+
+    public Integer getIdCapataz() {
+        return idCapataz;
+    }
+
+    public void setIdCapataz(Integer idCapataz) {
+        this.idCapataz = idCapataz;
     }
 
     public Date getDia() {

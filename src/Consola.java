@@ -9,13 +9,14 @@ public class Consola {
     }
 
     private ExcelManager excelManager = new ExcelManager();
+    private ExcelManagerCapataces excelManagerCapataces = new ExcelManager();
 
     /**
      * Método encargado de la creación del Excel de apoyos realizados
      */
     public void ejecucionPrograma(){
         excelManager.creacionExcelApoyosRealizados();
-        excelManager.creacionExcelControlCapataces();
+        excelManagerCapataces.creacionExcelControlCapataces();
     }
 
 }

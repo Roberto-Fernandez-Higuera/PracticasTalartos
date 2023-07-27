@@ -56,7 +56,7 @@ public class Apoyo{
         return this.longitudMantenimineto;
     }
 
-    public void setLongitudMantenimineto(Integer longitudMantenimineto) {
+    public void setLongitudMantenimiento(Integer longitudMantenimineto) {
         this.longitudMantenimineto = longitudMantenimineto;
     }
 
