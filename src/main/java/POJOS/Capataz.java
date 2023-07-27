@@ -80,7 +80,7 @@ public class Capataz implements java.io.Serializable {
     }
 
     public Integer getLongMantenimiento() {
-        return this.LongMantenimiento;
+        return this.longMantenimiento;
     }
 
     public void setLongMantenimiento(Integer longMantenimiento) {
