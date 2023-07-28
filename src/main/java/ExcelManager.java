@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Date;
 
@@ -29,7 +28,7 @@ public class ExcelManager {
 
 
     //MAPAS A UTILIZAR
-    private HashMap<Integer, Apoyo> mapaApoyos = new HashMap<>();
+    public HashMap<Integer, Apoyo> mapaApoyos = new HashMap<>();
 
     /**
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
@@ -161,7 +160,7 @@ public class ExcelManager {
     /**
      * PARTE EXCEL APOYOS REALIZADOS
      */
-    public void creacionExcelApoyosRealizados() {
+    public void creacionExcelApoyosRealizados(String nombreHoja) {
         FileOutputStream fileMod = null;
         try {
             fileMod = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
@@ -169,9 +168,16 @@ public class ExcelManager {
             System.out.println("Error al crear EXCEL DE APOYOS\n");
             System.exit(-1);
         }
+        /**
+         * Comprobación de si la hoja ya existe en el excel
+         */
+        Sheet hoja = wb.getSheet(nombreHoja);
+        if(hoja == null){
+            hoja = wb.createSheet(nombreHoja);
+        }
 
         //Método que va a crear y rellenar mi excel de apoyos
-        introducirValoresApoyos();
+        introducirValoresApoyos(hoja);
 
         try {
             wb.write(fileMod);
@@ -195,7 +201,7 @@ public class ExcelManager {
         }
     }
 
-    private void introducirValoresApoyos() {
+    private void introducirValoresApoyos(Sheet hoja) {
         double numApoyo = 0;
         double longitudMantenimineto = 0;
         double longitudLimpieza = 0;
@@ -257,7 +263,7 @@ public class ExcelManager {
         estiloCeldaInfo.setBorderRight(BorderStyle.THIN);
 
         for (int i = 0; i < listaApoyos.size() + 2; i++) {
-            Row fila = hojaIberdrola.createRow(i);
+            Row fila = hoja.createRow(i);
 
             if (i == 0) {
 
@@ -436,7 +442,7 @@ public class ExcelManager {
         /**
          * CELDAS DE OPERACIONES FINALES
          */
-        Row filaSumas = hojaIberdrola.createRow(listaApoyos.size() + 2);
+        Row filaSumas = hoja.createRow(listaApoyos.size() + 2);
 
         Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
         int totalApoyos = listaApoyos.size();
@@ -479,7 +485,7 @@ public class ExcelManager {
          * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
          */
 
-        Row filaSumasDivisiones = hojaIberdrola.createRow(listaApoyos.size() + 3);
+        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size() + 3);
 
         Cell celdaColumnaSumaTotalApoyosDivision = filaSumasDivisiones.createCell(0);
         celdaColumnaSumaTotalApoyosDivision.setCellValue(totalApoyos);

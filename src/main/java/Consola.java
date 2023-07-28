@@ -1,8 +1,12 @@
 /**
  * @author Roberto Fernández Higuera
  */
+import java.util.Scanner;
 
 public class Consola {
+
+    public String nombreHojaApoyos = "";
+    public String nombreHojaCapataces = "";
 
     public Consola() {
 
@@ -15,8 +19,30 @@ public class Consola {
      * Método encargado de la creación del Excel de apoyos realizados
      */
     public void ejecucionPrograma() {
-        excelManager.creacionExcelApoyosRealizados();
-        excelManagerCapataces.creacionExcelControlCapataces();
+
+        System.out.print("*******************************************\n");
+        System.out.print("**PROGRAMA MEDICIONES PARTES TALARTOS S.L**\n");
+        System.out.print("*******************************************\n");
+
+        System.out.print(" \n");
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Introduce el nombre de la hoja(línea sobre la que quieres realizar cambios): \n");
+        String nombreHoja = scanner.nextLine();
+
+        scanner.close();
+
+        excelManager.creacionExcelApoyosRealizados(nombreHojaApoyos);
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Introduce el nombre de la hoja(capataz sobre el que quieres realizar cambios): \n");
+        String nombreHojaCapataces = scanner.nextLine();
+
+        scanner.close();
+
+        excelManagerCapataces.creacionExcelControlCapataces(nombreHojaCapataces);
     }
 
 }

@@ -146,7 +146,7 @@ public class ExcelManagerCapataces {
         return mapaCapataces;
     }
 
-    public void creacionExcelControlCapataces() {
+    public void creacionExcelControlCapataces(String nombreHoja) {
         FileOutputStream fileModCapataces = null;
         try {
             fileModCapataces = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
@@ -154,9 +154,16 @@ public class ExcelManagerCapataces {
             System.out.println("Error al crear EXCEL DE CAPATACES\n");
             System.exit(-1);
         }
+        /**
+         * Comprobación de si la hoja ya existe en el excel
+         */
+        Sheet hoja = wbCapataces.getSheet(nombreHoja);
+        if(hoja == null){
+            hoja = wbCapataces.createSheet(nombreHoja);
+        }
 
         //Método que va a crear y rellenar mi excel de apoyos
-        introducirValoresCapataz();
+        introducirValoresCapataz(hoja);
 
         try {
             wbCapataces.write(fileModCapataces);
@@ -180,7 +187,7 @@ public class ExcelManagerCapataces {
         }
     }
 
-    public void introducirValoresCapataz() {
+    public void introducirValoresCapataz(Sheet hoja) {
         /**
          * TODO Rellenado del excel capataces
          * INTRODUCIR TODOS LOS VALORES
@@ -250,7 +257,7 @@ public class ExcelManagerCapataces {
         estiloCeldaInfo.setBorderRight(BorderStyle.THIN);
 
         for (int i = 0; i < listaCapataces.size() + 1; i++) {
-            Row fila = hojaApoyos.createRow(i);
+            Row fila = hoja.createRow(i);
 
             if (i == 0) {
 
@@ -406,7 +413,7 @@ public class ExcelManagerCapataces {
         /**
          * CELDAS DE OPERACIONES FINALES, PREGUNTAR A INÉS SI SE NECESITAN MÁS
          */
-        Row filaSumas = hojaApoyos.createRow(listaCapataces.size() + 1);
+        Row filaSumas = hoja.createRow(listaCapataces.size() + 1);
 
         Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
         celdaColumnaTotalApoyos.setCellValue(contadorApoyos);
@@ -452,7 +459,7 @@ public class ExcelManagerCapataces {
          * PREGUNTAR A INÉS SOBRE ESTO
          */
 
-        Row filaImporteCoeficienteSemanal = hojaApoyos.createRow(listaCapataces.size() + 3);
+        Row filaImporteCoeficienteSemanal = hoja.createRow(listaCapataces.size() + 3);
 
         Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(12);
         celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE SEMANAL:");
