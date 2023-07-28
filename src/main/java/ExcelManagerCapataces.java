@@ -31,9 +31,9 @@ public class ExcelManagerCapataces {
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
     public ExcelManagerCapataces(String nombreExcel) {
-        String nombreExcel = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
+        String rutaExcel = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
         try {
-            this.fileCapataces = new FileInputStream(nombreExcel);
+            this.fileCapataces = new FileInputStream(rutaExcel);
             this.wbCapataces = new XSSFWorkbook(fileCapataces);
         } catch (IOException e) {
             System.out.println("Error al encontrar el fichero excel 1");
