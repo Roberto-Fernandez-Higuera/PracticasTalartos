@@ -8,10 +8,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,9 +30,10 @@ public class ExcelManagerCapataces {
     /**
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
-    public ExcelManagerCapataces() {
+    public ExcelManagerCapataces(String nombreExcel) {
+        String nombreExcel = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
         try {
-            this.fileCapataces = new FileInputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_DEL_EXCEL_DE_APOYOS.xlsx");
+            this.fileCapataces = new FileInputStream(nombreExcel);
             this.wbCapataces = new XSSFWorkbook(fileCapataces);
         } catch (IOException e) {
             System.out.println("Error al encontrar el fichero excel 1");
@@ -146,14 +144,27 @@ public class ExcelManagerCapataces {
         return mapaCapataces;
     }
 
-    public void creacionExcelControlCapataces(String nombreHoja) {
+    public void creacionExcelControlCapataces(String nombreHoja, String nombreExcel) {
+        String nombreArchivoSalida = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
+        File archivoSalida = new File(nombreArchivoSalida);
+
         FileOutputStream fileModCapataces = null;
-        try {
-            fileModCapataces = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
-        } catch (FileNotFoundException e) {
-            System.out.println("Error al crear EXCEL DE CAPATACES\n");
-            System.exit(-1);
+
+        if (archivoSalida.exists()) {
+            // El archivo de salida ya existe, abre el libro existente
+            try {
+                FileInputStream file = new FileInputStream(nombreArchivoSalida);
+                wbCapataces = new XSSFWorkbook(file);
+                file.close();
+            } catch (IOException e) {
+                System.out.println("Error al abrir el archivo existente: " + e.getMessage());
+                System.exit(-1);
+            }
+        } else {
+            // El archivo de salida no existe, crea uno nuevo con el nombre proporcionado
+            wbCapataces = new XSSFWorkbook();
         }
+
         /**
          * Comprobación de si la hoja ya existe en el excel
          */
@@ -166,6 +177,7 @@ public class ExcelManagerCapataces {
         introducirValoresCapataz(hoja);
 
         try {
+            fileModCapataces = new FileOutputStream(nombreArchivoSalida);
             wbCapataces.write(fileModCapataces);
         } catch (IOException e) {
             System.out.println("Error al escribir EXCELL CAPATACES\n");

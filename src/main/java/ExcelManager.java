@@ -8,10 +8,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,9 +30,10 @@ public class ExcelManager {
     /**
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
-    public ExcelManager() {
+    public ExcelManager(String nombreExcel) {
+        String rutaExcel = "src/main/resources/"+nombreExcel+".xlsx";
         try {
-            this.file = new FileInputStream("src/main/resources/NOMBRE_DEL_EXCEL.xlsx");
+            this.file = new FileInputStream(rutaExcel);
             this.wb = new XSSFWorkbook(file);
         } catch (IOException e) {
             System.out.println("Error al encontrar el fichero excel 1");
@@ -160,14 +158,27 @@ public class ExcelManager {
     /**
      * PARTE EXCEL APOYOS REALIZADOS
      */
-    public void creacionExcelApoyosRealizados(String nombreHoja) {
+    public void creacionExcelApoyosRealizados(String nombreHoja, String codigoHoja, String nombreExcel) {
+        String nombreArchivoSalida = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
+        File archivoSalida = new File(nombreArchivoSalida);
+
         FileOutputStream fileMod = null;
-        try {
-            fileMod = new FileOutputStream("EXCELS_FINALES/EXCELS_APOYO/NOMBRE_EXCEL_QUE_QUEREMOS.xlsx");
-        } catch (FileNotFoundException e) {
-            System.out.println("Error al crear EXCEL DE APOYOS\n");
-            System.exit(-1);
+
+        if (archivoSalida.exists()) {
+            // El archivo de salida ya existe, abre el libro existente
+            try {
+                FileInputStream file = new FileInputStream(nombreArchivoSalida);
+                wb = new XSSFWorkbook(file);
+                file.close();
+            } catch (IOException e) {
+                System.out.println("Error al abrir el archivo existente: " + e.getMessage());
+                System.exit(-1);
+            }
+        } else {
+            // El archivo de salida no existe, crea uno nuevo con el nombre proporcionado
+            wb = new XSSFWorkbook();
         }
+
         /**
          * Comprobación de si la hoja ya existe en el excel
          */
@@ -177,31 +188,37 @@ public class ExcelManager {
         }
 
         //Método que va a crear y rellenar mi excel de apoyos
-        introducirValoresApoyos(hoja);
+        introducirValoresApoyos(hoja, codigoHoja);
 
         try {
+            fileMod = new FileOutputStream(nombreArchivoSalida);
             wb.write(fileMod);
+            fileMod.close();
         } catch (IOException e) {
             System.out.println("Error al escribir EXCELL APOYOS\n");
             System.exit(-1);
-        }
+        } finally {
+            try {
+                if (file != null) {
+                    file.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Error al cerrar fichero");
+                System.exit(-1);
+            }
 
-        try {
-            file.close();
-        } catch (IOException e) {
-            System.out.println("Error al cerrar fichero");
-            System.exit(-1);
-        }
-
-        try {
-            fileMod.close();
-        } catch (IOException e) {
-            System.out.println("Error al cerrar EXCEL");
-            System.exit(-1);
+            try {
+                if (fileMod != null) {
+                    fileMod.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Error al cerrar EXCEL");
+                System.exit(-1);
+            }
         }
     }
 
-    private void introducirValoresApoyos(Sheet hoja) {
+    private void introducirValoresApoyos(Sheet hoja, String codigoHoja) {
         double numApoyo = 0;
         double longitudMantenimineto = 0;
         double longitudLimpieza = 0;
@@ -268,7 +285,7 @@ public class ExcelManager {
             if (i == 0) {
 
                 Cell celdaTitulo = fila.createCell(0);
-                celdaTitulo.setCellValue("Código y nombre de la línea que deseas.");
+                celdaTitulo.setCellValue(codigoHoja+ " - "+hoja);
 
             } else if (i == 1) {
 

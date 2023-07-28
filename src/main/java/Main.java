@@ -15,7 +15,6 @@ public class Main {
         consola.ejecucionPrograma();
         // Fin ejecución
         System.exit(0);
-
     }
 
 }
