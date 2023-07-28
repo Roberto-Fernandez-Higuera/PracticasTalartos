@@ -11,8 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Date;
+import java.util.Scanner;
 
 public class ExcelManager {
 
@@ -23,20 +23,28 @@ public class ExcelManager {
     //Arraylist con los valores de todos los campos del Excel apoyos
     private ArrayList<Apoyo> listaApoyos = new ArrayList<>();
 
-
     //MAPAS A UTILIZAR
-    public HashMap<Integer, Apoyo> mapaApoyos = new HashMap<>();
+    public HashMap<Integer, Apoyo> mapaApoyos;
+
+    private String nombreHoja;
+    private String nombreExcel;
 
     /**
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
-    public ExcelManager(String nombreExcel) {
+    public ExcelManager() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Introduce el nombre del Excel de mediciones con el que quieres trabajar: \n");
+        nombreExcel = scanner.nextLine();
+
         String rutaExcel = "src/main/resources/"+nombreExcel+".xlsx";
         try {
             this.file = new FileInputStream(rutaExcel);
             this.wb = new XSSFWorkbook(file);
         } catch (IOException e) {
-            System.out.println("Error al encontrar el fichero excel 1");
+            System.out.println("Error al encontrar el fichero excel: "+nombreExcel);
             System.exit(-1);
         }
         hojaIberdrola = wb.getSheetAt(0);
