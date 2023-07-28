@@ -1,6 +1,7 @@
 /**
  * @author Roberto Fernández Higuera
  */
+
 import java.util.Scanner;
 
 public class Consola {

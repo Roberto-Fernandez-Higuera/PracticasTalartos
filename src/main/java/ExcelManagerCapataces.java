@@ -158,7 +158,7 @@ public class ExcelManagerCapataces {
          * Comprobación de si la hoja ya existe en el excel
          */
         Sheet hoja = wbCapataces.getSheet(nombreHoja);
-        if(hoja == null){
+        if (hoja == null) {
             hoja = wbCapataces.createSheet(nombreHoja);
         }
 

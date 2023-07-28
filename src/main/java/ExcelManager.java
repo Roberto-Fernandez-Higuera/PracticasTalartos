@@ -172,7 +172,7 @@ public class ExcelManager {
          * Comprobación de si la hoja ya existe en el excel
          */
         Sheet hoja = wb.getSheet(nombreHoja);
-        if(hoja == null){
+        if (hoja == null) {
             hoja = wb.createSheet(nombreHoja);
         }
 
