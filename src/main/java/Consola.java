@@ -30,7 +30,7 @@ public class Consola {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Introduce el nombre de la hoja(línea sobre la que quieres realizar cambios): \n");
-        String nombreHoja = scanner.nextLine();
+        String nombreHojaApoyos = scanner.nextLine();
 
         scanner.close();
 
