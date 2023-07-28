@@ -4,6 +4,7 @@
 
 import POJOS.Capataz;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -13,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Date;
 
@@ -82,17 +82,17 @@ public class ExcelManagerCapataces {
                 /**
                  * LONGITUD MANTENIMIENTO
                  */
-                capatazAnyadir.setLongitudMantenimiento();
+                capatazAnyadir.setLongMantenimiento();
 
                 /**
                  * NUM ANOMALIA
                  */
-                capatazAnyadir.setNumAnomalia();
+                capatazAnyadir.setAnomalia();
 
                 /**
                  * LONGIUTD APERTURA
                  */
-                capatazAnyadir.setLongitudApertura();
+                capatazAnyadir.setLongApertura();
 
                 /**
                  * TALAS FUERA
@@ -186,17 +186,17 @@ public class ExcelManagerCapataces {
          * INTRODUCIR TODOS LOS VALORES
          */
         Date fecha = null;
-        int numApoyos = 0;
-        int fijoSalida = 0;
-        int longMantenimiento = 0;
-        int anomalia = 0;
-        int longApertura = 0;
-        int talasFuera = 0;
-        int longCopa = 0;
-        int limpiezaBase = 0;
-        int km = 0;
-        int importeMedios = 0;
-        int importeCoeficiente = 0;
+        double numApoyos = 0;
+        double fijoSalida = 0;
+        double longMantenimiento = 0;
+        double anomalia = 0;
+        double longApertura = 0;
+        double talasFuera = 0;
+        double longCopa = 0;
+        double limpiezaBase = 0;
+        double km = 0;
+        double importeMedios = 0;
+        double importeCoeficiente = 0;
         String zona = "";
         String observaciones = "";
         String codLinea = "";
@@ -219,7 +219,7 @@ public class ExcelManagerCapataces {
          */
         CellStyle estiloCeldaTitulo = wbCapataces.createCellStyle();
         //COLOR
-        estiloCeldaTitulo.setFillForegroundColor(Indexed.Colors.GREEN.getIndex());
+        estiloCeldaTitulo.setFillForegroundColor(IndexedColors.GREEN.getIndex());
         estiloCeldaTitulo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         //NEGRITA
         Font font = wbCapataces.createFont();
@@ -430,7 +430,7 @@ public class ExcelManagerCapataces {
 
         Cell celdaColumnaTotalLongCopa = filaSumas.createCell(7);
         celdaColumnaTotalLongCopa.setCellValue(contadorLongCopa);
-        celdaColumnaTotalLongCopa.setCellStlye(estiloCeldaTitulo);
+        celdaColumnaTotalLongCopa.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaTotalLimpiezaBase = filaSumas.createCell(8);
         celdaColumnaTotalLimpiezaBase.setCellValue(contadorLimpiezaBase);
@@ -442,7 +442,7 @@ public class ExcelManagerCapataces {
 
         Cell celdaColumnaTotalImporteMedio = filaSumas.createCell(10);
         celdaColumnaTotalImporteMedio.setCellValue(contadorImporteMedio);
-        celdaColumnaTotalImporteMedio.setCellStlye(estiloCeldaTitulo);
+        celdaColumnaTotalImporteMedio.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaTotalImporteCoeficiente = filaSumas.createCell(11);
         celdaColumnaTotalImporteCoeficiente.setCellValue(contadorImporteCoeficiente);

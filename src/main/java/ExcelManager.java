@@ -4,6 +4,7 @@
 
 import POJOS.Apoyo;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -73,9 +74,9 @@ public class ExcelManager {
                  * LONGITUD MANTENIMINETO
                  */
                 if (fila.getCell(2) == null) {
-                    apoyoAnyadir.setLongitudMantenimineto(0);
+                    apoyoAnyadir.setLongitudMantenimiento(0);
                 } else {
-                    apoyoAnyadir.setLongitudMantenimineto(fila.getCell(2).getNumericCellValue());
+                    apoyoAnyadir.setLongitudMantenimiento(fila.getCell(2).getNumericCellValue());
                 }
 
                 /**
@@ -195,16 +196,16 @@ public class ExcelManager {
     }
 
     private void introducirValoresApoyos() {
-        int numApoyo = 0;
-        int longitudMantenimineto = 0;
-        int longitudLimpieza = 0;
-        int longitudApertura = 0;
-        int anomaliaVegetacion = 0;
-        int longitudCopa = 0;
-        int limpiezaBase = 0;
-        int podaCalle = 0;
-        int fijoSalida = 0;
-        LocalDate dia = null;
+        double numApoyo = 0;
+        double longitudMantenimineto = 0;
+        double longitudLimpieza = 0;
+        double longitudApertura = 0;
+        double anomaliaVegetacion = 0;
+        double longitudCopa = 0;
+        double limpiezaBase = 0;
+        double podaCalle = 0;
+        double fijoSalida = 0;
+        Date dia = null;
         String capataz = "";
         int numDiasTrabajados = 0;
         String pendienteTractor = "";
@@ -225,7 +226,7 @@ public class ExcelManager {
          */
         CellStyle estiloCeldaTitulo = wb.createCellStyle();
         //COLOR
-        estiloCeldaTitulo.setFillForegroundColor(Indexed.Colors.GREEN.getIndex());
+        estiloCeldaTitulo.setFillForegroundColor(IndexedColors.GREEN.getIndex());
         estiloCeldaTitulo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         //NEGRITA
         Font font = wb.createFont();
@@ -256,7 +257,7 @@ public class ExcelManager {
         estiloCeldaInfo.setBorderRight(BorderStyle.THIN);
 
         for (int i = 0; i < listaApoyos.size() + 2; i++) {
-            Row fila = hoja.createRow(i);
+            Row fila = hojaIberdrola.createRow(i);
 
             if (i == 0) {
 
@@ -350,7 +351,7 @@ public class ExcelManager {
                 celdaLongitudApertura.setCellValue(longitudApertura);
                 celdaLongitudApertura.setCellStyle(estiloCeldaInfo);
 
-                anomaliaVegetacion = listaApoyos.get(i).getnumAnomalia();
+                anomaliaVegetacion = listaApoyos.get(i).getNumAnomalia();
                 contadorAnomalia += anomaliaVegetacion;
                 Cell celdaAnomaliaVegetacion = fila.createCell(4);
                 celdaAnomaliaVegetacion.setCellValue(anomaliaVegetacion);
@@ -435,7 +436,7 @@ public class ExcelManager {
         /**
          * CELDAS DE OPERACIONES FINALES
          */
-        Row filaSumas = hoja.createRow(listaApoyos.size() + 2);
+        Row filaSumas = hojaIberdrola.createRow(listaApoyos.size() + 2);
 
         Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
         int totalApoyos = listaApoyos.size();
@@ -478,7 +479,7 @@ public class ExcelManager {
          * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
          */
 
-        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size() + 3);
+        Row filaSumasDivisiones = hojaIberdrola.createRow(listaApoyos.size() + 3);
 
         Cell celdaColumnaSumaTotalApoyosDivision = filaSumasDivisiones.createCell(0);
         celdaColumnaSumaTotalApoyosDivision.setCellValue(totalApoyos);

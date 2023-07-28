@@ -8,15 +8,15 @@ import java.util.Date;
 
 
 public class Apoyo implements java.io.Serializable {
-    private Integer idApoyo;
-    private Integer numApoyo;
-    private Integer longitudMantenimineto;
-    private Integer longitudLimpieza;
-    private Integer longitudApertura;
-    private Integer numAnomalia;
-    private Integer limpiezaBase;
-    private Integer podaCalle;
-    private Integer fijoSalida;
+    private double idApoyo;
+    private double numApoyo;
+    private double longitudMantenimineto;
+    private double longitudLimpieza;
+    private double longitudApertura;
+    private double numAnomalia;
+    private double limpiezaBase;
+    private double podaCalle;
+    private double fijoSalida;
     private Date dia;
     private String capataz;
     private String observaciones;
@@ -24,89 +24,89 @@ public class Apoyo implements java.io.Serializable {
     public Apoyo() {
     }
 
-    public Apoyo(Integer numApoyo, Integer longitudMantenimineto, Integer longitudLimpieza, Integer longitudApertura, Integer numAnomalia, Integer limpiezaBase, Integer podaCalle, Integer fijoSalida, Date dia, String capataz, String observaciones) {
+    public Apoyo(double numApoyo, double longitudMantenimineto, double longitudLimpieza, double longitudApertura, double numAnomalia, double limpiezaBase, double podaCalle, double fijoSalida, Date dia, String capataz, String observaciones) {
         this.numApoyo = numApoyo;
         this.longitudMantenimineto = longitudMantenimineto;
         this.longitudLimpieza = longitudLimpieza;
         this.longitudApertura = longitudApertura;
         this.numAnomalia = numAnomalia;
         this.limpiezaBase = limpiezaBase;
-        this.podaCalle = talasFueraCalle;
-        this.fijoSalida;
+        this.podaCalle = podaCalle;
+        this.fijoSalida = fijoSalida;
         this.dia = dia;
         this.capataz = capataz;
         this.observaciones = observaciones;
     }
 
-    public Integer getIdApoyo() {
+    public double getIdApoyo() {
         return this.idApoyo;
     }
 
-    public void setIdApoyo(Integer idApoyo) {
+    public void setIdApoyo(double idApoyo) {
         this.idApoyo = idApoyo;
     }
 
-    public Integer getNumApoyo() {
+    public double getNumApoyo() {
         return numApoyo;
     }
 
-    public void setNumApoyo(Integer numApoyo) {
+    public void setNumApoyo(double numApoyo) {
         this.numApoyo = numApoyo;
     }
 
-    public Integer getLongitudMantenimineto() {
+    public double getLongitudMantenimineto() {
         return this.longitudMantenimineto;
     }
 
-    public void setLongitudMantenimiento(Integer longitudMantenimineto) {
+    public void setLongitudMantenimiento(double longitudMantenimineto) {
         this.longitudMantenimineto = longitudMantenimineto;
     }
 
-    public Integer getLongitudLimpieza() {
+    public double getLongitudLimpieza() {
         return this.longitudLimpieza;
     }
 
-    public void setLongitudLimpieza(Integer longitudLimpieza) {
+    public void setLongitudLimpieza(double longitudLimpieza) {
         this.longitudLimpieza = longitudLimpieza;
     }
 
-    public Integer getLongitudApertura() {
+    public double getLongitudApertura() {
         return this.longitudApertura;
     }
 
-    public void setLongitudApertura(Integer longitudApertura) {
+    public void setLongitudApertura(double longitudApertura) {
         this.longitudApertura = longitudApertura;
     }
 
-    public Integer getNumAnomalia() {
+    public double getNumAnomalia() {
         return this.numAnomalia;
     }
 
-    public void setNumAnomalia(Integer numAnomalia) {
+    public void setNumAnomalia(double numAnomalia) {
         this.numAnomalia = numAnomalia;
     }
 
-    public Integer getLimpiezaBase() {
+    public double getLimpiezaBase() {
         return this.limpiezaBase;
     }
 
-    public void setLimpiezaBase(Integer limpiezaBase) {
+    public void setLimpiezaBase(double limpiezaBase) {
         this.limpiezaBase = limpiezaBase;
     }
 
-    public Integer getPodaCalle() {
-        return this.talasFueraCalle;
+    public double getPodaCalle() {
+        return this.podaCalle;
     }
 
-    public void setPodaCalle(Integer talasFueraCalle) {
-        this.talasFueraCalle = talasFueraCalle;
+    public void setPodaCalle(double talasFueraCalle) {
+        this.podaCalle = podaCalle;
     }
 
-    public Integer getFijoSalida() {
+    public double getFijoSalida() {
         return this.fijoSalida;
     }
 
-    public void setFijoSalida(Integer fijoSalida) {
+    public void setFijoSalida(double fijoSalida) {
         this.fijoSalida = fijoSalida;
     }
 

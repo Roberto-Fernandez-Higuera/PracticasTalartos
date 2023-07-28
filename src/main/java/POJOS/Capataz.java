@@ -8,19 +8,19 @@ import java.util.Date;
 
 public class Capataz implements java.io.Serializable {
 
-    private Integer idCapataz;
+    private double idCapataz;
     private Date dia;
-    private Integer numApoyos;
-    private Integer fijoSalida;
-    private Integer longMantenimiento;
-    private Integer anomalia;
-    private Integer longApertura;
-    private Integer talasFuera;
-    private Integer longitudCopa;
-    private Integer limpiezaBase;
-    private Integer km;
-    private Integer importeMedios;
-    private Integer importeCoeficiente;
+    private double numApoyos;
+    private double fijoSalida;
+    private double longMantenimiento;
+    private double anomalia;
+    private double longApertura;
+    private double talasFuera;
+    private double longitudCopa;
+    private double limpiezaBase;
+    private double km;
+    private double importeMedios;
+    private double importeCoeficiente;
     private String zona;
     private String observaciones;
     private String codLinea;
@@ -29,7 +29,7 @@ public class Capataz implements java.io.Serializable {
 
     }
 
-    public Capataz(Date dia, Integer numApoyos, Integer fijoSalida, Integer longMantenimiento, Integer anomalia, Integer longApertura, Integer talasFuera, Integer longitudCopa, Integer limpiezaBase, Integer km, Integer importeMedios, Integer importeCoeficiente, String zona, String observaciones, String codLinea) {
+    public Capataz(Date dia, double numApoyos, double fijoSalida, double longMantenimiento, double anomalia, double longApertura, double talasFuera, double longitudCopa, double limpiezaBase, double km, double importeMedios, double importeCoeficiente, String zona, String observaciones, String codLinea) {
         this.dia = dia;
         this.numApoyos = numApoyos;
         this.fijoSalida = fijoSalida;
@@ -47,11 +47,11 @@ public class Capataz implements java.io.Serializable {
         this.codLinea = codLinea;
     }
 
-    public Integer getIdCapataz() {
+    public double getIdCapataz() {
         return idCapataz;
     }
 
-    public void setIdCapataz(Integer idCapataz) {
+    public void setIdCapataz(double idCapataz) {
         this.idCapataz = idCapataz;
     }
 
@@ -63,91 +63,91 @@ public class Capataz implements java.io.Serializable {
         this.dia = dia;
     }
 
-    public Integer getNumApoyos() {
+    public double getNumApoyos() {
         return this.numApoyos;
     }
 
-    public void setNumApoyos(Integer numApoyos) {
+    public void setNumApoyos(double numApoyos) {
         this.numApoyos = numApoyos;
     }
 
-    public Integer getFijoSalida() {
+    public double getFijoSalida() {
         return this.fijoSalida;
     }
 
-    public void setFijoSalida(Integer fijoSalida) {
+    public void setFijoSalida(double fijoSalida) {
         this.fijoSalida = fijoSalida;
     }
 
-    public Integer getLongMantenimiento() {
+    public double getLongMantenimiento() {
         return this.longMantenimiento;
     }
 
-    public void setLongMantenimiento(Integer longMantenimiento) {
+    public void setLongMantenimiento(double longMantenimiento) {
         this.longMantenimiento = longMantenimiento;
     }
 
-    public Integer getAnomalia() {
+    public double getAnomalia() {
         return this.anomalia;
     }
 
-    public void setAnomalia(Integer anomalia) {
+    public void setAnomalia(double anomalia) {
         this.anomalia = anomalia;
     }
 
-    public Integer getLongApertura() {
+    public double getLongApertura() {
         return this.longApertura;
     }
 
-    public void setLongApertura(Integer longApertura) {
+    public void setLongApertura(double longApertura) {
         this.longApertura = longApertura;
     }
 
-    public Integer getTalasFuera() {
+    public double getTalasFuera() {
         return this.talasFuera;
     }
 
-    public void setTalasFuera(Integer talasFuera) {
+    public void setTalasFuera(double talasFuera) {
         this.talasFuera = talasFuera;
     }
 
-    public Integer getLongitudCopa() {
+    public double getLongitudCopa() {
         return this.longitudCopa;
     }
 
-    public void setLongitudCopa(Integer longitudCopa) {
+    public void setLongitudCopa(double longitudCopa) {
         this.longitudCopa = longitudCopa;
     }
 
-    public Integer getLimpiezaBase() {
+    public double getLimpiezaBase() {
         return this.limpiezaBase;
     }
 
-    public void setLimpiezaBase(Integer limpiezaBase) {
+    public void setLimpiezaBase(double limpiezaBase) {
         this.limpiezaBase = limpiezaBase;
     }
 
-    public Integer getKm() {
+    public double getKm() {
         return this.km;
     }
 
-    public void setKm(Integer km) {
+    public void setKm(double km) {
         this.km = km;
     }
 
-    public Integer getImporteMedios() {
+    public double getImporteMedios() {
         return this.importeMedios;
     }
 
-    public void setImporteMedios(Integer importeMedios) {
+    public void setImporteMedios(double importeMedios) {
         this.importeMedios = importeMedios;
     }
 
-    public Integer getImporteCoeficiente() {
+    public double getImporteCoeficiente() {
         return this.importeCoeficiente;
     }
 
-    public void setImporteCoeficiente(Integer importeCoeficiente) {
+    public void setImporteCoeficiente(double importeCoeficiente) {
         this.importeCoeficiente = importeCoeficiente;
     }
 
