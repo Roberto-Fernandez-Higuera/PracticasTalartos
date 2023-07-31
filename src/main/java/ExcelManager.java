@@ -444,14 +444,14 @@ public class ExcelManager {
                 /**
                  * TODO Hacer metodo de calculo de N Dias
                  */
-                numDiasTrabajados = contadorNumDias(listaApoyos, i);
+                numDiasTrabajados = contadorNumDias(mapaApoyos, i);
                 Cell celdaNumDiasTrabajados = fila.createCell(10);
-                contadorNumeroDiasTrabajados += numDiasTrabajados;
-                if (numDiasTrabajados > 0) {
-                    celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
-                } else {
+                //contadorNumeroDiasTrabajados += numDiasTrabajados;
+                celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
+                if (i==0) {
                     celdaNumDiasTrabajados.setCellValue("");
                 }
+
                 celdaNumDiasTrabajados.setCellStyle(estiloCeldaInfo);
 
                 Cell celdaPendienteTractor = fila.createCell(11);
@@ -556,9 +556,16 @@ public class ExcelManager {
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
     }
 
-    private int contadorNumDias(ArrayList listaApoyos, int i){
+    private int contadorNumDias(HashMap<Integer, Apoyo> mapaApoyos, int x){
         int numDias = 0;
-        //listaApoyos.get(i-2);
+        for (int i = 0; i < listaApoyos.size(); i++){
+            if (((x-2) != i) && (listaApoyos.get(x-2).getDia() == listaApoyos.get(i).getDia())){
+                if (!listaApoyos.get(i).getCapataz().equals(listaApoyos.get(x-2).getCapataz())) {
+                    numDias++;
+                }
+            }
+            numDias++;
+        }
 
         return numDias;
     }

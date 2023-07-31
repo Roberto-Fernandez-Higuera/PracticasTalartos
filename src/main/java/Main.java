@@ -18,7 +18,7 @@ public class Main {
         System.out.print("*********************************************\n");
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -28,7 +28,7 @@ public class Main {
         System.out.println("CONSEJO: TEN CUIDADO A LA HORA DE ESCRIBIR, AL MÍNIMO FALLO GRAMÁTICO LA APLICACIÓN NO FUNCIONARÁ CORRÉCTAMENTE :))\n");
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
