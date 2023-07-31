@@ -17,14 +17,14 @@ public class Apoyo implements java.io.Serializable {
     private double limpiezaBase;
     private double podaCalle;
     private double fijoSalida;
-    private Date dia;
+    private double dia;
     private String capataz;
     private String observaciones;
 
     public Apoyo() {
     }
 
-    public Apoyo(double numApoyo, double longitudMantenimineto, double longitudLimpieza, double longitudApertura, double numAnomalia, double limpiezaBase, double podaCalle, double fijoSalida, Date dia, String capataz, String observaciones) {
+    public Apoyo(double numApoyo, double longitudMantenimineto, double longitudLimpieza, double longitudApertura, double numAnomalia, double limpiezaBase, double podaCalle, double fijoSalida, double dia, String capataz, String observaciones) {
         this.numApoyo = numApoyo;
         this.longitudMantenimineto = longitudMantenimineto;
         this.longitudLimpieza = longitudLimpieza;
@@ -110,11 +110,11 @@ public class Apoyo implements java.io.Serializable {
         this.fijoSalida = fijoSalida;
     }
 
-    public Date getDia() {
+    public double getDia() {
         return this.dia;
     }
 
-    public void setDia(Date dia) {
+    public void setDia(double dia) {
         this.dia = dia;
     }
 
