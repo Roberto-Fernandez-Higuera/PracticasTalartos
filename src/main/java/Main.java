@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * @author Roberto Fernández Higuera
  */
@@ -9,7 +11,7 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         System.out.print("*********************************************\n");
         System.out.print("** PROGRAMA MEDICIONES PARTES TALARTOS S.L **\n");

@@ -2,6 +2,7 @@
  * @author Roberto Fernández Higuera
  */
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Consola {
@@ -21,7 +22,7 @@ public class Consola {
     /**
      * Método encargado de la creación del Excel de apoyos realizados
      */
-    public void ejecucionPrograma() {
+    public void ejecucionPrograma() throws IOException {
 
         /**
          * PARTE EXCEL APOYOS

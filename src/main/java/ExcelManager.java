@@ -11,10 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class ExcelManager {
 
@@ -76,7 +73,6 @@ public class ExcelManager {
                  * NUM APOYO
                  */
                 apoyoAnyadir.setNumApoyo(fila.getCell(1).getNumericCellValue());
-                System.out.println("Mi num apoyo es: "+fila.getCell(1).getNumericCellValue()+"\n");
 
                 /**
                  * LONGITUD MANTENIMIENTO
@@ -260,7 +256,6 @@ public class ExcelManager {
         double contadorLongLimp = 0;
         double contadorLongApertura = 0;
         double contadorAnomalia = 0;
-        double contadorLongitudCopa = 0;
         double contadorLongitudLimpiezaBase = 0;
         double contadorPodaCalle = 0;
         double contadorFijoSalida = 0;
@@ -449,9 +444,14 @@ public class ExcelManager {
                 /**
                  * TODO Hacer metodo de calculo de N Dias
                  */
+                numDiasTrabajados = contadorNumDias(listaApoyos, i);
                 Cell celdaNumDiasTrabajados = fila.createCell(10);
                 contadorNumeroDiasTrabajados += numDiasTrabajados;
-                celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
+                if (numDiasTrabajados > 0) {
+                    celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
+                } else {
+                    celdaNumDiasTrabajados.setCellValue("");
+                }
                 celdaNumDiasTrabajados.setCellStyle(estiloCeldaInfo);
 
                 Cell celdaPendienteTractor = fila.createCell(11);
@@ -469,6 +469,7 @@ public class ExcelManager {
 
             }
         }
+
 
         /**
          * CELDAS DE OPERACIONES FINALES
@@ -543,7 +544,7 @@ public class ExcelManager {
         celdaColumnaSumaTotalLimpiezaBaseDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalPodaCalleDivision = filaSumasDivisiones.createCell(6);
-        celdaColumnaSumaTotalPodaCalleDivision.setCellValue(contadorPodaCalle);
+        celdaColumnaSumaTotalPodaCalleDivision.setCellValue(contadorPodaCalle / 1000);
         celdaColumnaSumaTotalPodaCalleDivision.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaSumaTotalFijoSalidaDivision = filaSumasDivisiones.createCell(7);
@@ -553,5 +554,12 @@ public class ExcelManager {
         Cell celdaColumnaSumaTotalNumDiasTrabajDivision = filaSumasDivisiones.createCell(10);
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellValue(contadorNumeroDiasTrabajados);
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
+    }
+
+    private int contadorNumDias(ArrayList listaApoyos, int i){
+        int numDias = 0;
+        //listaApoyos.get(i-2);
+
+        return numDias;
     }
 }
