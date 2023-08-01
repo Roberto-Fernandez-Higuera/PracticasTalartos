@@ -243,6 +243,7 @@ public class ExcelManagerCapataces {
         double importeCoeficiente = 0;
         String observaciones = "";
         int contadorApoyos = 0;
+        int contadorFijoSalida = 0;
         int contadorLongMantenimiento = 0;
         int contadorAnomalia = 0;
         int contadorLongApertura = 0;
@@ -388,6 +389,7 @@ public class ExcelManagerCapataces {
                 celdaNumApoyos.setCellStyle(estiloCeldaInfo);
 
                 fijoSalida = listaCapataces.get(i-1).getFijoSalida();
+                contadorFijoSalida += fijoSalida;
                 Cell celdaFijoSalida = fila.createCell(2);
                 celdaFijoSalida.setCellValue(fijoSalida);
                 celdaFijoSalida.setCellStyle(estiloCeldaInfo);
@@ -470,6 +472,10 @@ public class ExcelManagerCapataces {
         Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
         celdaColumnaTotalApoyos.setCellValue(contadorApoyos);
         celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);
+
+        Cell celdaColumnaTotalFijoSalida = filaSumas.createCell(2);
+        celdaColumnaTotalFijoSalida.setCellValue(contadorFijoSalida);
+        celdaColumnaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaTotalLongMantenimiento = filaSumas.createCell(3);
         celdaColumnaTotalLongMantenimiento.setCellValue(contadorLongMantenimiento);
