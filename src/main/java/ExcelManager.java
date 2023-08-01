@@ -441,16 +441,8 @@ public class ExcelManager {
                 celdaCapataz.setCellValue(capataz);
                 celdaCapataz.setCellStyle(estiloCeldaInfo);
 
-                /**
-                 * TODO Hacer metodo de calculo de N Dias
-                 */
-                numDiasTrabajados = contadorNumDias(mapaApoyos, i);
                 Cell celdaNumDiasTrabajados = fila.createCell(10);
-                //contadorNumeroDiasTrabajados += numDiasTrabajados;
-                celdaNumDiasTrabajados.setCellValue(numDiasTrabajados);
-                if (i==0) {
-                    celdaNumDiasTrabajados.setCellValue("");
-                }
+                celdaNumDiasTrabajados.setCellValue("");
 
                 celdaNumDiasTrabajados.setCellStyle(estiloCeldaInfo);
 
@@ -509,6 +501,7 @@ public class ExcelManager {
         celdaColumnaSumaTotalFijoSalida.setCellValue(contadorFijoSalida);
         celdaColumnaSumaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
 
+        contadorNumeroDiasTrabajados = obtenerDiasTrabajadosPorPersona(mapaApoyos);
         Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
         celdaColumnaSumaTotalNumDiasTrabaj.setCellValue(contadorNumeroDiasTrabajados);
         celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
@@ -556,17 +549,41 @@ public class ExcelManager {
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
     }
 
-    private int contadorNumDias(HashMap<Integer, Apoyo> mapaApoyos, int x){
-        int numDias = 0;
-        for (int i = 0; i < listaApoyos.size(); i++){
-            if (((x-2) != i) && (listaApoyos.get(x-2).getDia() == listaApoyos.get(i).getDia())){
-                if (!listaApoyos.get(i).getCapataz().equals(listaApoyos.get(x-2).getCapataz())) {
-                    numDias++;
+
+    public static double obtenerDiasTrabajadosPorPersona(HashMap<Integer, Apoyo> mapaApoyos) {
+        HashMap<String, Integer> diasTrabajadosPorPersona = new HashMap<>();
+
+        for (Apoyo apoyo : mapaApoyos.values()) {
+            String capataz = apoyo.getCapataz();
+            String fecha = Double.toString(apoyo.getDia());
+
+            // Comprobamos si el nombre del capataz ya está presente en el HashMap
+            if (diasTrabajadosPorPersona.containsKey(capataz)) {
+                // Si el nombre ya está presente, obtenemos el valor actual de días trabajados
+                int diasTrabajados = diasTrabajadosPorPersona.get(capataz);
+
+                // Verificamos si la fecha del apoyo ya ha sido contada para ese capataz
+                // Si no ha sido contada, incrementamos los días trabajados por ese capataz
+                if (!existeFechaEnCapataz(mapaApoyos, capataz, fecha)) {
+                    diasTrabajados++;
+                    diasTrabajadosPorPersona.put(capataz, diasTrabajados);
                 }
+            } else {
+                // Si el nombre no está presente en el HashMap, agregamos una nueva entrada
+                diasTrabajadosPorPersona.put(capataz, 1);
             }
-            numDias++;
         }
 
-        return numDias;
+        return diasTrabajadosPorPersona.size();
     }
+
+    public static boolean existeFechaEnCapataz(HashMap<Integer, Apoyo> mapaApoyos, String capataz, String fecha) {
+        for (Apoyo apoyo : mapaApoyos.values()) {
+            if (apoyo.getCapataz().equals(capataz) && Double.toString(apoyo.getDia()).equals(fecha)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
