@@ -266,7 +266,7 @@ public class ExcelManager {
          */
         CellStyle estiloCeldaTitulo = wb.createCellStyle();
         //COLOR
-        estiloCeldaTitulo.setFillForegroundColor(IndexedColors.BRIGHT_GREEN.getIndex());
+        estiloCeldaTitulo.setFillForegroundColor(IndexedColors.LIME.getIndex());
         estiloCeldaTitulo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         //NEGRITA
         Font font = wb.createFont();
