@@ -598,8 +598,3 @@ public class ExcelManager {
         return diasTrabajadosPorCapataz;
     }
 }
-
-
-
-
-
