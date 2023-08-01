@@ -550,40 +550,39 @@ public class ExcelManager {
     }
 
 
-    public static double obtenerDiasTrabajadosPorPersona(HashMap<Integer, Apoyo> mapaApoyos) {
-        HashMap<String, Integer> diasTrabajadosPorPersona = new HashMap<>();
+    public static int obtenerDiasTrabajadosPorPersona(HashMap<Integer, Apoyo> mapaApoyos) {
+        HashMap<String, HashSet<String>> diasTrabajadosPorPersona = new HashMap<>();
 
         for (Apoyo apoyo : mapaApoyos.values()) {
             String capataz = apoyo.getCapataz();
             String fecha = Double.toString(apoyo.getDia());
 
-            // Comprobamos si el nombre del capataz ya está presente en el HashMap
+            // Verificamos si el nombre del capataz ya está presente en el HashMap
             if (diasTrabajadosPorPersona.containsKey(capataz)) {
-                // Si el nombre ya está presente, obtenemos el valor actual de días trabajados
-                int diasTrabajados = diasTrabajadosPorPersona.get(capataz);
+                // Si el nombre ya está presente, obtenemos el HashSet de fechas trabajadas
+                HashSet<String> fechasTrabajadas = diasTrabajadosPorPersona.get(capataz);
 
                 // Verificamos si la fecha del apoyo ya ha sido contada para ese capataz
-                // Si no ha sido contada, incrementamos los días trabajados por ese capataz
-                if (!existeFechaEnCapataz(mapaApoyos, capataz, fecha)) {
-                    diasTrabajados++;
-                    diasTrabajadosPorPersona.put(capataz, diasTrabajados);
+                // Si no ha sido contada, agregamos la fecha al HashSet
+                if (!fechasTrabajadas.contains(fecha)) {
+                    fechasTrabajadas.add(fecha);
+                    diasTrabajadosPorPersona.put(capataz, fechasTrabajadas);
                 }
             } else {
-                // Si el nombre no está presente en el HashMap, agregamos una nueva entrada
-                diasTrabajadosPorPersona.put(capataz, 1);
+                // Si el nombre no está presente en el HashMap, creamos un nuevo HashSet con la fecha
+                HashSet<String> fechasTrabajadas = new HashSet<>();
+                fechasTrabajadas.add(fecha);
+                diasTrabajadosPorPersona.put(capataz, fechasTrabajadas);
             }
         }
 
-        return diasTrabajadosPorPersona.size();
-    }
-
-    public static boolean existeFechaEnCapataz(HashMap<Integer, Apoyo> mapaApoyos, String capataz, String fecha) {
-        for (Apoyo apoyo : mapaApoyos.values()) {
-            if (apoyo.getCapataz().equals(capataz) && Double.toString(apoyo.getDia()).equals(fecha)) {
-                return true;
-            }
+        // Obtenemos el total de días trabajados por cada capataz
+        int totalDiasTrabajados = 0;
+        for (HashSet<String> fechasTrabajadas : diasTrabajadosPorPersona.values()) {
+            totalDiasTrabajados += fechasTrabajadas.size();
         }
-        return false;
+
+        return totalDiasTrabajados;
     }
 
 }

@@ -17,7 +17,7 @@ public class Consola {
     private String nombreExcel;
     private ExcelManager excelManager = new ExcelManager();
     private String nombreExcelApoyos;
-    private ExcelManagerCapataces excelManagerCapataces = new ExcelManagerCapataces();
+    //private ExcelManagerCapataces excelManagerCapataces = new ExcelManagerCapataces();
 
     /**
      * Método encargado de la creación del Excel de apoyos realizados
@@ -55,27 +55,27 @@ public class Consola {
          */
 
 
-        Scanner scSiONo = new Scanner(System.in);
-
-        System.out.print("EXCEL DE APOYOS CREADO, ¿QUIÉRES GENERAR EL DE CAPATACES  Y/N? (Y para Sí, N para No)\n");
-        String siONo = scSiONo.nextLine();
-
-        scSiONo.close();
-
-        //Si decide crear el CONTROL DE CAPATACES, ENTRO EN EL IF Y LO GENERO, DE LO CONTRARIO, SALGO
-        if (siONo.equals("Y")) {
-
-            Scanner scNombreExcelCapataces = new Scanner(System.in);
-
-            System.out.print("Introduce el nombre del Excel sobre el que quieres trabajar (si existe accedes a él, de lo contrario creará uno nuevo): \n");
-            String nombreExcelCapataces = scNombreExcelCapataces.nextLine();
-
-            scNombreExcelCapataces.close();
-
-            excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, nombreHojaApoyos ,codigoHoja);
-        } else {
-
-        }
+//        Scanner scSiONo = new Scanner(System.in);
+//
+//        System.out.print("EXCEL DE APOYOS CREADO, ¿QUIÉRES GENERAR EL DE CAPATACES  Y/N? (Y para Sí, N para No)\n");
+//        String siONo = scSiONo.nextLine();
+//
+//        scSiONo.close();
+//
+//        //Si decide crear el CONTROL DE CAPATACES, ENTRO EN EL IF Y LO GENERO, DE LO CONTRARIO, SALGO
+//        if (siONo.equals("Y")) {
+//
+//            Scanner scNombreExcelCapataces = new Scanner(System.in);
+//
+//            System.out.print("Introduce el nombre del Excel sobre el que quieres trabajar (si existe accedes a él, de lo contrario creará uno nuevo): \n");
+//            String nombreExcelCapataces = scNombreExcelCapataces.nextLine();
+//
+//            scNombreExcelCapataces.close();
+//
+//            excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, nombreHojaApoyos ,codigoHoja);
+//        } else {
+//
+//        }
 
 
     }
