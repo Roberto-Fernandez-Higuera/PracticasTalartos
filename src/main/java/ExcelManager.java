@@ -331,15 +331,15 @@ public class ExcelManager {
                 celdaColumnaApoyo.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaLongitudMantenimineto = fila.createCell(1);
-                celdaColumnaLongitudMantenimineto.setCellValue("LONG MANT");
+                celdaColumnaLongitudMantenimineto.setCellValue("LONG\nMANT");
                 celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaLongitudLimpieza = fila.createCell(2);
-                celdaColumnaLongitudLimpieza.setCellValue("LONG LIMPIEZA");
+                celdaColumnaLongitudLimpieza.setCellValue("LONG\nLIMPIEZA");
                 celdaColumnaLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaLongitudApertura = fila.createCell(3);
-                celdaColumnaLongitudApertura.setCellValue("LONG APERTURA");
+                celdaColumnaLongitudApertura.setCellValue("LONG\nAPERTURA");
                 celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaAnomalia = fila.createCell(4);
@@ -347,15 +347,15 @@ public class ExcelManager {
                 celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaLongitudLimpiezaBase = fila.createCell(5);
-                celdaColumnaLongitudLimpiezaBase.setCellValue("LIMPIEZA BASE");
+                celdaColumnaLongitudLimpiezaBase.setCellValue("LIMPIEZA\nBASE");
                 celdaColumnaLongitudLimpiezaBase.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaPodaCalle = fila.createCell(6);
-                celdaColumnaPodaCalle.setCellValue("PODA CALLE");
+                celdaColumnaPodaCalle.setCellValue("PODA\nCALLE");
                 celdaColumnaPodaCalle.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaFijoSalida = fila.createCell(7);
-                celdaColumnaFijoSalida.setCellValue("FIJO SALIDA");
+                celdaColumnaFijoSalida.setCellValue("FIJO\nSALIDA");
                 celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaDia = fila.createCell(8);
@@ -367,15 +367,15 @@ public class ExcelManager {
                 celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaCapatazNumDiasTrabajados = fila.createCell(10);
-                celdaColumnaCapatazNumDiasTrabajados.setCellValue("Nº DIAS TRABAJADOS");
+                celdaColumnaCapatazNumDiasTrabajados.setCellValue("Nº DIAS\nTRABAJADOS");
                 celdaColumnaCapatazNumDiasTrabajados.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaTractor = fila.createCell(11);
-                celdaColumnaTractor.setCellValue("PENDIENTE TRACTOR");
+                celdaColumnaTractor.setCellValue("PENDIENTE\nTRACTOR");
                 celdaColumnaTractor.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaTrabajoRematado = fila.createCell(12);
-                celdaColumnaTrabajoRematado.setCellValue("TRABAJO REMATADO");
+                celdaColumnaTrabajoRematado.setCellValue("TRABAJO\nREMATADO");
                 celdaColumnaTrabajoRematado.setCellStyle(estiloCeldaTitulo);
 
                 Cell celdaColumnaObservaciones = fila.createCell(13);
@@ -512,9 +512,9 @@ public class ExcelManager {
             int totalDiasTrabajados = entry.getValue();
             contadorNumeroDiasTrabajados += totalDiasTrabajados;
         }
-
+        int intContadorNumeroDiasTrabajados = (int) contadorNumeroDiasTrabajados;
         Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
-        celdaColumnaSumaTotalNumDiasTrabaj.setCellValue(contadorNumeroDiasTrabajados);
+        celdaColumnaSumaTotalNumDiasTrabaj.setCellValue("Total días trabajados: "+intContadorNumeroDiasTrabajados);
         celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
 
         /**
