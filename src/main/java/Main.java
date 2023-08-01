@@ -13,9 +13,13 @@ public class Main {
      */
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        System.out.print("*********************************************\n");
-        System.out.print("** PROGRAMA MEDICIONES PARTES TALARTOS S.L **\n");
-        System.out.print("*********************************************\n");
+        String brightMagentaColor = "\u001B[95m";
+
+        System.out.print("\n"+brightMagentaColor);
+
+        System.out.println("*********************************************");
+        System.out.println("** PROGRAMA MEDICIONES PARTES TALARTOS S.L **");
+        System.out.println("*********************************************");
 
         try {
             Thread.sleep(1000);
@@ -23,7 +27,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        System.out.println(" \n");
+        System.out.println("\n");
 
         System.out.println("CONSEJO: TEN CUIDADO A LA HORA DE ESCRIBIR, AL MÍNIMO FALLO GRAMÁTICO LA APLICACIÓN NO FUNCIONARÁ CORRÉCTAMENTE :))\n");
 
