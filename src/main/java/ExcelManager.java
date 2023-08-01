@@ -280,6 +280,8 @@ public class ExcelManager {
         estiloCeldaTitulo.setBorderBottom(BorderStyle.THIN);
         estiloCeldaTitulo.setBorderLeft(BorderStyle.THIN);
         estiloCeldaTitulo.setBorderRight(BorderStyle.THIN);
+        //PERMITE QUE EL TEXTO SE ENVUELVA
+        estiloCeldaTitulo.setWrapText(true);
 
         /**
          * Dar estilo de negrita y alineado para celdas con información
@@ -501,7 +503,16 @@ public class ExcelManager {
         celdaColumnaSumaTotalFijoSalida.setCellValue(contadorFijoSalida);
         celdaColumnaSumaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
 
-        contadorNumeroDiasTrabajados = obtenerDiasTrabajadosPorPersona(mapaApoyos);
+
+        HashMap<String, Integer> diasTrabajadosPorCapataz = obtenerDiasTrabajadosPorCapataz(mapaApoyos);
+
+        // Ahora imprimimos la información utilizando un bucle for tradicional
+        for (Map.Entry<String, Integer> entry : diasTrabajadosPorCapataz.entrySet()) {
+            capataz = entry.getKey();
+            int totalDiasTrabajados = entry.getValue();
+            contadorNumeroDiasTrabajados += totalDiasTrabajados;
+        }
+
         Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
         celdaColumnaSumaTotalNumDiasTrabaj.setCellValue(contadorNumeroDiasTrabajados);
         celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
@@ -544,45 +555,51 @@ public class ExcelManager {
         celdaColumnaSumaTotalFijoSalidaDivision.setCellValue(contadorFijoSalida);
         celdaColumnaSumaTotalFijoSalidaDivision.setCellStyle(estiloCeldaTitulo);
 
+        StringBuilder diasTrabajadosConcatenados = new StringBuilder();
+        for (Map.Entry<String, Integer> entry : diasTrabajadosPorCapataz.entrySet()) {
+            capataz = entry.getKey();
+            int totalDiasTrabajados = entry.getValue();
+            diasTrabajadosConcatenados.append("Capataz: ").append(capataz).append(", Días trabajados: ").append(totalDiasTrabajados).append("\n");
+        }
+
         Cell celdaColumnaSumaTotalNumDiasTrabajDivision = filaSumasDivisiones.createCell(10);
-        celdaColumnaSumaTotalNumDiasTrabajDivision.setCellValue(contadorNumeroDiasTrabajados);
+        celdaColumnaSumaTotalNumDiasTrabajDivision.setCellValue(diasTrabajadosConcatenados.toString());
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
     }
 
-
-    public static int obtenerDiasTrabajadosPorPersona(HashMap<Integer, Apoyo> mapaApoyos) {
+    public static HashMap<String, Integer> obtenerDiasTrabajadosPorCapataz(HashMap<Integer, Apoyo> mapaApoyos) {
         HashMap<String, HashSet<String>> diasTrabajadosPorPersona = new HashMap<>();
 
         for (Apoyo apoyo : mapaApoyos.values()) {
             String capataz = apoyo.getCapataz();
             String fecha = Double.toString(apoyo.getDia());
 
-            // Verificamos si el nombre del capataz ya está presente en el HashMap
             if (diasTrabajadosPorPersona.containsKey(capataz)) {
-                // Si el nombre ya está presente, obtenemos el HashSet de fechas trabajadas
                 HashSet<String> fechasTrabajadas = diasTrabajadosPorPersona.get(capataz);
-
-                // Verificamos si la fecha del apoyo ya ha sido contada para ese capataz
-                // Si no ha sido contada, agregamos la fecha al HashSet
                 if (!fechasTrabajadas.contains(fecha)) {
                     fechasTrabajadas.add(fecha);
                     diasTrabajadosPorPersona.put(capataz, fechasTrabajadas);
                 }
             } else {
-                // Si el nombre no está presente en el HashMap, creamos un nuevo HashSet con la fecha
                 HashSet<String> fechasTrabajadas = new HashSet<>();
                 fechasTrabajadas.add(fecha);
                 diasTrabajadosPorPersona.put(capataz, fechasTrabajadas);
             }
         }
 
-        // Obtenemos el total de días trabajados por cada capataz
-        int totalDiasTrabajados = 0;
-        for (HashSet<String> fechasTrabajadas : diasTrabajadosPorPersona.values()) {
-            totalDiasTrabajados += fechasTrabajadas.size();
+        // Calcular el total de días trabajados por cada capataz
+        HashMap<String, Integer> diasTrabajadosPorCapataz = new HashMap<>();
+        for (String capataz : diasTrabajadosPorPersona.keySet()) {
+            HashSet<String> fechasTrabajadas = diasTrabajadosPorPersona.get(capataz);
+            int totalDiasTrabajados = fechasTrabajadas.size();
+            diasTrabajadosPorCapataz.put(capataz, totalDiasTrabajados);
         }
 
-        return totalDiasTrabajados;
+        return diasTrabajadosPorCapataz;
     }
-
 }
+
+
+
+
+
