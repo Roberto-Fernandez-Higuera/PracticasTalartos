@@ -37,6 +37,7 @@ public class Main {
         Consola consola = new Consola();
         consola.ejecucionPrograma();
         // Fin ejecución
+        System.out.println("FIN\n");
         System.exit(0);
     }
 }

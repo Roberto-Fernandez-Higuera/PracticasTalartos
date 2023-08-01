@@ -17,7 +17,7 @@ public class Consola {
     private String nombreExcel;
     private ExcelManager excelManager = new ExcelManager();
     private String nombreExcelApoyos;
-    //private ExcelManagerCapataces excelManagerCapataces = new ExcelManagerCapataces(nombreExcelApoyos, nombreHojaCapataces);
+    private ExcelManagerCapataces excelManagerCapataces = new ExcelManagerCapataces();
 
     /**
      * Método encargado de la creación del Excel de apoyos realizados
@@ -50,12 +50,11 @@ public class Consola {
         excelManager.creacionExcelApoyosRealizados(nombreHojaApoyos, codigoHoja, nombreExcel);
 
 
-
         /**
          * PARTE EXCEL CAPATACES
          */
 
-        /*
+
         Scanner scSiONo = new Scanner(System.in);
 
         System.out.print("EXCEL DE APOYOS CREADO, ¿QUIÉRES GENERAR EL DE CAPATACES  Y/N? (Y para Sí, N para No)\n");
@@ -63,6 +62,7 @@ public class Consola {
 
         scSiONo.close();
 
+        //Si decide crear el CONTROL DE CAPATACES, ENTRO EN EL IF Y LO GENERO, DE LO CONTRARIO, SALGO
         if (siONo.equals("Y")) {
 
             Scanner scNombreExcelCapataces = new Scanner(System.in);
@@ -72,19 +72,12 @@ public class Consola {
 
             scNombreExcelCapataces.close();
 
-            Scanner sc = new Scanner(System.in);
-
-            System.out.print("Introduce el nombre de la hoja (capataz sobre el que quieres realizar cambios): \n");
-            String nombreHojaCapataces = scanner.nextLine();
-
-            sc.close();
-
-            excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, nombreHojaCapataces);
+            excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, nombreHojaApoyos ,codigoHoja);
         } else {
 
         }
 
-        */
+
     }
 
 }

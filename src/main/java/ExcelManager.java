@@ -35,7 +35,7 @@ public class ExcelManager {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Introduce el nombre del Excel de mediciones con el que quieres trabajar: \n");
+        System.out.print("Introduce el nombre del Excel de MEDICIONES con el que quieres trabajar: \n");
         nombreExcel = scanner.nextLine();
 
         String rutaExcel = "src/main/resources/"+nombreExcel+".xlsx";
@@ -84,7 +84,7 @@ public class ExcelManager {
                 }
 
                 /**
-                 * LONGITU LIMPIEZA
+                 * LONGITUD LIMPIEZA
                  */
                 if (fila.getCell(3) == null) {
                     apoyoAnyadir.setLongitudLimpieza(0);
