@@ -26,7 +26,7 @@ public class ExcelManagerCapataces {
     private ArrayList<String> listaCapatacesLinea = new ArrayList<>();
 
     //MAPAS A UTILIZAR
-    private HashMap<Integer, Capataz> mapaCapataces = new HashMap<>();
+    private HashMap<String, ArrayList<Capataz>> mapaCapataces = new HashMap<>();
 
     private String nombreHoja;
     private String nombreExcel;
@@ -35,13 +35,11 @@ public class ExcelManagerCapataces {
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
 
-    public ExcelManagerCapataces() {
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Introduce el nombre del Excel de APOYOS con el que quieres trabajar:\n");
-        nombreExcel = scanner.nextLine();
+    public ExcelManagerCapataces(String nombreExcel) {
+        this.nombreExcel = nombreExcel;
 
         String rutaExcel = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
+
         try {
             this.fileCapataces = new FileInputStream(rutaExcel);
             this.wbCapataces = new XSSFWorkbook(fileCapataces);
@@ -50,12 +48,37 @@ public class ExcelManagerCapataces {
             System.exit(-1);
         }
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Introduce el nombre de la hoja del Excel de APOYOS con la que quieres trabajar (línea de la que quieres que se cree el control de capataces):\n");
-        nombreHoja = sc.nextLine();
+        this.mapaCapataces = leerTodosLosNombresCapataces();
+    }
 
-        hojaApoyos = wbCapataces.getSheet(nombreHoja);
-        this.mapaCapataces = leerDatosCapataces();
+    /**
+     * Se recorren todas las hojas del archivo Excel de apoyo y se lee el nombre del capataz de cada hoja.
+     * Luego, se crea un HashMap llamado nombresCapatacesMap donde la clave es el nombre del capataz y el
+     * valor es una lista de objetos Capataz que contienen los datos correspondientes a ese capataz.
+     * @return
+     */
+    private HashMap<String, ArrayList<Capataz>> leerTodosLosNombresCapataces() {
+        HashMap<String, ArrayList<Capataz>> nombresCapatacesMap = new HashMap<>();
+
+        for (int i = 0; i < wbCapataces.getNumberOfSheets(); i++) {
+            hojaApoyos = wbCapataces.getSheetAt(i);
+            String nombreHoja = hojaApoyos.getSheetName();
+
+            ArrayList<Capataz> capatacesEnHoja = leerDatosCapataces();
+            if (!capatacesEnHoja.isEmpty()) {
+                for (Capataz capataz : capatacesEnHoja) {
+                    String nombreCapataz = capataz.getNombreApoyo().toUpperCase();
+                    String claveUnica = nombreCapataz;
+                    if (!nombresCapatacesMap.containsKey(claveUnica)) {
+                        nombresCapatacesMap.put(claveUnica, new ArrayList<>());
+                    }
+                    nombresCapatacesMap.get(claveUnica).add(capataz);
+                }
+                listaCapataces.addAll(capatacesEnHoja);
+            }
+        }
+
+        return nombresCapatacesMap;
     }
 
     /**
@@ -63,8 +86,9 @@ public class ExcelManagerCapataces {
      *
      * @return MAPA CAPATACES
      */
-    private HashMap leerDatosCapataces() {
+    private ArrayList<Capataz> leerDatosCapataces() {
         int numFilas = hojaApoyos.getLastRowNum() - 1;
+        ArrayList<Capataz> capatacesEnHoja = new ArrayList<>();
 
         for (int i = 2; i < numFilas; i++) {
             Row fila = hojaApoyos.getRow(i);
@@ -148,13 +172,20 @@ public class ExcelManagerCapataces {
                 capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
 
 
-                listaCapataces.add(capatazAnyadir);
-                mapaCapataces.put(id, capatazAnyadir);
+                capatacesEnHoja.add(capatazAnyadir);
+                String idStr = String.valueOf(id);
+                mapaCapataces.put(idStr, capatacesEnHoja);
             }
         }
-        return mapaCapataces;
+        return capatacesEnHoja;
     }
 
+    /**
+     * Se recorre la lista de capataces y se crea una hoja en el archivo Excel de capataces para cada capataz encontrado.
+     * @param nombreExcel
+     * @param zona
+     * @param codLinea
+     */
     public void creacionExcelControlCapataces(String nombreExcel, String zona, String codLinea) {
         String nombreArchivoSalida = "EXCELS_FINALES/EXCELS_CAPATACES/"+nombreExcel+".xlsx";
         File archivoSalida = new File(nombreArchivoSalida);
@@ -176,21 +207,23 @@ public class ExcelManagerCapataces {
             wbCapataces = new XSSFWorkbook();
         }
 
-        /**
-         * Comprobación de si las hojas ya existen en el excel con todos los trabajadores de la línea
-         */
+        // Utilizar un HashSet para almacenar los nombres únicos
+        HashSet<String> nombresUnicos = new HashSet<>();
+        nombresUnicos.addAll(mapaCapataces.keySet());
 
-        listaCapatacesLinea = capatacesLinea(listaCapataces);
-
-        for (int i = 0; i < listaCapatacesLinea.size() ;i++) {
-            Sheet hoja = wbCapataces.getSheet(listaCapatacesLinea.get(i));
-            if (hoja == null) {
-                hoja = wbCapataces.createSheet(listaCapatacesLinea.get(i));
+        for (String nombreCapataz : nombresUnicos) {
+            ArrayList<Capataz> capatacesEnHoja = mapaCapataces.get(nombreCapataz);
+            if (capatacesEnHoja != null) {
+                String nombreCapatazMayus = nombreCapataz.toUpperCase();
+                XSSFSheet hoja = wbCapataces.getSheet(nombreCapatazMayus);
+                if (hoja == null) {
+                    // La hoja no existe, la creamos
+                    hoja = wbCapataces.createSheet(nombreCapatazMayus);
+                }
+                introducirValoresCapataz(hoja, zona, codLinea, nombreCapatazMayus, capatacesEnHoja);
             }
-
-            //Método que va a crear y rellenar mi excel de apoyos
-            introducirValoresCapataz(hoja, zona, codLinea, listaCapatacesLinea.get(i));
         }
+
         try {
             fileModCapataces = new FileOutputStream(nombreArchivoSalida);
             wbCapataces.write(fileModCapataces);
@@ -215,7 +248,7 @@ public class ExcelManagerCapataces {
     }
 
     public static ArrayList<String> capatacesLinea(ArrayList<Capataz> listaCapataces){
-         ArrayList<String> listaCapatacesLinea = new ArrayList<>();
+        ArrayList<String> listaCapatacesLinea = new ArrayList<>();
 
         for (Capataz capataz : listaCapataces){
             String nombreCapataz = capataz.getNombreApoyo();
@@ -227,7 +260,17 @@ public class ExcelManagerCapataces {
         return listaCapatacesLinea;
     }
 
-    public void introducirValoresCapataz(Sheet hoja, String zona, String codLinea, String nombreHoja) {
+    /**
+     * Inserta los datos de cada capataz en su hoja correspondiente. Este método recibe la hoja, el nombre de la zona,
+     * el código de la línea, el nombre del capataz y la lista de capataces correspondiente a esa hoja. Luego, utiliza
+     * los datos de cada capataz para escribir en las celdas de la hoja.
+     * @param hoja
+     * @param zona
+     * @param codLinea
+     * @param nombreCapataz
+     * @param capatacesEnHoja
+     */
+    private void introducirValoresCapataz(Sheet hoja, String zona, String codLinea, String nombreCapataz, ArrayList<Capataz> capatacesEnHoja) {
         double fecha = 0;
         LocalDate diaLocalDate = null;
         Date fechaDate = null;
@@ -524,4 +567,5 @@ public class ExcelManagerCapataces {
         celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal);
         celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
     }
+
 }

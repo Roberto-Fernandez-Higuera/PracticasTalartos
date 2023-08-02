@@ -65,10 +65,15 @@ public class Consola {
 
             Scanner scNombreExcelCapataces = new Scanner(System.in);
 
-            System.out.print("Introduce el nombre del Excel sobre el que quieres trabajar (si existe accedes a él, de lo contrario creará uno nuevo): \n");
+            System.out.print("Introduce el nombre del Excel de CONTROL DE CAPATACES sobre el que quieres trabajar (si existe accedes a él, de lo contrario creará uno nuevo): \n");
             String nombreExcelCapataces = scNombreExcelCapataces.nextLine();
 
-            excelManagerCapataces = new ExcelManagerCapataces();
+            Scanner scNombreExcelParaCapataces = new Scanner(System.in);
+
+            System.out.print("Introduce el nombre del Excel de APOYOS sobre el que quieres generar CONTROL CAPATACES: \n");
+            String nombreExcelParaCapataces = scNombreExcelParaCapataces.nextLine();
+
+            excelManagerCapataces = new ExcelManagerCapataces(nombreExcelParaCapataces);
             excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, nombreHojaApoyos ,codigoHoja);
         } else {
 
