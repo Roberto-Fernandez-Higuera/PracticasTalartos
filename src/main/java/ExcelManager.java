@@ -138,15 +138,6 @@ public class ExcelManager {
                 }
 
                 /**
-                 * TALAS FUERA DE CALLE
-                 */
-                /*if (fila.getCell(6) == null) {
-                    apoyoAnyadir.setFijoSalida(0);
-                } else {
-                    apoyoAnyadir.setFijoSalida(fila.getCell(6).getNumericCellValue());
-                }*/
-
-                /**
                  * DÍA
                  */
                 apoyoAnyadir.setDia(fila.getCell(9).getNumericCellValue());
@@ -211,7 +202,7 @@ public class ExcelManager {
             wb.write(fileMod);
             fileMod.close();
         } catch (IOException e) {
-            System.out.println("Error al escribir EXCELL APOYOS\n");
+            System.out.println("Error al escribir EXCEL APOYOS, probablemente lo tengas abierto.\n");
             System.exit(-1);
         } finally {
             try {
@@ -240,7 +231,6 @@ public class ExcelManager {
         double longitudLimpieza = 0;
         double longitudApertura = 0;
         double anomaliaVegetacion = 0;
-        double longitudCopa = 0;
         double limpiezaBase = 0;
         double podaCalle = 0;
         double fijoSalida = 0;
@@ -420,14 +410,14 @@ public class ExcelManager {
                 celdaLimpiezaBase.setCellStyle(estiloCeldaInfo);
 
                 podaCalle = listaApoyos.get(i-2).getPodaCalle();
-                Cell celdaPodaCalle = fila.createCell(6);
                 contadorPodaCalle += podaCalle;
+                Cell celdaPodaCalle = fila.createCell(6);
                 celdaPodaCalle.setCellValue(podaCalle);
                 celdaPodaCalle.setCellStyle(estiloCeldaInfo);
 
                 fijoSalida = listaApoyos.get(i-2).getFijoSalida();
-                Cell celdaFijoSalida = fila.createCell(7);
                 contadorFijoSalida += fijoSalida;
+                Cell celdaFijoSalida = fila.createCell(7);
                 celdaFijoSalida.setCellValue(fijoSalida);
                 celdaFijoSalida.setCellStyle(estiloCeldaInfo);
 

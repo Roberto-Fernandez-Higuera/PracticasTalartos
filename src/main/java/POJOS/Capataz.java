@@ -224,4 +224,5 @@ public class Capataz implements java.io.Serializable {
     public void setTrabajoRematado(String trabajoRematado) {
         this.trabajoRematado = trabajoRematado;
     }
+
 }

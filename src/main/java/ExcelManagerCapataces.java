@@ -87,97 +87,119 @@ public class ExcelManagerCapataces {
      * @return MAPA CAPATACES
      */
     private ArrayList<Capataz> leerDatosCapataces() {
-        int numFilas = hojaApoyos.getLastRowNum() - 1;
-        ArrayList<Capataz> capatacesEnHoja = new ArrayList<>();
+        int numFilas;
+        ArrayList<Capataz> capatacesEnHoja;
+        ArrayList<Capataz> todosCapataces = new ArrayList<>();
+        HashMap<String, Capataz> datosPorFechaCapataz = new HashMap<>();
 
-        for (int i = 2; i < numFilas; i++) {
-            Row fila = hojaApoyos.getRow(i);
-            if (fila != null && fila.getCell(0) != null) {
-                Capataz capatazAnyadir = new Capataz();
+        for (int i = 0; i < wbCapataces.getNumberOfSheets(); i++) {
+            hojaApoyos = wbCapataces.getSheetAt(i);
+            numFilas = hojaApoyos.getLastRowNum() - 1;
+            capatacesEnHoja = new ArrayList<>();
 
-                /**
-                 * ID CAPATAZ
-                 */
-                Integer id = fila.getRowNum();
-                capatazAnyadir.setIdCapataz(id);
+            for (int j = 2; j < numFilas; j++) {
+                Row fila = hojaApoyos.getRow(j);
+                if (fila != null && fila.getCell(0) != null) {
+                    Capataz capatazAnyadir = new Capataz();
 
-                /**
-                 * NUM APOYOS CAPATAZ
-                 */
-                capatazAnyadir.setNumApoyos(0);
+                    /**
+                     * ID CAPATAZ
+                     */
+                    Integer id = fila.getRowNum();
+                    capatazAnyadir.setIdCapataz(id);
 
-                /**
-                 * LONGITUD MANTENIMIENTO
-                 */
-                capatazAnyadir.setLongMantenimiento(fila.getCell(1).getNumericCellValue());
+                    /**
+                     * NUM APOYOS CAPATAZ
+                     */
+                    capatazAnyadir.setNumApoyos(0);
 
-                /**
-                 * LONGITUD LIMPIEZA
-                 */
-                capatazAnyadir.setLongitudLimpieza(fila.getCell(2).getNumericCellValue());
+                    /**
+                     * LONGITUD MANTENIMIENTO
+                     */
+                    capatazAnyadir.setLongMantenimiento(fila.getCell(1).getNumericCellValue());
 
-                /**
-                 * LONGIUTD APERTURA
-                 */
-                capatazAnyadir.setLongApertura(fila.getCell(3).getNumericCellValue());
+                    /**
+                     * LONGITUD LIMPIEZA
+                     */
+                    capatazAnyadir.setLongitudLimpieza(fila.getCell(2).getNumericCellValue());
 
-                /**
-                 * NUM ANOMALIA
-                 */
-                capatazAnyadir.setAnomalia(fila.getCell(4).getNumericCellValue());
+                    /**
+                     * LONGIUTD APERTURA
+                     */
+                    capatazAnyadir.setLongApertura(fila.getCell(3).getNumericCellValue());
 
-                /**
-                 * LIMPIEZA BASE
-                 */
-                capatazAnyadir.setLimpiezaBase(fila.getCell(5).getNumericCellValue());
+                    /**
+                     * NUM ANOMALIA
+                     */
+                    capatazAnyadir.setAnomalia(fila.getCell(4).getNumericCellValue());
 
-                /**
-                 * PODA CALLE
-                 */
-                capatazAnyadir.setPodaCalle(fila.getCell(6).getNumericCellValue());
+                    /**
+                     * LIMPIEZA BASE
+                     */
+                    capatazAnyadir.setLimpiezaBase(fila.getCell(5).getNumericCellValue());
 
-                /**
-                 * FIJO SALIDA
-                 */
-                capatazAnyadir.setFijoSalida(fila.getCell(7).getNumericCellValue());
+                    /**
+                     * PODA CALLE
+                     */
+                    capatazAnyadir.setPodaCalle(fila.getCell(6).getNumericCellValue());
 
-                /**
-                 * DÍA APOYO
-                 */
-                capatazAnyadir.setDia(fila.getCell(7).getNumericCellValue());
+                    /**
+                     * FIJO SALIDA
+                     */
+                    capatazAnyadir.setFijoSalida(fila.getCell(7).getNumericCellValue());
 
-                /**
-                 * NOMBRE APOYO
-                 */
-                capatazAnyadir.setNombreApoyo(fila.getCell(9).getStringCellValue());
+                    /**
+                     * DÍA APOYO
+                     */
+                    capatazAnyadir.setDia(fila.getCell(8).getNumericCellValue());
 
-                /**
-                 * N DIAS TRABAJADOS
-                 */
-                capatazAnyadir.setNumDiasTrabajados(0);
+                    /**
+                     * NOMBRE APOYO
+                     */
+                    capatazAnyadir.setNombreApoyo(fila.getCell(9).getStringCellValue());
 
-                /**
-                 * PENDIENTE TRACTOR
-                 */
-                capatazAnyadir.setPendienteTractor(fila.getCell(11).getStringCellValue());
+                    /**
+                     * N DIAS TRABAJADOS
+                     */
+                    capatazAnyadir.setNumDiasTrabajados(0);
 
-                /**
-                 * TRABAJO REMATADO
-                 */
-                capatazAnyadir.setTrabajoRematado(fila.getCell(12).getStringCellValue());
+                    /**
+                     * PENDIENTE TRACTOR
+                     */
+                    capatazAnyadir.setPendienteTractor(fila.getCell(11).getStringCellValue());
 
-                /**
-                 * OBSERVACIONES
-                 */
-                capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
+                    /**
+                     * TRABAJO REMATADO
+                     */
+                    capatazAnyadir.setTrabajoRematado(fila.getCell(12).getStringCellValue());
 
+                    /**
+                     * OBSERVACIONES
+                     */
+                    capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
 
-                capatacesEnHoja.add(capatazAnyadir);
-                String idStr = String.valueOf(id);
-                mapaCapataces.put(idStr, capatacesEnHoja);
+                    String nombreCapataz = capatazAnyadir.getNombreApoyo();
+                    double fecha = capatazAnyadir.getDia();
+                    String claveFechaCapataz = fecha + "-" + nombreCapataz;
+                    Capataz capatazTemporal = datosPorFechaCapataz.getOrDefault(claveFechaCapataz, new Capataz());
+
+                    capatazTemporal.setLongMantenimiento(capatazTemporal.getLongMantenimiento() + capatazAnyadir.getLongMantenimiento());
+                    capatazTemporal.setLongitudLimpieza(capatazTemporal.getLongitudLimpieza() + capatazAnyadir.getLimpiezaBase());
+                    // Sumar los demás atributos relevantes para la suma
+
+                    datosPorFechaCapataz.put(claveFechaCapataz, capatazTemporal);
+
+                    capatacesEnHoja.add(capatazAnyadir);
+
+                    /*
+                    String idStr = String.valueOf(id);
+                    mapaCapataces.put(idStr, capatacesEnHoja);
+                    */
+                }
             }
+            todosCapataces.addAll(capatacesEnHoja);
         }
-        return capatacesEnHoja;
+        return todosCapataces;
     }
 
     /**
