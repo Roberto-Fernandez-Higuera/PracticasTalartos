@@ -435,7 +435,6 @@ public class ExcelManager {
 
                 Cell celdaNumDiasTrabajados = fila.createCell(10);
                 celdaNumDiasTrabajados.setCellValue("");
-
                 celdaNumDiasTrabajados.setCellStyle(estiloCeldaInfo);
 
                 Cell celdaPendienteTractor = fila.createCell(11);

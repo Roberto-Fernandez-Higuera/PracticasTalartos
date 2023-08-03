@@ -98,8 +98,7 @@ public class Apoyo implements java.io.Serializable {
         return this.podaCalle;
     }
 
-    public void setPodaCalle(double talasFueraCalle) {
-        this.podaCalle = podaCalle;
+    public void setPodaCalle(double podaCalle) {this.podaCalle = podaCalle;
     }
 
     public double getFijoSalida() {
