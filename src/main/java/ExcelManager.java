@@ -312,7 +312,7 @@ public class ExcelManager {
             if (i == 0) {
 
                 Cell celdaTitulo = fila.createCell(0);
-                celdaTitulo.setCellValue(codigoHoja+ " "+nombreHoja);
+                celdaTitulo.setCellValue(codigoHoja+ " " +nombreHoja);
 
             } else if (i == 1) {
 
