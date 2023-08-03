@@ -636,5 +636,4 @@ public class ExcelManagerCapataces {
         celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
 
     }
-
 }
