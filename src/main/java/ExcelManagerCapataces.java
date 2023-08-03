@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -151,7 +152,17 @@ public class ExcelManagerCapataces {
                     /**
                      * DÍA APOYO
                      */
-                    capatazAnyadir.setDia(fila.getCell(8).getNumericCellValue());
+                    if (fila != null && fila.getCell(8) != null) {
+                        Cell fechaCell = fila.getCell(8);
+                        if (fechaCell.getCellType() == CellType.NUMERIC) {
+                            double fechaExcel = fechaCell.getNumericCellValue();
+                            capatazAnyadir.setDia(fechaExcel);
+                        } else {
+                            throw new RuntimeException("La celda no es de tipo numérico.");
+                        }
+                    } else {
+
+                    }
 
                     /**
                      * NOMBRE APOYO
@@ -176,25 +187,34 @@ public class ExcelManagerCapataces {
                     /**
                      * OBSERVACIONES
                      */
-                    capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
+                    if (fila.getCell(13).getStringCellValue().equals("")) {
+                        capatazAnyadir.setObservaciones("");
+                    } else {
+                        capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
+                    }
 
                     String nombreCapataz = capatazAnyadir.getNombreApoyo();
                     double fecha = capatazAnyadir.getDia();
                     String claveFechaCapataz = fecha + "-" + nombreCapataz;
                     Capataz capatazTemporal = datosPorFechaCapataz.getOrDefault(claveFechaCapataz, new Capataz());
 
+                    capatazTemporal.setNumApoyos(capatazTemporal.getNumApoyos() + capatazAnyadir.getNumApoyos());
+                    capatazTemporal.setFijoSalida(capatazTemporal.getFijoSalida() + capatazAnyadir.getFijoSalida());
                     capatazTemporal.setLongMantenimiento(capatazTemporal.getLongMantenimiento() + capatazAnyadir.getLongMantenimiento());
+                    capatazTemporal.setAnomalia(capatazTemporal.getAnomalia() + capatazAnyadir.getAnomalia());
+                    capatazTemporal.setLongApertura(capatazTemporal.getLongApertura() + capatazAnyadir.getLongApertura());
+                    capatazTemporal.setTalasFuera(capatazTemporal.getTalasFuera() + capatazAnyadir.getTalasFuera());
                     capatazTemporal.setLongitudLimpieza(capatazTemporal.getLongitudLimpieza() + capatazAnyadir.getLimpiezaBase());
-                    // Sumar los demás atributos relevantes para la suma
+                    capatazTemporal.setKm(capatazTemporal.getKm() + capatazAnyadir.getKm());
+                    capatazTemporal.setImporteMedios(capatazTemporal.getImporteMedios() + capatazAnyadir.getImporteMedios());
+                    capatazTemporal.setImporteCoeficiente(capatazTemporal.getImporteCoeficiente() + capatazAnyadir.getImporteCoeficiente());
+                    capatazTemporal.setZona(capatazTemporal.getZona() + capatazAnyadir.getZona());
+                    capatazTemporal.setObservaciones(capatazTemporal.getObservaciones() + capatazAnyadir.getObservaciones());
+                    capatazTemporal.setCodLinea(capatazTemporal.getCodLinea() + capatazAnyadir.getCodLinea());
 
                     datosPorFechaCapataz.put(claveFechaCapataz, capatazTemporal);
 
                     capatacesEnHoja.add(capatazAnyadir);
-
-                    /*
-                    String idStr = String.valueOf(id);
-                    mapaCapataces.put(idStr, capatacesEnHoja);
-                    */
                 }
             }
             todosCapataces.addAll(capatacesEnHoja);
@@ -239,7 +259,6 @@ public class ExcelManagerCapataces {
                 String nombreCapatazMayus = nombreCapataz.toUpperCase();
                 XSSFSheet hoja = wbCapataces.getSheet(nombreCapatazMayus);
                 if (hoja == null) {
-                    // La hoja no existe, la creamos
                     hoja = wbCapataces.createSheet(nombreCapatazMayus);
                 }
                 introducirValoresCapataz(hoja, zona, codLinea, nombreCapatazMayus, capatacesEnHoja);
@@ -269,7 +288,7 @@ public class ExcelManagerCapataces {
         }
     }
 
-    public static ArrayList<String> capatacesLinea(ArrayList<Capataz> listaCapataces){
+    /*public static ArrayList<String> capatacesLinea(ArrayList<Capataz> listaCapataces){
         ArrayList<String> listaCapatacesLinea = new ArrayList<>();
 
         for (Capataz capataz : listaCapataces){
@@ -280,7 +299,7 @@ public class ExcelManagerCapataces {
             }
         }
         return listaCapatacesLinea;
-    }
+    }*/
 
     /**
      * Inserta los datos de cada capataz en su hoja correspondiente. Este método recibe la hoja, el nombre de la zona,
@@ -301,13 +320,12 @@ public class ExcelManagerCapataces {
         double longMantenimiento = 0;
         double anomalia = 0;
         double longApertura = 0;
-        String talasFuera = "";
+        double talasFuera = 0;
         double limpiezaBase = 0;
         double km = 0;
         double importeMedios = 0;
         double importeCoeficiente = 0;
         String observaciones = "";
-        int contadorApoyos = 0;
         int contadorFijoSalida = 0;
         int contadorLongMantenimiento = 0;
         int contadorAnomalia = 0;
@@ -317,9 +335,12 @@ public class ExcelManagerCapataces {
         int contadorKm = 0;
         int contadorImporteMedio = 0;
         int contadorImporteCoeficiente = 0;
+        int contadorNumApoyos = 0;
         // ***importeCoeficiente/7***
         int importeCoeficienteSemanal = 0;
 
+        int filaNueva = 0;
+        //TÍTULOS
 
         /**
          * Dar estilo de color y alineado para el título
@@ -376,166 +397,191 @@ public class ExcelManagerCapataces {
         estiloFecha.setBorderLeft(BorderStyle.THIN);
         estiloFecha.setBorderRight(BorderStyle.THIN);
 
+        for (Capataz capataz : capatacesEnHoja) {
+            Row filaTitulos = hoja.createRow(0);
 
-        for (int i = 0; i < listaCapataces.size() + 1; i++) {
-            Row fila = hoja.createRow(i);
+            Cell celdaColumnaDia = filaTitulos.createCell(0);
+            celdaColumnaDia.setCellValue("DÍA");
+            celdaColumnaDia.setCellStyle(estiloCeldaTitulo);
 
-            if (i == 0) {
+            Cell celdaColumnaApoyos = filaTitulos.createCell(1);
+            celdaColumnaApoyos.setCellValue("APOYOS");
+            celdaColumnaApoyos.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaDia = fila.createCell(0);
-                celdaColumnaDia.setCellValue("DÍA");
-                celdaColumnaDia.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaFijoSalida = filaTitulos.createCell(2);
+            celdaColumnaFijoSalida.setCellValue("FIJO\nSALIDA");
+            celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaApoyos = fila.createCell(1);
-                celdaColumnaApoyos.setCellValue("APOYOS");
-                celdaColumnaApoyos.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaLongitudMantenimineto = filaTitulos.createCell(3);
+            celdaColumnaLongitudMantenimineto.setCellValue("LONG\nMANT");
+            celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaFijoSalida = fila.createCell(2);
-                celdaColumnaFijoSalida.setCellValue("FIJO SALIDA");
-                celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaAnomalia = filaTitulos.createCell(4);
+            celdaColumnaAnomalia.setCellValue("ANOMALIAS");
+            celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaLongitudMantenimineto = fila.createCell(3);
-                celdaColumnaLongitudMantenimineto.setCellValue("LONG MANT");
-                celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaLongitudApertura = filaTitulos.createCell(5);
+            celdaColumnaLongitudApertura.setCellValue("LONGITUD\nAPERTURA");
+            celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaAnomalia = fila.createCell(4);
-                celdaColumnaAnomalia.setCellValue("ANOMALIAS");
-                celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTalasFueraCalle = filaTitulos.createCell(6);
+            celdaColumnaTalasFueraCalle.setCellValue("TALAS FUERA\nDE LA CALLE");
+            celdaColumnaTalasFueraCalle.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaLongitudApertura = fila.createCell(5);
-                celdaColumnaLongitudApertura.setCellValue("LONGITUD APERTURA");
-                celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaLimpiezaBase = filaTitulos.createCell(7);
+            celdaColumnaLimpiezaBase.setCellValue("LIMPIEZA\nBASE");
+            celdaColumnaLimpiezaBase.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaTalasFueraCalle = fila.createCell(6);
-                celdaColumnaTalasFueraCalle.setCellValue("TALAS FUERA DE LA CALLE");
-                celdaColumnaTalasFueraCalle.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaIdentZonasNuecas = filaTitulos.createCell(8);
+            celdaColumnaIdentZonasNuecas.setCellValue("KM");
+            celdaColumnaIdentZonasNuecas.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaLimpiezaBase = fila.createCell(7);
-                celdaColumnaLimpiezaBase.setCellValue("LIMPIEZA BASE");
-                celdaColumnaLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaImporte = filaTitulos.createCell(9);
+            celdaColumnaImporte.setCellValue("IMPORTE\nMEDIOS");
+            celdaColumnaImporte.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaIdentZonasNuecas = fila.createCell(8);
-                celdaColumnaIdentZonasNuecas.setCellValue("KM");
-                celdaColumnaIdentZonasNuecas.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaImporteCoeficiente = filaTitulos.createCell(10);
+            celdaColumnaImporteCoeficiente.setCellValue("IMPORTE\nCOEFICIENTE");
+            celdaColumnaImporteCoeficiente.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaImporte = fila.createCell(9);
-                celdaColumnaImporte.setCellValue("IMPORTE MEDIOS");
-                celdaColumnaImporte.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaZONA = filaTitulos.createCell(11);
+            celdaColumnaZONA.setCellValue("ZONA");
+            celdaColumnaZONA.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaImporteCoeficiente = fila.createCell(10);
-                celdaColumnaImporteCoeficiente.setCellValue("IMPORTE COEFICIENTE");
-                celdaColumnaImporteCoeficiente.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaOBSERVACIONES = filaTitulos.createCell(12);
+            celdaColumnaOBSERVACIONES.setCellValue("OBSERVACIONES");
+            celdaColumnaOBSERVACIONES.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaZONA = fila.createCell(11);
-                celdaColumnaZONA.setCellValue("ZONA");
-                celdaColumnaZONA.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaCODLINEA = filaTitulos.createCell(13);
+            celdaColumnaCODLINEA.setCellValue("COD LINEA");
+            celdaColumnaCODLINEA.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaOBSERVACIONES = fila.createCell(12);
-                celdaColumnaOBSERVACIONES.setCellValue("OBSERVACIONES");
-                celdaColumnaOBSERVACIONES.setCellStyle(estiloCeldaTitulo);
+            /**
+             * INFO CAPATACES
+             */
+            Row fila = hoja.createRow(filaNueva);
 
-                Cell celdaColumnaCODLINEA = fila.createCell(13);
-                celdaColumnaCODLINEA.setCellValue("COD LINEA");
-                celdaColumnaCODLINEA.setCellStyle(estiloCeldaTitulo);
+            // DÍA
+            fecha = capataz.getDia();
+            diaLocalDate = LocalDate.of(1899, 12, 30).plusDays((long) fecha);
+            fechaDate = Date.from(diaLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Cell celdaFecha = fila.createCell(0);
+            celdaFecha.setCellValue(fechaDate);
+            celdaFecha.setCellStyle(estiloFecha);
 
-            } else {
+            // Número de apoyos
+            numApoyos = capataz.getNumApoyos();
+            contadorNumApoyos += numApoyos;
+            Cell celdaNumApoyos = fila.createCell(1);
+            celdaNumApoyos.setCellValue(numApoyos);
+            celdaNumApoyos.setCellStyle(estiloCeldaInfo);
 
-                fecha = listaCapataces.get(i-1).getDia();
-                diaLocalDate =  LocalDate.of(1899, 12, 30).plusDays((long) fecha);
-                fechaDate = Date.from(diaLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Cell celdaDia = fila.createCell(0);
-                celdaDia.setCellValue(fechaDate);
-                celdaDia.setCellStyle(estiloFecha);
+            // Fijo salida
+            fijoSalida = capataz.getFijoSalida();
+            contadorFijoSalida +=fijoSalida;
+            Cell celdaFijoSalida = fila.createCell(2);
+            celdaFijoSalida.setCellValue(fijoSalida);
+            celdaFijoSalida.setCellStyle(estiloCeldaInfo);
 
-                numApoyos = listaCapataces.get(i-1).getNumApoyos();
-                contadorApoyos += numApoyos;
-                Cell celdaNumApoyos = fila.createCell(1);
-                celdaNumApoyos.setCellValue(numApoyos);
-                celdaNumApoyos.setCellStyle(estiloCeldaInfo);
+            // Longitud mantenimiento
+            longMantenimiento = capataz.getLongMantenimiento();
+            contadorLongMantenimiento += longMantenimiento;
+            Cell celdaLongMantenimiento = fila.createCell(3);
+            celdaLongMantenimiento.setCellValue(longMantenimiento);
+            celdaLongMantenimiento.setCellStyle(estiloCeldaInfo);
 
-                fijoSalida = listaCapataces.get(i-1).getFijoSalida();
-                contadorFijoSalida += fijoSalida;
-                Cell celdaFijoSalida = fila.createCell(2);
-                celdaFijoSalida.setCellValue(fijoSalida);
-                celdaFijoSalida.setCellStyle(estiloCeldaInfo);
+            // Anomalía
+            anomalia = capataz.getAnomalia();
+            contadorAnomalia += anomalia;
+            Cell celdaAnomalia = fila.createCell(4);
+            celdaAnomalia.setCellValue(anomalia);
+            celdaAnomalia.setCellStyle(estiloCeldaInfo);
 
-                longMantenimiento = listaCapataces.get(i-1).getLongMantenimiento();
-                contadorLongMantenimiento += longMantenimiento;
-                Cell celdaLongMantenimiento = fila.createCell(3);
-                celdaLongMantenimiento.setCellValue(longMantenimiento);
-                celdaLongMantenimiento.setCellStyle(estiloCeldaInfo);
+            // Longitud apertura
+            longApertura = capataz.getLongApertura();
+            contadorLongApertura += longApertura;
+            Cell celdaLongApertura = fila.createCell(5);
+            celdaLongApertura.setCellValue(longApertura);
+            celdaLongApertura.setCellStyle(estiloCeldaInfo);
 
-                anomalia = listaCapataces.get(i-1).getAnomalia();
-                contadorAnomalia += anomalia;
-                Cell celdaAnomalia = fila.createCell(4);
-                celdaAnomalia.setCellValue(anomalia);
-                celdaAnomalia.setCellStyle(estiloCeldaInfo);
+            // Talas fuera
+            talasFuera = capataz.getTalasFuera();
+            contadorTalasFuera += talasFuera;
+            Cell celdaTalasFuera = fila.createCell(6);
+            celdaTalasFuera.setCellValue(talasFuera);
+            celdaTalasFuera.setCellStyle(estiloCeldaInfo);
 
-                longApertura = listaCapataces.get(i-1).getLongApertura();
-                contadorLongApertura += longApertura;
-                Cell celdaLongApertura = fila.createCell(5);
-                celdaLongApertura.setCellValue(longApertura);
-                celdaLongApertura.setCellStyle(estiloCeldaInfo);
+            // Limpieza base
+            limpiezaBase = capataz.getLimpiezaBase();
+            contadorLimpiezaBase += limpiezaBase;
+            Cell celdaLimpiezaBase = fila.createCell(7);
+            celdaLimpiezaBase.setCellValue(limpiezaBase);
+            celdaLimpiezaBase.setCellStyle(estiloCeldaInfo);
 
-                Cell celdaTalasFuera = fila.createCell(6);
-                celdaTalasFuera.setCellValue(talasFuera);
-                celdaTalasFuera.setCellStyle(estiloCeldaInfo);
+            // KM
+            km = capataz.getKm();
+            contadorKm += km;
+            Cell celdaKm = fila.createCell(8);
+            celdaKm.setCellValue(km);
+            celdaKm.setCellStyle(estiloCeldaInfo);
 
-                limpiezaBase = listaCapataces.get(i-1).getLimpiezaBase();
-                contadorLimpiezaBase += limpiezaBase;
-                Cell celdaLimpiezaBase = fila.createCell(7);
-                celdaLimpiezaBase.setCellValue(limpiezaBase);
-                celdaLimpiezaBase.setCellStyle(estiloCeldaInfo);
+            // Importe medios
+            importeMedios = capataz.getImporteMedios();
+            contadorImporteMedio += importeMedios;
+            Cell celdaImporteMedios = fila.createCell(9);
+            celdaImporteMedios.setCellValue(importeMedios);
+            celdaImporteMedios.setCellStyle(estiloCeldaInfo);
 
-                /**
-                 * PREGUNTAR FUNCIONAMIENTO
-                 */
-                km = listaCapataces.get(i-1).getKm();
-                contadorKm += km;
-                Cell celdaKm = fila.createCell(8);
-                celdaKm.setCellValue(km);
-                celdaKm.setCellStyle(estiloCeldaInfo);
+            // Importe coeficiente
+            importeCoeficiente = capataz.getImporteCoeficiente();
+            contadorImporteCoeficiente += importeCoeficiente;
+            Cell celdaImporteCoeficiente = fila.createCell(10);
+            celdaImporteCoeficiente.setCellValue(importeCoeficiente);
+            celdaImporteCoeficiente.setCellStyle(estiloCeldaInfo);
 
-                /**
-                 * PREGUNTAR FUNCIONAMIENTO
-                 */
-                importeMedios = listaCapataces.get(i-1).getImporteMedios();
-                contadorImporteMedio += importeMedios;
-                Cell celdaImporteMedios = fila.createCell(9);
-                celdaImporteMedios.setCellValue(importeMedios);
-                celdaImporteMedios.setCellStyle(estiloCeldaInfo);
+            // Zona
+            zona = capataz.getZona();
+            Cell celdaZona = fila.createCell(11);
+            celdaZona.setCellValue(zona);
+            celdaZona.setCellStyle(estiloCeldaInfo);
 
-                /**
-                 * PREGUNTAR FUNCIONAMIENTO
-                 */
-                importeCoeficiente = listaCapataces.get(i-1).getImporteCoeficiente();
-                contadorImporteCoeficiente += importeCoeficiente;
-                Cell celdaImporteCoeficiente = fila.createCell(10);
-                celdaImporteCoeficiente.setCellValue(importeCoeficiente);
-                celdaImporteCoeficiente.setCellStyle(estiloCeldaInfo);
+            // Observaciones
+            observaciones = capataz.getObservaciones();
+            Cell celdaObservaciones = fila.createCell(12);
+            celdaObservaciones.setCellValue(observaciones);
+            celdaObservaciones.setCellStyle(estiloCeldaInfo);
 
-                Cell celdaZona = fila.createCell(11);
-                celdaZona.setCellValue(zona);
-                celdaZona.setCellStyle(estiloCeldaInfo);
+            // Cod Línea
+            codLinea = capataz.getCodLinea();
+            Cell celdaCodLinea = fila.createCell(13);
+            celdaCodLinea.setCellValue(codLinea);
+            celdaCodLinea.setCellStyle(estiloCeldaInfo);
 
-                observaciones = listaCapataces.get(i-1).getObservaciones();
-                Cell celdaObservaciones = fila.createCell(12);
-                celdaObservaciones.setCellValue(observaciones);
-                celdaObservaciones.setCellStyle(estiloCeldaInfo);
-
-                Cell celdaCodLinea = fila.createCell(13);
-                celdaCodLinea.setCellValue(codLinea);
-                celdaCodLinea.setCellStyle(estiloCeldaInfo);
-            }
+            filaNueva++;
         }
+
+        hoja.autoSizeColumn(0);
+        hoja.autoSizeColumn(1);
+        hoja.autoSizeColumn(2);
+        hoja.autoSizeColumn(3);
+        hoja.autoSizeColumn(4);
+        hoja.autoSizeColumn(5);
+        hoja.autoSizeColumn(6);
+        hoja.autoSizeColumn(7);
+        hoja.autoSizeColumn(8);
+        hoja.autoSizeColumn(9);
+        hoja.autoSizeColumn(10);
+        hoja.autoSizeColumn(11);
+        hoja.autoSizeColumn(12);
+        hoja.autoSizeColumn(13);
 
         /**
          * CELDAS DE OPERACIONES FINALES, PREGUNTAR A INÉS SI SE NECESITAN MÁS
          */
-        Row filaSumas = hoja.createRow(listaCapataces.size() + 1);
+        Row filaSumas = hoja.createRow(capatacesEnHoja.size());
 
         Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
-        celdaColumnaTotalApoyos.setCellValue(contadorApoyos);
+        celdaColumnaTotalApoyos.setCellValue(contadorNumApoyos);
         celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaTotalFijoSalida = filaSumas.createCell(2);
@@ -578,16 +624,17 @@ public class ExcelManagerCapataces {
          * PREGUNTAR A INÉS SOBRE ESTO
          */
 
-        Row filaImporteCoeficienteSemanal = hoja.createRow(listaCapataces.size() + 3);
+        Row filaImporteCoeficienteSemanal = hoja.createRow(capatacesEnHoja.size() + 2);
 
         Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(11);
-        celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE SEMANAL:");
+        celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE\nSEMANAL:");
         celdaColumnaTextoParaCoeficienteSemanala.setCellStyle(estiloCeldaTitulo);
 
         Cell celdaColumnaTotalImporteCoeficienteSemanal = filaImporteCoeficienteSemanal.createCell(12);
         importeCoeficienteSemanal = contadorImporteCoeficiente / 7;
         celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal);
         celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
+
     }
 
 }
