@@ -343,7 +343,7 @@ public class ExcelManagerCapataces {
         if (hoja.getLastRowNum() > 1){
             filaNueva = hoja.getLastRowNum() - 2;
         } else {
-            filaNueva = hoja.getLastRowNum() + 1;
+            filaNueva = 1;
         }
         //TÍTULOS
 
@@ -402,7 +402,9 @@ public class ExcelManagerCapataces {
         estiloFecha.setBorderLeft(BorderStyle.THIN);
         estiloFecha.setBorderRight(BorderStyle.THIN);
 
-        for (Capataz capataz : capatacesEnHoja) {
+        for (int k = 0; k < capatacesEnHoja.size()/2; k++) {
+            Capataz capataz = capatacesEnHoja.get(k);
+
             Row filaTitulos = hoja.createRow(0);
 
             Cell celdaColumnaDia = filaTitulos.createCell(0);
