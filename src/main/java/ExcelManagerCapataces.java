@@ -339,7 +339,12 @@ public class ExcelManagerCapataces {
         // ***importeCoeficiente/7***
         int importeCoeficienteSemanal = 0;
 
-        int filaNueva = 0;
+        int filaNueva;
+        if (hoja.getLastRowNum() > 1){
+            filaNueva = hoja.getLastRowNum() - 2;
+        } else {
+            filaNueva = hoja.getLastRowNum() + 1;
+        }
         //TÍTULOS
 
         /**
@@ -578,7 +583,7 @@ public class ExcelManagerCapataces {
         /**
          * CELDAS DE OPERACIONES FINALES, PREGUNTAR A INÉS SI SE NECESITAN MÁS
          */
-        Row filaSumas = hoja.createRow(capatacesEnHoja.size());
+        Row filaSumas = hoja.createRow(filaNueva);
 
         Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
         celdaColumnaTotalApoyos.setCellValue(contadorNumApoyos);
@@ -624,7 +629,7 @@ public class ExcelManagerCapataces {
          * PREGUNTAR A INÉS SOBRE ESTO
          */
 
-        Row filaImporteCoeficienteSemanal = hoja.createRow(capatacesEnHoja.size() + 2);
+        Row filaImporteCoeficienteSemanal = hoja.createRow(filaNueva + 2);
 
         Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(11);
         celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE\nSEMANAL:");
