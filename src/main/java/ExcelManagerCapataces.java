@@ -89,7 +89,7 @@ public class ExcelManagerCapataces {
      *
      * @return MAPA CAPATACES
      */
-    private ArrayList<Capataz> leerDatosCapataces() {
+    private  ArrayList<Capataz> leerDatosCapataces() {
         int numFilas;
         ArrayList<Capataz> capatacesEnHoja;
         ArrayList<Capataz> todosCapataces = new ArrayList<>();
@@ -198,34 +198,41 @@ public class ExcelManagerCapataces {
                     /**
                      * COD LÍNEA Y NOMBRE LÍNEA
                      */
-                    capatazAnyadir.setCodLinea(hojaApoyos.getRow(0).getCell(0).getStringCellValue());
+                    capatazAnyadir.setCodLinea(hojaApoyos.getRow(0).getCell(0).getStringCellValue() + " ");
 
                     String nombreCapataz = capatazAnyadir.getNombreApoyo();
                     double fecha = capatazAnyadir.getDia();
                     String claveFechaCapataz = fecha + "-" + nombreCapataz;
-                    Capataz capatazTemporal = datosPorFechaCapataz.getOrDefault(claveFechaCapataz, new Capataz());
 
-                    capatazTemporal.setNumApoyos(capatazTemporal.getNumApoyos() + capatazAnyadir.getNumApoyos());
-                    capatazTemporal.setFijoSalida(capatazTemporal.getFijoSalida() + capatazAnyadir.getFijoSalida());
-                    capatazTemporal.setLongMantenimiento(capatazTemporal.getLongMantenimiento() + capatazAnyadir.getLongMantenimiento());
-                    capatazTemporal.setAnomalia(capatazTemporal.getAnomalia() + capatazAnyadir.getAnomalia());
-                    capatazTemporal.setLongApertura(capatazTemporal.getLongApertura() + capatazAnyadir.getLongApertura());
-                    capatazTemporal.setTalasFuera(capatazTemporal.getTalasFuera() + capatazAnyadir.getTalasFuera());
-                    capatazTemporal.setLongitudLimpieza(capatazTemporal.getLongitudLimpieza() + capatazAnyadir.getLimpiezaBase());
-                    capatazTemporal.setKm(capatazTemporal.getKm() + capatazAnyadir.getKm());
-                    capatazTemporal.setImporteMedios(capatazTemporal.getImporteMedios() + capatazAnyadir.getImporteMedios());
-                    capatazTemporal.setImporteCoeficiente(capatazTemporal.getImporteCoeficiente() + capatazAnyadir.getImporteCoeficiente());
-                    capatazTemporal.setZona(capatazTemporal.getZona() + capatazAnyadir.getZona());
-                    capatazTemporal.setObservaciones(capatazTemporal.getObservaciones() + capatazAnyadir.getObservaciones());
-                    capatazTemporal.setCodLinea(capatazTemporal.getCodLinea() + capatazAnyadir.getCodLinea());
+                    if (datosPorFechaCapataz.containsKey(claveFechaCapataz)) {
+                        // Si ya existe una entrada para esta fecha y capataz, actualiza los valores
+                        Capataz capatazTemporal = datosPorFechaCapataz.get(claveFechaCapataz);
 
-                    datosPorFechaCapataz.put(claveFechaCapataz, capatazTemporal);
+                        capatazTemporal.setNumApoyos(capatazTemporal.getNumApoyos() + capatazAnyadir.getNumApoyos());
+                        capatazTemporal.setFijoSalida(capatazTemporal.getFijoSalida() + capatazAnyadir.getFijoSalida());
+                        capatazTemporal.setLongMantenimiento(capatazTemporal.getLongMantenimiento() + capatazAnyadir.getLongMantenimiento());
+                        capatazTemporal.setAnomalia(capatazTemporal.getAnomalia() + capatazAnyadir.getAnomalia());
+                        capatazTemporal.setLongApertura(capatazTemporal.getLongApertura() + capatazAnyadir.getLongApertura());
+                        capatazTemporal.setTalasFuera(capatazTemporal.getTalasFuera() + capatazAnyadir.getTalasFuera());
+                        capatazTemporal.setLongitudLimpieza(capatazTemporal.getLongitudLimpieza() + capatazAnyadir.getLimpiezaBase());
+                        capatazTemporal.setKm(capatazTemporal.getKm() + capatazAnyadir.getKm());
+                        capatazTemporal.setImporteMedios(capatazTemporal.getImporteMedios() + capatazAnyadir.getImporteMedios());
+                        capatazTemporal.setImporteCoeficiente(capatazTemporal.getImporteCoeficiente() + capatazAnyadir.getImporteCoeficiente());
+                        capatazTemporal.setZona(capatazTemporal.getZona() + capatazAnyadir.getZona());
+                        capatazTemporal.setObservaciones(capatazTemporal.getObservaciones() + capatazAnyadir.getObservaciones());
+                        capatazTemporal.setCodLinea(capatazTemporal.getCodLinea() + capatazAnyadir.getCodLinea());
 
-                    capatacesEnHoja.add(capatazAnyadir);
+                        datosPorFechaCapataz.put(claveFechaCapataz, capatazTemporal);
+                    } else {
+                        // Si no existe una entrada, crea una nueva entrada en el mapa
+                        datosPorFechaCapataz.put(claveFechaCapataz, capatazAnyadir);
+                    }
+
                 }
             }
-            todosCapataces.addAll(capatacesEnHoja);
         }
+        todosCapataces.addAll(datosPorFechaCapataz.values());
+
         return todosCapataces;
     }
 
@@ -659,7 +666,7 @@ public class ExcelManagerCapataces {
         String nombreCarpeta = "";
 
         if (carpeta != null) {
-             nombreCarpeta = carpeta.getFileName().toString();
+            nombreCarpeta = carpeta.getFileName().toString();
         } else {
 
         }
