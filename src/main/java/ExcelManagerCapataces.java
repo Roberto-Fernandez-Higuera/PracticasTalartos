@@ -10,6 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -29,7 +31,7 @@ public class ExcelManagerCapataces {
     //MAPAS A UTILIZAR
     private HashMap<String, ArrayList<Capataz>> mapaCapataces = new HashMap<>();
 
-    private String nombreHoja;
+    private String rutaExcel;
     private String nombreExcel;
 
     /**
@@ -39,7 +41,7 @@ public class ExcelManagerCapataces {
     public ExcelManagerCapataces(String nombreExcel) {
         this.nombreExcel = nombreExcel;
 
-        String rutaExcel = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
+        rutaExcel = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
 
         try {
             this.fileCapataces = new FileInputStream(rutaExcel);
@@ -193,6 +195,11 @@ public class ExcelManagerCapataces {
                         capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
                     }
 
+                    /**
+                     * COD LÍNEA Y NOMBRE LÍNEA
+                     */
+                    capatazAnyadir.setCodLinea(hojaApoyos.getRow(0).getCell(0).getStringCellValue());
+
                     String nombreCapataz = capatazAnyadir.getNombreApoyo();
                     double fecha = capatazAnyadir.getDia();
                     String claveFechaCapataz = fecha + "-" + nombreCapataz;
@@ -339,6 +346,8 @@ public class ExcelManagerCapataces {
         // ***importeCoeficiente/7***
         int importeCoeficienteSemanal = 0;
 
+        String rutaExcelApoyos = "";
+
         int filaNueva;
         if (hoja.getLastRowNum() > 1){
             filaNueva = hoja.getLastRowNum() - 2;
@@ -460,7 +469,7 @@ public class ExcelManagerCapataces {
             celdaColumnaOBSERVACIONES.setCellStyle(estiloCeldaTitulo);
 
             Cell celdaColumnaCODLINEA = filaTitulos.createCell(13);
-            celdaColumnaCODLINEA.setCellValue("COD LINEA");
+            celdaColumnaCODLINEA.setCellValue("COD LINEA\nY\nNOMBRE LINEA");
             celdaColumnaCODLINEA.setCellStyle(estiloCeldaTitulo);
 
             /**
@@ -547,7 +556,7 @@ public class ExcelManagerCapataces {
             celdaImporteCoeficiente.setCellStyle(estiloCeldaInfo);
 
             // Zona
-            zona = capataz.getZona();
+            zona = obtenerNombreCarpetaArchivo(rutaExcel);
             Cell celdaZona = fila.createCell(11);
             celdaZona.setCellValue(zona);
             celdaZona.setCellStyle(estiloCeldaInfo);
@@ -642,5 +651,18 @@ public class ExcelManagerCapataces {
         celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal);
         celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
 
+    }
+
+    public static String obtenerNombreCarpetaArchivo(String rutaExcel) {
+        Path path = Paths.get(rutaExcel);
+        Path carpeta = path.getParent();
+        String nombreCarpeta = "";
+
+        if (carpeta != null) {
+             nombreCarpeta = carpeta.getFileName().toString();
+        } else {
+
+        }
+        return nombreCarpeta;
     }
 }
