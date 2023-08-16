@@ -191,7 +191,7 @@ public class ExcelManagerCapataces {
                     if (fila.getCell(13).getStringCellValue().equals("")) {
                         capatazAnyadir.setObservaciones("");
                     } else {
-                        capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
+                        capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue() + " ");
                     }
 
                     /**
