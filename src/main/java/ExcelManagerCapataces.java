@@ -98,7 +98,6 @@ public class ExcelManagerCapataces {
         for (int i = 0; i < wbCapataces.getNumberOfSheets(); i++) {
             hojaApoyos = wbCapataces.getSheetAt(i);
             numFilas = hojaApoyos.getLastRowNum() - 1;
-            capatacesEnHoja = new ArrayList<>();
 
             for (int j = 2; j < numFilas; j++) {
                 Row fila = hojaApoyos.getRow(j);
@@ -208,7 +207,7 @@ public class ExcelManagerCapataces {
                         // Si ya existe una entrada para esta fecha y capataz, actualiza los valores
                         Capataz capatazTemporal = datosPorFechaCapataz.get(claveFechaCapataz);
 
-                        capatazTemporal.setNumApoyos(capatazTemporal.getNumApoyos() + capatazAnyadir.getNumApoyos());
+                        capatazTemporal.setNumApoyos(capatazTemporal.getNumApoyos() + 1);
                         capatazTemporal.setFijoSalida(capatazTemporal.getFijoSalida() + capatazAnyadir.getFijoSalida());
                         capatazTemporal.setLongMantenimiento(capatazTemporal.getLongMantenimiento() + capatazAnyadir.getLongMantenimiento());
                         capatazTemporal.setAnomalia(capatazTemporal.getAnomalia() + capatazAnyadir.getAnomalia());
@@ -225,6 +224,7 @@ public class ExcelManagerCapataces {
                         datosPorFechaCapataz.put(claveFechaCapataz, capatazTemporal);
                     } else {
                         // Si no existe una entrada, crea una nueva entrada en el mapa
+                        capatazAnyadir.setNumApoyos(1);
                         datosPorFechaCapataz.put(claveFechaCapataz, capatazAnyadir);
                     }
 
