@@ -416,7 +416,7 @@ public class ExcelManagerCapataces {
         estiloFecha.setBorderLeft(BorderStyle.THIN);
         estiloFecha.setBorderRight(BorderStyle.THIN);
 
-        int filasTotales = capatacesEnHoja.size()/2;
+        int filasTotales = (capatacesEnHoja.size() + 1)/2;
         if (filaAntiguaSumas > 0){
             filasTotales = capatacesEnHoja.size();
         }
