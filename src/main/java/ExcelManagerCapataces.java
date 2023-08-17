@@ -495,6 +495,7 @@ public class ExcelManagerCapataces {
             celdaFecha.setCellValue(fechaDate);
             celdaFecha.setCellStyle(estiloFecha);
 
+            System.out.println(filaNueva);
             System.out.println("Estoy en la hoja de "+ capataz.getNombreApoyo()+ " en el día " + fecha);
 
             // Número de apoyos

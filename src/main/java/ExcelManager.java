@@ -506,6 +506,21 @@ public class ExcelManager {
         celdaColumnaSumaTotalNumDiasTrabaj.setCellValue("Total días trabajados: "+intContadorNumeroDiasTrabajados);
         celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
 
+        hoja.autoSizeColumn(0);
+        hoja.autoSizeColumn(1);
+        hoja.autoSizeColumn(2);
+        hoja.autoSizeColumn(3);
+        hoja.autoSizeColumn(4);
+        hoja.autoSizeColumn(5);
+        hoja.autoSizeColumn(6);
+        hoja.autoSizeColumn(7);
+        hoja.autoSizeColumn(8);
+        hoja.autoSizeColumn(9);
+        hoja.autoSizeColumn(10);
+        hoja.autoSizeColumn(11);
+        hoja.autoSizeColumn(12);
+        hoja.autoSizeColumn(13);
+
         /**
          * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
          */
