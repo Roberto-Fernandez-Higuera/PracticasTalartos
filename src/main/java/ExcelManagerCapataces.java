@@ -347,28 +347,22 @@ public class ExcelManagerCapataces {
             filaNueva = 1;
         }
 
-        //Fila de la que tomamos los valores anteriores totales
+        //Fila de la que tomamos los valores sumatorios anteriores totales y los de importeSemanal
         Row filaSumasAntigua = hoja.getRow(filaAntiguaSumas);
-
         Double[] rowData = new Double[14];
+
+        Row filaSumasImportesAntigua = hoja.getRow(filaAntiguaSumas+1);
+        Double[] rowDataImporte = new Double[14];
 
         if (filaAntiguaSumas > 0) {
             for (int i = 0; i < 14; i++) {
                 Cell cell = filaSumasAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                 rowData[i] = cell.getNumericCellValue();
+                Cell cellImporte = filaSumasImportesAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                rowDataImporte[i] = cellImporte.getNumericCellValue();
             }
         }
 
-        Row filaSumasImportesAntigua = hoja.getRow(filaAntiguaSumas+1);
-
-        Double[] rowDataImporte = new Double[14];
-
-        if (filaAntiguaSumas > 0) {
-            for (int i = 0; i < 14; i++) {
-                Cell cell = filaSumasImportesAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                rowDataImporte[i] = cell.getNumericCellValue();
-            }
-        }
 
         //TÍTULOS
 
