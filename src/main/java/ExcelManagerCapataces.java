@@ -495,7 +495,6 @@ public class ExcelManagerCapataces {
             celdaFecha.setCellValue(fechaDate);
             celdaFecha.setCellStyle(estiloFecha);
 
-            System.out.println(filaNueva);
             System.out.println("Estoy en la hoja de "+ capataz.getNombreApoyo()+ " en el día " + fecha);
 
             // Número de apoyos
@@ -605,7 +604,7 @@ public class ExcelManagerCapataces {
         hoja.autoSizeColumn(13);
 
         /**
-         * CELDAS DE OPERACIONES FINALES, PREGUNTAR A INÉS SI SE NECESITAN MÁS
+         * CELDAS DE OPERACIONES FINALES
          */
         Row filaSumas = hoja.createRow(filaNueva);
 
@@ -712,11 +711,12 @@ public class ExcelManagerCapataces {
 
     public static String obtenerNombreCarpetaArchivo(String rutaExcel) {
         Path path = Paths.get(rutaExcel);
-        Path carpeta = path.getParent();
+        Path carpeta1 = path.getParent().getParent();
+        Path carpeta2 = path.getParent();
         String nombreCarpeta = "";
 
-        if (carpeta != null) {
-            nombreCarpeta = carpeta.getFileName().toString();
+        if (carpeta1 != null && carpeta2 != null) {
+            nombreCarpeta = carpeta1.getFileName().toString() + " -> " +  carpeta2.getFileName().toString();
         } else {
 
         }
