@@ -340,27 +340,42 @@ public class ExcelManagerCapataces {
         double importeMedios = 0;
         double importeCoeficiente = 0;
         String observaciones = "";
-        int contadorFijoSalida = 0;
-        int contadorLongMantenimiento = 0;
-        int contadorAnomalia = 0;
-        int contadorLongApertura = 0;
-        int contadorTalasFuera = 0;
-        int contadorLimpiezaBase = 0;
-        int contadorKm = 0;
-        int contadorImporteMedio = 0;
-        int contadorImporteCoeficiente = 0;
-        int contadorNumApoyos = 0;
-        // ***importeCoeficiente/7***
-        int importeCoeficienteSemanal = 0;
+        double contadorFijoSalida = 0;
+        double contadorLongMantenimiento = 0;
+        double contadorAnomalia = 0;
+        double contadorLongApertura = 0;
+        double contadorTalasFuera = 0;
+        double contadorLimpiezaBase = 0;
+        double contadorKm = 0;
+        double contadorImporteMedio = 0;
+        double contadorImporteCoeficiente = 0;
+        double contadorNumApoyos = 0;
 
-        String rutaExcelApoyos = "";
+        // ***importeCoeficiente/7***
+        double importeCoeficienteSemanal = 0;
+
 
         int filaNueva;
+        int filaAntiguaSumas = 0;
         if (hoja.getLastRowNum() > 1){
-            filaNueva = hoja.getLastRowNum() - 2;
+            filaNueva = hoja.getLastRowNum() - 1;
+            filaAntiguaSumas = filaNueva;
         } else {
             filaNueva = 1;
         }
+
+        //Fila de la que tomamos los valores anteriores totales
+        Row filaSumasAntigua = hoja.getRow(filaAntiguaSumas);
+
+        Double[] rowData = new Double[14];
+
+        if (filaAntiguaSumas > 0) {
+            for (int i = 0; i < 14; i++) {
+                Cell cell = filaSumasAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                rowData[i] = cell.getNumericCellValue();
+            }
+        }
+
         //TÍTULOS
 
         /**
@@ -603,51 +618,99 @@ public class ExcelManagerCapataces {
          */
         Row filaSumas = hoja.createRow(filaNueva);
 
-        Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
-        celdaColumnaTotalApoyos.setCellValue(contadorNumApoyos);
-        celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);
+        System.out.println("Estoy en la hoja: "+ hoja.getSheetName());
+        System.out.println("La hoja tiene "+ hoja.getLastRowNum() + " celdas");
 
-        Cell celdaColumnaTotalFijoSalida = filaSumas.createCell(2);
-        celdaColumnaTotalFijoSalida.setCellValue(contadorFijoSalida);
-        celdaColumnaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
+        if (filaAntiguaSumas != 0) {
+            Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
+            System.out.println("Entro en la suma DE numApoyos y tengo actualmente: "+contadorNumApoyos+ " y antiguamente " + rowData[1]);
+            celdaColumnaTotalApoyos.setCellValue(contadorNumApoyos + rowData[1]);
+            celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalLongMantenimiento = filaSumas.createCell(3);
-        celdaColumnaTotalLongMantenimiento.setCellValue(contadorLongMantenimiento);
-        celdaColumnaTotalLongMantenimiento.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalFijoSalida = filaSumas.createCell(2);
+            celdaColumnaTotalFijoSalida.setCellValue(contadorFijoSalida + rowData[2]);
+            celdaColumnaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalAnomalia = filaSumas.createCell(4);
-        celdaColumnaTotalAnomalia.setCellValue(contadorAnomalia);
-        celdaColumnaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalLongMantenimiento = filaSumas.createCell(3);
+            celdaColumnaTotalLongMantenimiento.setCellValue(contadorLongMantenimiento + rowData[3]);
+            celdaColumnaTotalLongMantenimiento.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalLongApertura = filaSumas.createCell(5);
-        celdaColumnaTotalLongApertura.setCellValue(contadorLongApertura);
-        celdaColumnaTotalLongApertura.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalAnomalia = filaSumas.createCell(4);
+            celdaColumnaTotalAnomalia.setCellValue(contadorAnomalia + rowData[4]);
+            celdaColumnaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalTalasFuera = filaSumas.createCell(6);
-        celdaColumnaTotalTalasFuera.setCellValue(contadorTalasFuera);
-        celdaColumnaTotalTalasFuera.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalLongApertura = filaSumas.createCell(5);
+            celdaColumnaTotalLongApertura.setCellValue(contadorLongApertura + rowData[5]);
+            celdaColumnaTotalLongApertura.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalLimpiezaBase = filaSumas.createCell(7);
-        celdaColumnaTotalLimpiezaBase.setCellValue(contadorLimpiezaBase);
-        celdaColumnaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalTalasFuera = filaSumas.createCell(6);
+            celdaColumnaTotalTalasFuera.setCellValue(contadorTalasFuera + rowData[6]);
+            celdaColumnaTotalTalasFuera.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalKm = filaSumas.createCell(8);
-        celdaColumnaTotalKm.setCellValue(contadorKm);
-        celdaColumnaTotalKm.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalLimpiezaBase = filaSumas.createCell(7);
+            celdaColumnaTotalLimpiezaBase.setCellValue(contadorLimpiezaBase + rowData[7]);
+            celdaColumnaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalImporteMedio = filaSumas.createCell(9);
-        celdaColumnaTotalImporteMedio.setCellValue(contadorImporteMedio);
-        celdaColumnaTotalImporteMedio.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalKm = filaSumas.createCell(8);
+            celdaColumnaTotalKm.setCellValue(contadorKm + rowData[8]);
+            celdaColumnaTotalKm.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalImporteCoeficiente = filaSumas.createCell(10);
-        celdaColumnaTotalImporteCoeficiente.setCellValue(contadorImporteCoeficiente);
-        celdaColumnaTotalImporteCoeficiente.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalImporteMedio = filaSumas.createCell(9);
+            celdaColumnaTotalImporteMedio.setCellValue(contadorImporteMedio + rowData[9]);
+            celdaColumnaTotalImporteMedio.setCellStyle(estiloCeldaTitulo);
 
+            Cell celdaColumnaTotalImporteCoeficiente = filaSumas.createCell(10);
+            celdaColumnaTotalImporteCoeficiente.setCellValue(contadorImporteCoeficiente + rowData[10]);
+            celdaColumnaTotalImporteCoeficiente.setCellStyle(estiloCeldaTitulo);
+
+        } else {
+
+            Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
+            celdaColumnaTotalApoyos.setCellValue(contadorNumApoyos);
+            celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalFijoSalida = filaSumas.createCell(2);
+            celdaColumnaTotalFijoSalida.setCellValue(contadorFijoSalida);
+            celdaColumnaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalLongMantenimiento = filaSumas.createCell(3);
+            celdaColumnaTotalLongMantenimiento.setCellValue(contadorLongMantenimiento);
+            celdaColumnaTotalLongMantenimiento.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalAnomalia = filaSumas.createCell(4);
+            celdaColumnaTotalAnomalia.setCellValue(contadorAnomalia);
+            celdaColumnaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalLongApertura = filaSumas.createCell(5);
+            celdaColumnaTotalLongApertura.setCellValue(contadorLongApertura);
+            celdaColumnaTotalLongApertura.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalTalasFuera = filaSumas.createCell(6);
+            celdaColumnaTotalTalasFuera.setCellValue(contadorTalasFuera);
+            celdaColumnaTotalTalasFuera.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalLimpiezaBase = filaSumas.createCell(7);
+            celdaColumnaTotalLimpiezaBase.setCellValue(contadorLimpiezaBase);
+            celdaColumnaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalKm = filaSumas.createCell(8);
+            celdaColumnaTotalKm.setCellValue(contadorKm);
+            celdaColumnaTotalKm.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalImporteMedio = filaSumas.createCell(9);
+            celdaColumnaTotalImporteMedio.setCellValue(contadorImporteMedio);
+            celdaColumnaTotalImporteMedio.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalImporteCoeficiente = filaSumas.createCell(10);
+            celdaColumnaTotalImporteCoeficiente.setCellValue(contadorImporteCoeficiente);
+            celdaColumnaTotalImporteCoeficiente.setCellStyle(estiloCeldaTitulo);
+
+        }
         /**
          * PREGUNTAR A INÉS SOBRE ESTO
          */
 
-        Row filaImporteCoeficienteSemanal = hoja.createRow(filaNueva + 2);
+        Row filaImporteCoeficienteSemanal = hoja.createRow(filaNueva + 1);
 
         Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(11);
         celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE\nSEMANAL:");
