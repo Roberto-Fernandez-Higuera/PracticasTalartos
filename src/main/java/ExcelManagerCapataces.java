@@ -12,7 +12,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -26,7 +25,6 @@ public class ExcelManagerCapataces {
 
     //Arraylist con los valores de todos los campos del Excel capataces
     private ArrayList<Capataz> listaCapataces = new ArrayList<>();
-    private ArrayList<String> listaCapatacesLinea = new ArrayList<>();
 
     //MAPAS A UTILIZAR
     private HashMap<String, ArrayList<Capataz>> mapaCapataces = new HashMap<>();
@@ -65,7 +63,6 @@ public class ExcelManagerCapataces {
 
         for (int i = 0; i < wbCapataces.getNumberOfSheets(); i++) {
             hojaApoyos = wbCapataces.getSheetAt(i);
-            String nombreHoja = hojaApoyos.getSheetName();
 
             ArrayList<Capataz> capatacesEnHoja = leerDatosCapataces();
             if (!capatacesEnHoja.isEmpty()) {
@@ -91,7 +88,6 @@ public class ExcelManagerCapataces {
      */
     private  ArrayList<Capataz> leerDatosCapataces() {
         int numFilas;
-        ArrayList<Capataz> capatacesEnHoja;
         ArrayList<Capataz> todosCapataces = new ArrayList<>();
         HashMap<String, Capataz> datosPorFechaCapataz = new HashMap<>();
 
@@ -269,6 +265,9 @@ public class ExcelManagerCapataces {
 
         for (String nombreCapataz : nombresUnicos) {
             ArrayList<Capataz> capatacesEnHoja = mapaCapataces.get(nombreCapataz);
+            for (int i = 0; i < capatacesEnHoja.size(); i++) {
+                System.out.println(capatacesEnHoja.get(i).getNombreApoyo() + " - " + capatacesEnHoja.size());
+            }
             if (capatacesEnHoja != null) {
                 String nombreCapatazMayus = nombreCapataz.toUpperCase();
                 XSSFSheet hoja = wbCapataces.getSheet(nombreCapatazMayus);
@@ -301,19 +300,6 @@ public class ExcelManagerCapataces {
             System.exit(-1);
         }
     }
-
-    /*public static ArrayList<String> capatacesLinea(ArrayList<Capataz> listaCapataces){
-        ArrayList<String> listaCapatacesLinea = new ArrayList<>();
-
-        for (Capataz capataz : listaCapataces){
-            String nombreCapataz = capataz.getNombreApoyo();
-
-            if (!listaCapatacesLinea.contains(nombreCapataz)) {
-                listaCapatacesLinea.add(nombreCapataz);
-            }
-        }
-        return listaCapatacesLinea;
-    }*/
 
     /**
      * Inserta los datos de cada capataz en su hoja correspondiente. Este método recibe la hoja, el nombre de la zona,
@@ -350,10 +336,7 @@ public class ExcelManagerCapataces {
         double contadorImporteMedio = 0;
         double contadorImporteCoeficiente = 0;
         double contadorNumApoyos = 0;
-
-        // ***importeCoeficiente/7***
         double importeCoeficienteSemanal = 0;
-
 
         int filaNueva;
         int filaAntiguaSumas = 0;
@@ -433,7 +416,12 @@ public class ExcelManagerCapataces {
         estiloFecha.setBorderLeft(BorderStyle.THIN);
         estiloFecha.setBorderRight(BorderStyle.THIN);
 
-        for (int k = 0; k < capatacesEnHoja.size()/2; k++) {
+        int filasTotales = capatacesEnHoja.size()/2;
+        if (filaAntiguaSumas > 0){
+            filasTotales = capatacesEnHoja.size();
+        }
+
+        for (int k = 0; k < filasTotales; k++) {
             Capataz capataz = capatacesEnHoja.get(k);
 
             Row filaTitulos = hoja.createRow(0);
@@ -506,6 +494,8 @@ public class ExcelManagerCapataces {
             Cell celdaFecha = fila.createCell(0);
             celdaFecha.setCellValue(fechaDate);
             celdaFecha.setCellStyle(estiloFecha);
+
+            System.out.println("Estoy en la hoja de "+ capataz.getNombreApoyo()+ " en el día " + fecha);
 
             // Número de apoyos
             numApoyos = capataz.getNumApoyos();
@@ -618,12 +608,8 @@ public class ExcelManagerCapataces {
          */
         Row filaSumas = hoja.createRow(filaNueva);
 
-        System.out.println("Estoy en la hoja: "+ hoja.getSheetName());
-        System.out.println("La hoja tiene "+ hoja.getLastRowNum() + " celdas");
-
         if (filaAntiguaSumas != 0) {
             Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
-            System.out.println("Entro en la suma DE numApoyos y tengo actualmente: "+contadorNumApoyos+ " y antiguamente " + rowData[1]);
             celdaColumnaTotalApoyos.setCellValue(contadorNumApoyos + rowData[1]);
             celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);
 
