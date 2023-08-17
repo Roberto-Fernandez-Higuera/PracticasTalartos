@@ -265,9 +265,6 @@ public class ExcelManagerCapataces {
 
         for (String nombreCapataz : nombresUnicos) {
             ArrayList<Capataz> capatacesEnHoja = mapaCapataces.get(nombreCapataz);
-            for (int i = 0; i < capatacesEnHoja.size(); i++) {
-                System.out.println(capatacesEnHoja.get(i).getNombreApoyo() + " - " + capatacesEnHoja.size());
-            }
             if (capatacesEnHoja != null) {
                 String nombreCapatazMayus = nombreCapataz.toUpperCase();
                 XSSFSheet hoja = wbCapataces.getSheet(nombreCapatazMayus);
@@ -358,8 +355,8 @@ public class ExcelManagerCapataces {
             for (int i = 0; i < 14; i++) {
                 Cell cell = filaSumasAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                 rowData[i] = cell.getNumericCellValue();
-                Cell cellImporte = filaSumasImportesAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                rowDataImporte[i] = cellImporte.getNumericCellValue();
+                Cell cellImporte = filaSumasImportesAntigua.getCell(12, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                rowDataImporte[12] = cellImporte.getNumericCellValue();
             }
         }
 
@@ -424,6 +421,9 @@ public class ExcelManagerCapataces {
         int filasTotales = (capatacesEnHoja.size() + 1)/2;
         if (filaAntiguaSumas > 0){
             filasTotales = capatacesEnHoja.size();
+            for (int i= 0; i< capatacesEnHoja.size();i++){
+                System.out.println(capatacesEnHoja.get(i).getNombreApoyo() +" - "+i);
+            }
         }
 
         for (int k = 0; k < filasTotales; k++) {
