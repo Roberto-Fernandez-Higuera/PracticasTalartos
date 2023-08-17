@@ -359,6 +359,17 @@ public class ExcelManagerCapataces {
             }
         }
 
+        Row filaSumasImportesAntigua = hoja.getRow(filaAntiguaSumas+1);
+
+        Double[] rowDataImporte = new Double[14];
+
+        if (filaAntiguaSumas > 0) {
+            for (int i = 0; i < 14; i++) {
+                Cell cell = filaSumasImportesAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                rowDataImporte[i] = cell.getNumericCellValue();
+            }
+        }
+
         //TÍTULOS
 
         /**
@@ -698,14 +709,27 @@ public class ExcelManagerCapataces {
 
         Row filaImporteCoeficienteSemanal = hoja.createRow(filaNueva + 1);
 
-        Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(11);
-        celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE\nSEMANAL:");
-        celdaColumnaTextoParaCoeficienteSemanala.setCellStyle(estiloCeldaTitulo);
+        if (filaAntiguaSumas != 0) {
+            Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(11);
+            celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE\nSEMANAL:");
+            celdaColumnaTextoParaCoeficienteSemanala.setCellStyle(estiloCeldaTitulo);
 
-        Cell celdaColumnaTotalImporteCoeficienteSemanal = filaImporteCoeficienteSemanal.createCell(12);
-        importeCoeficienteSemanal = contadorImporteCoeficiente / 7;
-        celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal);
-        celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
+            Cell celdaColumnaTotalImporteCoeficienteSemanal = filaImporteCoeficienteSemanal.createCell(12);
+            importeCoeficienteSemanal = contadorImporteCoeficiente / 7;
+            celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal + rowDataImporte[12]);
+            celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
+
+        } else {
+
+            Cell celdaColumnaTextoParaCoeficienteSemanala = filaImporteCoeficienteSemanal.createCell(11);
+            celdaColumnaTextoParaCoeficienteSemanala.setCellValue("IMPORTE\nSEMANAL:");
+            celdaColumnaTextoParaCoeficienteSemanala.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaTotalImporteCoeficienteSemanal = filaImporteCoeficienteSemanal.createCell(12);
+            importeCoeficienteSemanal = contadorImporteCoeficiente / 7;
+            celdaColumnaTotalImporteCoeficienteSemanal.setCellValue(importeCoeficienteSemanal);
+            celdaColumnaTotalImporteCoeficienteSemanal.setCellStyle(estiloCeldaTitulo);
+        }
 
     }
 
