@@ -262,8 +262,12 @@ public class ExcelManager {
 
         //Fila de la que tomamos los valores sumatorios anteriores totales
         Row filaSumasAntigua = hoja.getRow(filaAntiguaSumas + 1);
+        Row filaSeparacionDias = hoja.getRow(filaAntiguaSumas + 2);
+
         Double[] rowData = new Double[8];
         String[] rowDataTotalDiasTrabajados = new String[1];
+        String[] rowDataSeparacionDias = new String[1];
+        rowDataSeparacionDias[0] = "";
 
         if (filaAntiguaSumas > 0) {
             for (int i = 0; i < 11; i++) {
@@ -273,6 +277,9 @@ public class ExcelManager {
                 } else if (i == 10){
                     Cell cellDias = filaSumasAntigua.getCell(10, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
                     rowDataTotalDiasTrabajados[0] = cellDias.getStringCellValue();
+
+                    Cell cellDiasSeparacion = filaSeparacionDias.getCell(10, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    rowDataSeparacionDias[0] = cellDiasSeparacion.getStringCellValue();
                 }
             }
         }
@@ -331,11 +338,6 @@ public class ExcelManager {
         estiloFecha.setBorderBottom(BorderStyle.THIN);
         estiloFecha.setBorderLeft(BorderStyle.THIN);
         estiloFecha.setBorderRight(BorderStyle.THIN);
-
-        int filasTotales = listaApoyos.size() + 2;
-        if (filaAntiguaSumas > 0){
-            filasTotales = filasTotales - 2 + filaAntiguaSumas;
-        }
 
         /**
          * INFO CODLINEA
@@ -406,13 +408,18 @@ public class ExcelManager {
         celdaColumnaObservaciones.setCellValue("OBSERVACIONES");
         celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
 
-        for (int i = 2; i < filasTotales; i++) {
+        int filasTotales = listaApoyos.size() + 2;
+        if (filaAntiguaSumas > 0){
+            filasTotales = filasTotales - 2 + filaAntiguaSumas;
+        }
+
+        for (int i = 2; i < listaApoyos.size() + 2; i++) {
 
             /**
              * INFO APOYOS
              */
                 Row fila = hoja.createRow(filaNueva);
-                System.out.println(filaNueva);
+                System.out.println(filaNueva+ " "+filaAntiguaSumas);
                 numApoyo = listaApoyos.get(i - 2).getNumApoyo();
                 Cell celdaNumApoyo = fila.createCell(0);
                 celdaNumApoyo.setCellValue(numApoyo);
@@ -603,7 +610,7 @@ public class ExcelManager {
             }
             int intContadorNumeroDiasTrabajados = (int) contadorNumeroDiasTrabajados;
             Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
-            celdaColumnaSumaTotalNumDiasTrabaj.setCellValue("Total días trabajados: " + intContadorNumeroDiasTrabajados + totalDiasTrabajadosAntiguo);
+            celdaColumnaSumaTotalNumDiasTrabaj.setCellValue("Total días trabajados: " + (intContadorNumeroDiasTrabajados + totalDiasTrabajadosAntiguo));
             celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
 
         } else {
@@ -623,7 +630,7 @@ public class ExcelManager {
          * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
          */
 
-        Row filaSumasDivisiones = hoja.createRow(listaApoyos.size() + 4);
+        Row filaSumasDivisiones = hoja.createRow(filaNueva + 2);
 
         Cell celdaColumnaSumaTotalApoyosDivision = filaSumasDivisiones.createCell(0);
         celdaColumnaSumaTotalApoyosDivision.setCellValue(totalApoyos);
@@ -665,7 +672,7 @@ public class ExcelManager {
         }
 
         Cell celdaColumnaSumaTotalNumDiasTrabajDivision = filaSumasDivisiones.createCell(10);
-        celdaColumnaSumaTotalNumDiasTrabajDivision.setCellValue(diasTrabajadosConcatenados.toString());
+        celdaColumnaSumaTotalNumDiasTrabajDivision.setCellValue(rowDataSeparacionDias[0] + diasTrabajadosConcatenados.toString());
         celdaColumnaSumaTotalNumDiasTrabajDivision.setCellStyle(estiloCeldaTitulo);
     }
 
