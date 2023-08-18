@@ -2,7 +2,6 @@
  * @author Roberto Fernández Higuera
  */
 
-import POJOS.Apoyo;
 import POJOS.Capataz;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -82,9 +81,8 @@ public class ExcelManagerCapataces {
     }
 
     /**
-     * TODO NECESITO SABER DE DONDE SALE CADA VALOR Y SABER SOBRE QUÉ HOJA EXCEL LOS TOMO
      *
-     * @return MAPA CAPATACES
+     * @return
      */
     private  ArrayList<Capataz> leerDatosCapataces() {
         int numFilas;

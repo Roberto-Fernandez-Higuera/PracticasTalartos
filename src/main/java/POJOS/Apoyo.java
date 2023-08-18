@@ -4,9 +4,6 @@
 
 package POJOS;
 
-import java.util.Date;
-
-
 public class Apoyo implements java.io.Serializable {
     private double idApoyo;
     private double numApoyo;

@@ -4,8 +4,6 @@
 
 package POJOS;
 
-import java.util.Date;
-
 public class Capataz implements java.io.Serializable {
 
     private double idCapataz;

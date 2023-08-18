@@ -7,16 +7,11 @@ import java.util.Scanner;
 
 public class Consola {
 
-    public String nombreHojaApoyos = "";
-    public String nombreHojaCapataces = "";
-
     public Consola() {
 
     }
 
-    private String nombreExcel;
     private ExcelManager excelManager = new ExcelManager();
-    private String nombreExcelApoyos;
 
     //No creamos el objeto aún para realizar una (lazy initialization)
     private ExcelManagerCapataces excelManagerCapataces;
@@ -24,7 +19,7 @@ public class Consola {
     /**
      * Método encargado de la creación del Excel de apoyos realizados
      */
-    public void ejecucionPrograma() throws IOException {
+    public void ejecucionPrograma(){
 
         /**
          * PARTE EXCEL APOYOS
@@ -75,11 +70,9 @@ public class Consola {
 
             excelManagerCapataces = new ExcelManagerCapataces(nombreExcelParaCapataces);
             excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, nombreHojaApoyos ,codigoHoja);
+
         } else {
 
         }
-
-
     }
-
 }

@@ -24,8 +24,6 @@ public class ExcelManager {
 
     //MAPAS A UTILIZAR
     private HashMap<Integer, Apoyo> mapaApoyos = new HashMap<>();
-
-    private String nombreHoja;
     private String nombreExcel;
 
     /**
@@ -423,7 +421,6 @@ public class ExcelManager {
              * INFO APOYOS
              */
                 Row fila = hoja.createRow(filaNueva);
-                System.out.println(filaNueva+ " "+filaAntiguaSumas);
                 numApoyo = listaApoyos.get(i - 2).getNumApoyo();
                 Cell celdaNumApoyo = fila.createCell(0);
                 celdaNumApoyo.setCellValue(numApoyo);
@@ -522,7 +519,6 @@ public class ExcelManager {
          * CELDAS DE OPERACIONES FINALES
          */
         Row filaSumas = hoja.createRow(filaNueva + 1);
-        System.out.println("Los totales van: " +filaNueva);
 
         double totalApoyos = 0;
 
