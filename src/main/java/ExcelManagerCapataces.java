@@ -421,13 +421,14 @@ public class ExcelManagerCapataces {
         int filasTotales = (capatacesEnHoja.size() + 1)/2;
         if (filaAntiguaSumas > 0){
             filasTotales = capatacesEnHoja.size();
-            for (int i= 0; i< capatacesEnHoja.size();i++){
-                System.out.println(capatacesEnHoja.get(i).getNombreApoyo() +" - "+i);
-            }
         }
 
         for (int k = 0; k < filasTotales; k++) {
             Capataz capataz = capatacesEnHoja.get(k);
+
+            /**
+             * TITULOS
+             */
 
             Row filaTitulos = hoja.createRow(0);
 
@@ -499,8 +500,6 @@ public class ExcelManagerCapataces {
             Cell celdaFecha = fila.createCell(0);
             celdaFecha.setCellValue(fechaDate);
             celdaFecha.setCellStyle(estiloFecha);
-
-            System.out.println("Estoy en la hoja de "+ capataz.getNombreApoyo()+ " en el día " + fecha);
 
             // Número de apoyos
             numApoyos = capataz.getNumApoyos();
@@ -614,6 +613,7 @@ public class ExcelManagerCapataces {
         Row filaSumas = hoja.createRow(filaNueva);
 
         if (filaAntiguaSumas != 0) {
+
             Cell celdaColumnaTotalApoyos = filaSumas.createCell(1);
             celdaColumnaTotalApoyos.setCellValue(contadorNumApoyos + rowData[1]);
             celdaColumnaTotalApoyos.setCellStyle(estiloCeldaTitulo);

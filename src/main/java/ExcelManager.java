@@ -251,6 +251,32 @@ public class ExcelManager {
         double contadorFijoSalida = 0;
         double contadorNumeroDiasTrabajados = 0;
 
+        int filaNueva;
+        int filaAntiguaSumas = 0;
+        if (hoja.getLastRowNum() > 1){
+            filaNueva = hoja.getLastRowNum() - 2;
+            filaAntiguaSumas = filaNueva;
+        } else {
+            filaNueva = 2;
+        }
+
+        //Fila de la que tomamos los valores sumatorios anteriores totales
+        Row filaSumasAntigua = hoja.getRow(filaAntiguaSumas + 1);
+        Double[] rowData = new Double[8];
+        String[] rowDataTotalDiasTrabajados = new String[1];
+
+        if (filaAntiguaSumas > 0) {
+            for (int i = 0; i < 11; i++) {
+                if (i < 8) {
+                    Cell cell = filaSumasAntigua.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    rowData[i] = cell.getNumericCellValue();
+                } else if (i == 10){
+                    Cell cellDias = filaSumasAntigua.getCell(10, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    rowDataTotalDiasTrabajados[0] = cellDias.getStringCellValue();
+                }
+            }
+        }
+
         /**
          * Dar estilo de color y alineado para el título
          */
@@ -306,129 +332,142 @@ public class ExcelManager {
         estiloFecha.setBorderLeft(BorderStyle.THIN);
         estiloFecha.setBorderRight(BorderStyle.THIN);
 
-        for (int i = 0; i < listaApoyos.size() + 2; i++) {
-            Row fila = hoja.createRow(i);
+        int filasTotales = listaApoyos.size() + 2;
+        if (filaAntiguaSumas > 0){
+            filasTotales = filasTotales - 2 + filaAntiguaSumas;
+        }
 
-            if (i == 0) {
+        /**
+         * INFO CODLINEA
+         */
 
-                Cell celdaTitulo = fila.createCell(0);
-                celdaTitulo.setCellValue(codigoHoja+ " " +nombreHoja);
+        Row filaCodLinea = hoja.createRow(0);
+        Cell celdaTitulo = filaCodLinea.createCell(0);
+        celdaTitulo.setCellValue(codigoHoja + " " + nombreHoja);
 
-            } else if (i == 1) {
+        /**
+         * TITULOS
+         */
 
-                Cell celdaColumnaApoyo = fila.createCell(0);
-                celdaColumnaApoyo.setCellValue("APOYO");
-                celdaColumnaApoyo.setCellStyle(estiloCeldaTitulo);
+        Row filaTitulos = hoja.createRow(1);
+        Cell celdaColumnaApoyo = filaTitulos.createCell(0);
+        celdaColumnaApoyo.setCellValue("APOYO");
+        celdaColumnaApoyo.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaLongitudMantenimineto = fila.createCell(1);
-                celdaColumnaLongitudMantenimineto.setCellValue("LONG\nMANT");
-                celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaLongitudMantenimineto = filaTitulos.createCell(1);
+        celdaColumnaLongitudMantenimineto.setCellValue("LONG\nMANT");
+        celdaColumnaLongitudMantenimineto.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaLongitudLimpieza = fila.createCell(2);
-                celdaColumnaLongitudLimpieza.setCellValue("LONG\nLIMPIEZA");
-                celdaColumnaLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaLongitudLimpieza = filaTitulos.createCell(2);
+        celdaColumnaLongitudLimpieza.setCellValue("LONG\nLIMPIEZA");
+        celdaColumnaLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaLongitudApertura = fila.createCell(3);
-                celdaColumnaLongitudApertura.setCellValue("LONG\nAPERTURA");
-                celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaLongitudApertura = filaTitulos.createCell(3);
+        celdaColumnaLongitudApertura.setCellValue("LONG\nAPERTURA");
+        celdaColumnaLongitudApertura.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaAnomalia = fila.createCell(4);
-                celdaColumnaAnomalia.setCellValue("ANOMALIA");
-                celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaAnomalia = filaTitulos.createCell(4);
+        celdaColumnaAnomalia.setCellValue("ANOMALIA");
+        celdaColumnaAnomalia.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaLongitudLimpiezaBase = fila.createCell(5);
-                celdaColumnaLongitudLimpiezaBase.setCellValue("LIMPIEZA\nBASE");
-                celdaColumnaLongitudLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaLongitudLimpiezaBase = filaTitulos.createCell(5);
+        celdaColumnaLongitudLimpiezaBase.setCellValue("LIMPIEZA\nBASE");
+        celdaColumnaLongitudLimpiezaBase.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaPodaCalle = fila.createCell(6);
-                celdaColumnaPodaCalle.setCellValue("PODA\nCALLE");
-                celdaColumnaPodaCalle.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaPodaCalle = filaTitulos.createCell(6);
+        celdaColumnaPodaCalle.setCellValue("PODA\nCALLE");
+        celdaColumnaPodaCalle.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaFijoSalida = fila.createCell(7);
-                celdaColumnaFijoSalida.setCellValue("FIJO\nSALIDA");
-                celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaFijoSalida = filaTitulos.createCell(7);
+        celdaColumnaFijoSalida.setCellValue("FIJO\nSALIDA");
+        celdaColumnaFijoSalida.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaDia = fila.createCell(8);
-                celdaColumnaDia.setCellValue("FECHA");
-                celdaColumnaDia.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaDia = filaTitulos.createCell(8);
+        celdaColumnaDia.setCellValue("FECHA");
+        celdaColumnaDia.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaCapataz = fila.createCell(9);
-                celdaColumnaCapataz.setCellValue("CAPATAZ");
-                celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaCapataz = filaTitulos.createCell(9);
+        celdaColumnaCapataz.setCellValue("CAPATAZ");
+        celdaColumnaCapataz.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaCapatazNumDiasTrabajados = fila.createCell(10);
-                celdaColumnaCapatazNumDiasTrabajados.setCellValue("Nº DIAS\nTRABAJADOS");
-                celdaColumnaCapatazNumDiasTrabajados.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaCapatazNumDiasTrabajados = filaTitulos.createCell(10);
+        celdaColumnaCapatazNumDiasTrabajados.setCellValue("Nº DIAS\nTRABAJADOS");
+        celdaColumnaCapatazNumDiasTrabajados.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaTractor = fila.createCell(11);
-                celdaColumnaTractor.setCellValue("PENDIENTE\nTRACTOR");
-                celdaColumnaTractor.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaTractor = filaTitulos.createCell(11);
+        celdaColumnaTractor.setCellValue("PENDIENTE\nTRACTOR");
+        celdaColumnaTractor.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaTrabajoRematado = fila.createCell(12);
-                celdaColumnaTrabajoRematado.setCellValue("TRABAJO\nREMATADO");
-                celdaColumnaTrabajoRematado.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaTrabajoRematado = filaTitulos.createCell(12);
+        celdaColumnaTrabajoRematado.setCellValue("TRABAJO\nREMATADO");
+        celdaColumnaTrabajoRematado.setCellStyle(estiloCeldaTitulo);
 
-                Cell celdaColumnaObservaciones = fila.createCell(13);
-                celdaColumnaObservaciones.setCellValue("OBSERVACIONES");
-                celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
+        Cell celdaColumnaObservaciones = filaTitulos.createCell(13);
+        celdaColumnaObservaciones.setCellValue("OBSERVACIONES");
+        celdaColumnaObservaciones.setCellStyle(estiloCeldaTitulo);
 
-            } else {
+        for (int i = 2; i < filasTotales; i++) {
 
-                numApoyo = listaApoyos.get(i-2).getNumApoyo();
+            /**
+             * INFO APOYOS
+             */
+                Row fila = hoja.createRow(filaNueva);
+                System.out.println(filaNueva);
+                numApoyo = listaApoyos.get(i - 2).getNumApoyo();
                 Cell celdaNumApoyo = fila.createCell(0);
                 celdaNumApoyo.setCellValue(numApoyo);
                 celdaNumApoyo.setCellStyle(estiloCeldaInfo);
 
-                longitudMantenimineto = listaApoyos.get(i-2).getLongitudMantenimineto();
+                longitudMantenimineto = listaApoyos.get(i - 2).getLongitudMantenimineto();
                 contadorLongMant += longitudMantenimineto;
                 Cell celdaLongitudMantenimiento = fila.createCell(1);
                 celdaLongitudMantenimiento.setCellValue(longitudMantenimineto);
                 celdaLongitudMantenimiento.setCellStyle(estiloCeldaInfo);
 
-                longitudLimpieza = listaApoyos.get(i-2).getLongitudLimpieza();
+                longitudLimpieza = listaApoyos.get(i - 2).getLongitudLimpieza();
                 contadorLongLimp += longitudLimpieza;
                 Cell celdaLongitudLimpeza = fila.createCell(2);
                 celdaLongitudLimpeza.setCellValue(longitudLimpieza);
                 celdaLongitudLimpeza.setCellStyle(estiloCeldaInfo);
 
-                longitudApertura = listaApoyos.get(i-2).getLongitudApertura();
+                longitudApertura = listaApoyos.get(i - 2).getLongitudApertura();
                 contadorLongApertura += longitudApertura;
                 Cell celdaLongitudApertura = fila.createCell(3);
                 celdaLongitudApertura.setCellValue(longitudApertura);
                 celdaLongitudApertura.setCellStyle(estiloCeldaInfo);
 
-                anomaliaVegetacion = listaApoyos.get(i-2).getNumAnomalia();
+                anomaliaVegetacion = listaApoyos.get(i - 2).getNumAnomalia();
                 contadorAnomalia += anomaliaVegetacion;
                 Cell celdaAnomaliaVegetacion = fila.createCell(4);
                 celdaAnomaliaVegetacion.setCellValue(anomaliaVegetacion);
                 celdaAnomaliaVegetacion.setCellStyle(estiloCeldaInfo);
 
-                limpiezaBase = listaApoyos.get(i-2).getLimpiezaBase();
+                limpiezaBase = listaApoyos.get(i - 2).getLimpiezaBase();
                 contadorLongitudLimpiezaBase += limpiezaBase;
                 Cell celdaLimpiezaBase = fila.createCell(5);
                 celdaLimpiezaBase.setCellValue(limpiezaBase);
                 celdaLimpiezaBase.setCellStyle(estiloCeldaInfo);
 
-                podaCalle = listaApoyos.get(i-2).getPodaCalle();
+                podaCalle = listaApoyos.get(i - 2).getPodaCalle();
                 contadorPodaCalle += podaCalle;
                 Cell celdaPodaCalle = fila.createCell(6);
                 celdaPodaCalle.setCellValue(podaCalle);
                 celdaPodaCalle.setCellStyle(estiloCeldaInfo);
 
-                fijoSalida = listaApoyos.get(i-2).getFijoSalida();
+                fijoSalida = listaApoyos.get(i - 2).getFijoSalida();
                 contadorFijoSalida += fijoSalida;
                 Cell celdaFijoSalida = fila.createCell(7);
                 celdaFijoSalida.setCellValue(fijoSalida);
                 celdaFijoSalida.setCellStyle(estiloCeldaInfo);
 
-                dia = listaApoyos.get(i-2).getDia();
-                diaLocalDate =  LocalDate.of(1899, 12, 30).plusDays((long) dia);
+                dia = listaApoyos.get(i - 2).getDia();
+                diaLocalDate = LocalDate.of(1899, 12, 30).plusDays((long) dia);
                 fechaDate = Date.from(diaLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Cell celdaDia = fila.createCell(8);
                 celdaDia.setCellValue(fechaDate);
                 celdaDia.setCellStyle(estiloFecha);
 
-                capataz = listaApoyos.get(i-2).getCapataz();
+                capataz = listaApoyos.get(i - 2).getCapataz();
                 Cell celdaCapataz = fila.createCell(9);
                 celdaCapataz.setCellValue(capataz);
                 celdaCapataz.setCellStyle(estiloCeldaInfo);
@@ -445,66 +484,12 @@ public class ExcelManager {
                 celdaTrabajoRematado.setCellValue(trabajoRematado);
                 celdaTrabajoRematado.setCellStyle(estiloCeldaInfo);
 
-                observaciones = listaApoyos.get(i-2).getObservaciones();
+                observaciones = listaApoyos.get(i - 2).getObservaciones();
                 Cell celdaObservaciones = fila.createCell(13);
                 celdaObservaciones.setCellValue(observaciones);
                 celdaObservaciones.setCellStyle(estiloCeldaInfo);
-
-            }
+                filaNueva++;
         }
-
-
-        /**
-         * CELDAS DE OPERACIONES FINALES
-         */
-        Row filaSumas = hoja.createRow(listaApoyos.size() + 3);
-
-        Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
-        int totalApoyos = listaApoyos.size();
-        celdaColumnaSumaTotalApoyos.setCellValue(totalApoyos);
-        celdaColumnaSumaTotalApoyos.setCellStyle(estiloCeldaTitulo);
-
-        Cell celdaColumnaSumaTotalLongitudMantenimiento = filaSumas.createCell(1);
-        celdaColumnaSumaTotalLongitudMantenimiento.setCellValue(contadorLongMant);
-        celdaColumnaSumaTotalLongitudMantenimiento.setCellStyle(estiloCeldaTitulo);
-
-        Cell celdaColumnaSumaTotalLongitudLimpieza = filaSumas.createCell(2);
-        celdaColumnaSumaTotalLongitudLimpieza.setCellValue(contadorLongLimp);
-        celdaColumnaSumaTotalLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
-
-        Cell celdaColumnaSumaTotalLongitudApertura = filaSumas.createCell(3);
-        celdaColumnaSumaTotalLongitudApertura.setCellValue(contadorLongApertura);
-        celdaColumnaSumaTotalLongitudApertura.setCellStyle(estiloCeldaTitulo);
-
-        Cell celdaColumnaSumaTotalAnomalia = filaSumas.createCell(4);
-        celdaColumnaSumaTotalAnomalia.setCellValue(contadorAnomalia);
-        celdaColumnaSumaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
-
-        Cell celdaColumnaSumaTotalLimpiezaBase = filaSumas.createCell(5);
-        celdaColumnaSumaTotalLimpiezaBase.setCellValue(contadorLongitudLimpiezaBase);
-        celdaColumnaSumaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
-
-        Cell celdaColumnaSumaTotalPodaCalle = filaSumas.createCell(6);
-        celdaColumnaSumaTotalPodaCalle.setCellValue(contadorPodaCalle);
-        celdaColumnaSumaTotalPodaCalle.setCellStyle(estiloCeldaTitulo);
-
-        Cell celdaColumnaSumaTotalFijoSalida = filaSumas.createCell(7);
-        celdaColumnaSumaTotalFijoSalida.setCellValue(contadorFijoSalida);
-        celdaColumnaSumaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
-
-
-        HashMap<String, Integer> diasTrabajadosPorCapataz = obtenerDiasTrabajadosPorCapataz(mapaApoyos);
-
-        // Ahora imprimimos la información utilizando un bucle for tradicional
-        for (Map.Entry<String, Integer> entry : diasTrabajadosPorCapataz.entrySet()) {
-            capataz = entry.getKey();
-            int totalDiasTrabajados = entry.getValue();
-            contadorNumeroDiasTrabajados += totalDiasTrabajados;
-        }
-        int intContadorNumeroDiasTrabajados = (int) contadorNumeroDiasTrabajados;
-        Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
-        celdaColumnaSumaTotalNumDiasTrabaj.setCellValue("Total días trabajados: "+intContadorNumeroDiasTrabajados);
-        celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
 
         hoja.autoSizeColumn(0);
         hoja.autoSizeColumn(1);
@@ -520,6 +505,119 @@ public class ExcelManager {
         hoja.autoSizeColumn(11);
         hoja.autoSizeColumn(12);
         hoja.autoSizeColumn(13);
+
+
+        /**
+         * CELDAS DE OPERACIONES FINALES
+         */
+        Row filaSumas = hoja.createRow(filaNueva + 1);
+        System.out.println("Los totales van: " +filaNueva);
+
+        double totalApoyos = 0;
+
+        if (filaAntiguaSumas != 0) {
+
+            Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
+            totalApoyos = listaApoyos.size() + rowData[0];
+            celdaColumnaSumaTotalApoyos.setCellValue(totalApoyos);
+            celdaColumnaSumaTotalApoyos.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLongitudMantenimiento = filaSumas.createCell(1);
+            celdaColumnaSumaTotalLongitudMantenimiento.setCellValue(contadorLongMant + rowData[1]);
+            celdaColumnaSumaTotalLongitudMantenimiento.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLongitudLimpieza = filaSumas.createCell(2);
+            celdaColumnaSumaTotalLongitudLimpieza.setCellValue(contadorLongLimp + rowData[2]);
+            celdaColumnaSumaTotalLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLongitudApertura = filaSumas.createCell(3);
+            celdaColumnaSumaTotalLongitudApertura.setCellValue(contadorLongApertura + rowData[3]);
+            celdaColumnaSumaTotalLongitudApertura.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalAnomalia = filaSumas.createCell(4);
+            celdaColumnaSumaTotalAnomalia.setCellValue(contadorAnomalia + rowData[4]);
+            celdaColumnaSumaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLimpiezaBase = filaSumas.createCell(5);
+            celdaColumnaSumaTotalLimpiezaBase.setCellValue(contadorLongitudLimpiezaBase + rowData[5]);
+            celdaColumnaSumaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalPodaCalle = filaSumas.createCell(6);
+            celdaColumnaSumaTotalPodaCalle.setCellValue(contadorPodaCalle + rowData[6]);
+            celdaColumnaSumaTotalPodaCalle.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalFijoSalida = filaSumas.createCell(7);
+            celdaColumnaSumaTotalFijoSalida.setCellValue(contadorFijoSalida + rowData[7]);
+            celdaColumnaSumaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
+
+        } else {
+
+            Cell celdaColumnaSumaTotalApoyos = filaSumas.createCell(0);
+            totalApoyos = listaApoyos.size();
+            celdaColumnaSumaTotalApoyos.setCellValue(totalApoyos);
+            celdaColumnaSumaTotalApoyos.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLongitudMantenimiento = filaSumas.createCell(1);
+            celdaColumnaSumaTotalLongitudMantenimiento.setCellValue(contadorLongMant);
+            celdaColumnaSumaTotalLongitudMantenimiento.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLongitudLimpieza = filaSumas.createCell(2);
+            celdaColumnaSumaTotalLongitudLimpieza.setCellValue(contadorLongLimp);
+            celdaColumnaSumaTotalLongitudLimpieza.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLongitudApertura = filaSumas.createCell(3);
+            celdaColumnaSumaTotalLongitudApertura.setCellValue(contadorLongApertura);
+            celdaColumnaSumaTotalLongitudApertura.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalAnomalia = filaSumas.createCell(4);
+            celdaColumnaSumaTotalAnomalia.setCellValue(contadorAnomalia);
+            celdaColumnaSumaTotalAnomalia.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalLimpiezaBase = filaSumas.createCell(5);
+            celdaColumnaSumaTotalLimpiezaBase.setCellValue(contadorLongitudLimpiezaBase);
+            celdaColumnaSumaTotalLimpiezaBase.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalPodaCalle = filaSumas.createCell(6);
+            celdaColumnaSumaTotalPodaCalle.setCellValue(contadorPodaCalle);
+            celdaColumnaSumaTotalPodaCalle.setCellStyle(estiloCeldaTitulo);
+
+            Cell celdaColumnaSumaTotalFijoSalida = filaSumas.createCell(7);
+            celdaColumnaSumaTotalFijoSalida.setCellValue(contadorFijoSalida);
+            celdaColumnaSumaTotalFijoSalida.setCellStyle(estiloCeldaTitulo);
+
+        }
+
+        HashMap<String, Integer> diasTrabajadosPorCapataz = obtenerDiasTrabajadosPorCapataz(mapaApoyos);
+
+        if (filaAntiguaSumas != 0) {
+
+            String totalTrabajadorAntiguoString = rowDataTotalDiasTrabajados[0];
+            int startIndex = totalTrabajadorAntiguoString.lastIndexOf(" ") + 1; // Encuentra el último espacio y obtiene el índice siguiente
+            String numeroString = totalTrabajadorAntiguoString.substring(startIndex); // Extrae la subcadena que contiene el número como string
+            int totalDiasTrabajadosAntiguo = Integer.parseInt(numeroString);
+
+            // Ahora imprimimos la información utilizando un bucle for tradicional
+            for (Map.Entry<String, Integer> entry : diasTrabajadosPorCapataz.entrySet()) {
+                int totalDiasTrabajados = entry.getValue();
+                contadorNumeroDiasTrabajados += totalDiasTrabajados;
+            }
+            int intContadorNumeroDiasTrabajados = (int) contadorNumeroDiasTrabajados;
+            Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
+            celdaColumnaSumaTotalNumDiasTrabaj.setCellValue("Total días trabajados: " + intContadorNumeroDiasTrabajados + totalDiasTrabajadosAntiguo);
+            celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
+
+        } else {
+
+            for (Map.Entry<String, Integer> entry : diasTrabajadosPorCapataz.entrySet()) {
+                int totalDiasTrabajados = entry.getValue();
+                contadorNumeroDiasTrabajados += totalDiasTrabajados;
+            }
+            int intContadorNumeroDiasTrabajados = (int) contadorNumeroDiasTrabajados;
+            Cell celdaColumnaSumaTotalNumDiasTrabaj = filaSumas.createCell(10);
+            celdaColumnaSumaTotalNumDiasTrabaj.setCellValue("Total días trabajados: " + intContadorNumeroDiasTrabajados);
+            celdaColumnaSumaTotalNumDiasTrabaj.setCellStyle(estiloCeldaTitulo);
+
+        }
 
         /**
          * CELDAS OPERACIONES FINALES CON RESPECTIVAS DIVISIONES
