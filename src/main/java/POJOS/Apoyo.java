@@ -6,7 +6,7 @@ package POJOS;
 
 public class Apoyo implements java.io.Serializable {
     private double idApoyo;
-    private double numApoyo;
+    private String numApoyo;
     private double longitudMantenimineto;
     private double longitudLimpieza;
     private double longitudApertura;
@@ -21,7 +21,7 @@ public class Apoyo implements java.io.Serializable {
     public Apoyo() {
     }
 
-    public Apoyo(double numApoyo, double longitudMantenimineto, double longitudLimpieza, double longitudApertura, double numAnomalia, double limpiezaBase, double podaCalle, double fijoSalida, double dia, String capataz, String observaciones) {
+    public Apoyo(String numApoyo, double longitudMantenimineto, double longitudLimpieza, double longitudApertura, double numAnomalia, double limpiezaBase, double podaCalle, double fijoSalida, double dia, String capataz, String observaciones) {
         this.numApoyo = numApoyo;
         this.longitudMantenimineto = longitudMantenimineto;
         this.longitudLimpieza = longitudLimpieza;
@@ -43,11 +43,11 @@ public class Apoyo implements java.io.Serializable {
         this.idApoyo = idApoyo;
     }
 
-    public double getNumApoyo() {
+    public String getNumApoyo() {
         return numApoyo;
     }
 
-    public void setNumApoyo(double numApoyo) {
+    public void setNumApoyo(String numApoyo) {
         this.numApoyo = numApoyo;
     }
 

@@ -2,10 +2,12 @@
  * @author Roberto Fernández Higuera
  */
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Consola {
+
+    static String provincias;
+    static String zona;
 
     public Consola() {
 
@@ -25,12 +27,6 @@ public class Consola {
          * PARTE EXCEL APOYOS
          */
 
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Introduce el nombre de la línea (línea sobre la que quieres realizar cambios): \n");
-        String nombreHojaApoyos = scanner.nextLine();
-
-
         Scanner scCodigo = new Scanner(System.in);
 
         System.out.print("Introduce el código de dicha línea (sobre la que vamos a trabajar): \n");
@@ -39,10 +35,10 @@ public class Consola {
 
         Scanner scNombreExcel = new Scanner(System.in);
 
-        System.out.print("Introduce el nombre del Excel sobre el que vas a realizar cambios (si existe accedes a él, de lo contrario creará uno nuevo): \n");
+        System.out.print("Introduce el nombre del Excel APOYOS sobre el que vas a realizar cambios (si existe accedes a él, de lo contrario creará uno nuevo): \n");
         String nombreExcel = scNombreExcel.nextLine();
 
-        excelManager.creacionExcelApoyosRealizados(nombreHojaApoyos, codigoHoja, nombreExcel);
+        excelManager.creacionExcelApoyosRealizados(ExcelManager.linea, codigoHoja, nombreExcel);
 
 
         /**
@@ -63,13 +59,23 @@ public class Consola {
             System.out.print("Introduce el nombre del Excel de CONTROL DE CAPATACES sobre el que quieres trabajar (si existe accedes a él, de lo contrario creará uno nuevo): \n");
             String nombreExcelCapataces = scNombreExcelCapataces.nextLine();
 
+            Scanner scProvincias = new Scanner(System.in);
+
+            System.out.print("Introduce el nombre de la carpeta de PROVINCIAS con la que quieres trabajar: \n");
+            provincias = scProvincias.nextLine();
+
+            Scanner scZona = new Scanner(System.in);
+
+            System.out.print("Introduce el nombre de la zona de "+provincias+" con la que quieres trabajar: \n");
+            zona = scZona.nextLine();
+
             Scanner scNombreExcelParaCapataces = new Scanner(System.in);
 
             System.out.print("Introduce el nombre del Excel de APOYOS sobre el que quieres generar CONTROL CAPATACES: \n");
             String nombreExcelParaCapataces = scNombreExcelParaCapataces.nextLine();
 
             excelManagerCapataces = new ExcelManagerCapataces(nombreExcelParaCapataces);
-            excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, nombreHojaApoyos ,codigoHoja);
+            excelManagerCapataces.creacionExcelControlCapataces(nombreExcelCapataces, ExcelManager.linea ,codigoHoja);
 
         } else {
 

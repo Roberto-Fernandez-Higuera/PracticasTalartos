@@ -38,7 +38,7 @@ public class ExcelManagerCapataces {
     public ExcelManagerCapataces(String nombreExcel) {
         this.nombreExcel = nombreExcel;
 
-        rutaExcel = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
+        rutaExcel = "src/main/2023/"+Consola.provincias+"/MEDICIONES PARTES/"+Consola.zona+"/"+nombreExcel+".xlsx";
 
         try {
             this.fileCapataces = new FileInputStream(rutaExcel);
@@ -237,7 +237,7 @@ public class ExcelManagerCapataces {
      * @param codLinea
      */
     public void creacionExcelControlCapataces(String nombreExcel, String zona, String codLinea) {
-        String nombreArchivoSalida = "EXCELS_FINALES/EXCELS_CAPATACES/"+nombreExcel+".xlsx";
+        String nombreArchivoSalida = "src/main/2023/"+nombreExcel+".xlsx";
         File archivoSalida = new File(nombreArchivoSalida);
 
         FileOutputStream fileModCapataces = null;
@@ -727,7 +727,7 @@ public class ExcelManagerCapataces {
 
     public static String obtenerNombreCarpetaArchivo(String rutaExcel) {
         Path path = Paths.get(rutaExcel);
-        Path carpeta1 = path.getParent().getParent();
+        Path carpeta1 = path.getParent().getParent().getParent();
         Path carpeta2 = path.getParent();
         String nombreCarpeta = "";
 

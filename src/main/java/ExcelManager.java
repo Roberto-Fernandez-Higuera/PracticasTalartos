@@ -25,18 +25,36 @@ public class ExcelManager {
     //MAPAS A UTILIZAR
     private HashMap<Integer, Apoyo> mapaApoyos = new HashMap<>();
     private String nombreExcel;
+    private String provincias;
+    private String zona;
+    static String linea;
 
     /**
      * CONSTRUCTOR DE LA CLASE ENCARGADO DE LEER LAS PARTES DEL EXCEL
      */
     public ExcelManager() {
 
+        Scanner scProvincias = new Scanner(System.in);
+
+        System.out.print("Introduce el nombre de la carpeta de PROVINCIAS con la que quieres trabajar: \n");
+        provincias = scProvincias.nextLine();
+
+        Scanner scZona = new Scanner(System.in);
+
+        System.out.print("Introduce el nombre de la zona de "+provincias+" con la que quieres trabajar: \n");
+        zona = scZona.nextLine();
+
+        Scanner scLinea = new Scanner(System.in);
+
+        System.out.print("Introduce el nombre de la línea de "+zona+" con la que quieres trabajar: \n");
+        linea = scLinea.nextLine();
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Introduce el nombre del Excel de MEDICIONES con el que quieres trabajar: \n");
         nombreExcel = scanner.nextLine();
 
-        String rutaExcel = "src/main/resources/"+nombreExcel+".xlsx";
+        String rutaExcel = "src/main/2023/"+provincias+"/MEDICIONES PARTES/"+zona+"/"+linea+"/"+nombreExcel+".xlsx";
         try {
             this.file = new FileInputStream(rutaExcel);
             this.wb = new XSSFWorkbook(file);
@@ -70,7 +88,7 @@ public class ExcelManager {
                 /**
                  * NUM APOYO
                  */
-                apoyoAnyadir.setNumApoyo(fila.getCell(1).getNumericCellValue());
+                apoyoAnyadir.setNumApoyo(fila.getCell(1).getStringCellValue());
 
                 /**
                  * LONGITUD MANTENIMIENTO
@@ -164,7 +182,7 @@ public class ExcelManager {
      * PARTE EXCEL APOYOS REALIZADOS
      */
     public void creacionExcelApoyosRealizados(String nombreHoja, String codigoHoja, String nombreExcel) {
-        String nombreArchivoSalida = "EXCELS_FINALES/EXCELS_APOYO/"+nombreExcel+".xlsx";
+        String nombreArchivoSalida = "src/main/2023/"+provincias+"/MEDICIONES PARTES/"+zona+"/"+nombreExcel+".xlsx";
         File archivoSalida = new File(nombreArchivoSalida);
 
         FileOutputStream fileMod = null;
@@ -224,7 +242,7 @@ public class ExcelManager {
     }
 
     private void introducirValoresApoyos(Sheet hoja, String codigoHoja, String nombreHoja) {
-        double numApoyo = 0;
+        String numApoyo = "";
         double longitudMantenimineto = 0;
         double longitudLimpieza = 0;
         double longitudApertura = 0;
