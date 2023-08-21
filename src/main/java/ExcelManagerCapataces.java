@@ -416,9 +416,30 @@ public class ExcelManagerCapataces {
         estiloFecha.setBorderLeft(BorderStyle.THIN);
         estiloFecha.setBorderRight(BorderStyle.THIN);
 
-        int filasTotales = (capatacesEnHoja.size() + 1)/2;
+        /**
+         * Filtrado de capataz/fecha
+         */
+        HashMap<String, Set<Double>> nombreFechaMap = new HashMap<>();
+        ArrayList<Capataz> capatacesFiltrados = new ArrayList<>();
+
+        for (Capataz capataz : capatacesEnHoja) {
+            String nombreAux = capataz.getNombreApoyo();
+            Double fechaAux = capataz.getDia();
+
+            nombreFechaMap.putIfAbsent(nombreAux, new HashSet<>());
+            Set<Double> fechasSet = nombreFechaMap.get(nombreAux);
+
+            if (!fechasSet.contains(fechaAux)) {
+                fechasSet.add(fechaAux);
+                capatacesFiltrados.add(capataz);
+            }
+        }
+
+        System.out.println("TAMAÑO: "+capatacesFiltrados.size());
+
+        int filasTotales = capatacesFiltrados.size();
         if (filaAntiguaSumas > 0){
-            filasTotales = capatacesEnHoja.size();
+            filasTotales = capatacesFiltrados.size();
         }
 
         for (int k = 0; k < filasTotales; k++) {
