@@ -72,9 +72,26 @@ public class ExcelManager {
      * @return MAPA MEDICIONES
      */
     private HashMap leerDatosMedicionesPartes() {
-        int numFilas = hojaIberdrola.getLastRowNum() - 24;
+        int filasTotales = hojaIberdrola.getLastRowNum();
+        String valor = "";
+        int numFilas = 0;
 
-        for (int i = 4; i <= numFilas; i++) {
+        //Bucle para recoger el numFilas que debemos de tomar para leer todos los apoyos
+        for (int i = 0; i < filasTotales; i++) {
+            Row fila = hojaIberdrola.getRow(i);
+            if (fila != null) {
+                Cell celda = fila.getCell(1); // Suponiendo que "TOTALES" está en la columna 1
+                if (celda != null && celda.getCellType() == CellType.STRING) {
+                    String valorCelda = celda.getStringCellValue();
+                    if (valorCelda.equals("TOTALES")) {
+                        numFilas = fila.getRowNum();
+                        break; // Salir del bucle una vez que se encuentra "TOTALES"
+                    }
+                }
+            }
+        }
+
+        for (int i = 4; i < numFilas; i++) {
             Row fila = hojaIberdrola.getRow(i);
             if (fila != null && fila.getCell(1) != null) {
                 Apoyo apoyoAnyadir = new Apoyo();
@@ -95,7 +112,7 @@ public class ExcelManager {
                         apoyoAnyadir.setNumApoyo(fila.getCell(1).getStringCellValue());
                         break;
                     case NUMERIC:
-                        apoyoAnyadir.setNumApoyo(Double.toString(fila.getCell(1).getNumericCellValue()));
+                        apoyoAnyadir.setNumApoyo(Integer.toString((int)fila.getCell(1).getNumericCellValue()));
                         break;
                 }
 
