@@ -88,7 +88,16 @@ public class ExcelManager {
                 /**
                  * NUM APOYO
                  */
-                apoyoAnyadir.setNumApoyo(fila.getCell(1).getStringCellValue());
+                //En función del tipo de celda
+                CellType cellType = fila.getCell(1).getCellType();
+                switch (cellType) {
+                    case STRING:
+                        apoyoAnyadir.setNumApoyo(fila.getCell(1).getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        apoyoAnyadir.setNumApoyo(Double.toString(fila.getCell(1).getNumericCellValue()));
+                        break;
+                }
 
                 /**
                  * LONGITUD MANTENIMIENTO
