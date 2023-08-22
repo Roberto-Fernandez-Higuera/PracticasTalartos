@@ -184,6 +184,8 @@ public class ExcelManagerCapataces {
                      */
                     if (fila.getCell(13).getStringCellValue().equals("")) {
                         capatazAnyadir.setObservaciones("");
+                    } else if (j == (numFilas)){
+                        capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue());
                     } else {
                         capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue() + " | ");
                     }
@@ -191,7 +193,11 @@ public class ExcelManagerCapataces {
                     /**
                      * COD LÍNEA Y NOMBRE LÍNEA
                      */
-                    capatazAnyadir.setCodLinea(hojaApoyos.getRow(0).getCell(0).getStringCellValue() + " ");
+                    if (j == (numFilas)){
+                        capatazAnyadir.setCodLinea(hojaApoyos.getRow(0).getCell(0).getStringCellValue());
+                    }else {
+                        capatazAnyadir.setCodLinea(hojaApoyos.getRow(0).getCell(0).getStringCellValue() + " | ");
+                    }
 
                     String nombreCapataz = capatazAnyadir.getNombreApoyo();
                     double fecha = capatazAnyadir.getDia();
