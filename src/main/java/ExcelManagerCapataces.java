@@ -185,7 +185,7 @@ public class ExcelManagerCapataces {
                     if (fila.getCell(13).getStringCellValue().equals("")) {
                         capatazAnyadir.setObservaciones("");
                     } else {
-                        capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue() + "  ");
+                        capatazAnyadir.setObservaciones(fila.getCell(13).getStringCellValue() + " | ");
                     }
 
                     /**
@@ -434,8 +434,6 @@ public class ExcelManagerCapataces {
                 capatacesFiltrados.add(capataz);
             }
         }
-
-        System.out.println("TAMAÑO: "+capatacesFiltrados.size());
 
         int filasTotales = capatacesFiltrados.size();
         if (filaAntiguaSumas > 0){
