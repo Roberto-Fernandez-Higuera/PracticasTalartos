@@ -273,7 +273,11 @@ public class ExcelManagerCapataces {
                 String nombreCapatazMayus = nombreCapataz.toUpperCase();
                 XSSFSheet hoja = wbCapataces.getSheet(nombreCapatazMayus);
                 if (hoja == null) {
-                    hoja = wbCapataces.createSheet(nombreCapatazMayus);
+                    if (nombreCapatazMayus.equals("")){
+                        hoja = wbCapataces.createSheet("X");
+                    } else {
+                        hoja = wbCapataces.createSheet(nombreCapatazMayus);
+                    }
                 }
                 introducirValoresCapataz(hoja, zona, codLinea, nombreCapatazMayus, capatacesEnHoja);
             }
@@ -522,6 +526,9 @@ public class ExcelManagerCapataces {
             fechaDate = Date.from(diaLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
             Cell celdaFecha = fila.createCell(0);
             celdaFecha.setCellValue(fechaDate);
+            if (fecha == 1){
+                celdaFecha.setCellValue(01/01/0001);
+            }
             celdaFecha.setCellStyle(estiloFecha);
 
             // Número de apoyos
